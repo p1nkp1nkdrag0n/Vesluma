@@ -1,0 +1,9 @@
+# Local credentials
+.env
+.env.*
+!.env.example
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini

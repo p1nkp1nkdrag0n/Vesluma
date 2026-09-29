@@ -1,0 +1,115 @@
+<div id="vesluma-visit-explainer">
+  <h3>同一地标的开图与到访</h3>
+  <div class="viz-controls">
+    <label class="form-label" for="vv-city">示例地标
+      <select class="form-select" id="vv-city">
+        <option value="nanjing">南京 · 夫子庙</option>
+        <option value="xian">西安 · 钟楼</option>
+      </select>
+    </label>
+  </div>
+  <div class="viz-row" role="group" aria-label="选择到访阶段">
+    <button class="btn" type="button" data-stage="0" aria-pressed="false">首次到访前</button>
+    <button class="btn" type="button" data-stage="1" aria-pressed="true">首次打卡后</button>
+    <button class="btn" type="button" data-stage="2" aria-pressed="false">再次打卡后</button>
+  </div>
+  <div class="card" style="margin-top:16px" aria-live="polite" aria-atomic="true">
+    <div class="viz-row" style="justify-content:space-between">
+      <span id="vv-landmark">南京 · 夫子庙</span>
+      <span class="viz-badge" id="vv-map">对应区域已展开</span>
+    </div>
+    <hr>
+    <div class="viz-row" style="justify-content:space-between">
+      <span>首次激活</span>
+      <span class="tabular-nums" id="vv-first">第 1 天 · 10:20</span>
+    </div>
+    <div class="viz-row" style="justify-content:space-between;margin-top:8px">
+      <span>到访记录</span>
+      <span class="tabular-nums" id="vv-count">1 次</span>
+    </div>
+    <hr>
+    <div id="vv-events">
+      <div class="vv-event"><span class="vv-dot"></span><div>第 1 天 · 首次打卡<div class="text-small">保存合影 A，展开对应区域</div></div></div>
+    </div>
+  </div>
+  <div class="text-small" style="margin-top:10px">示例记录 · 重访记录方式为本次设计建议</div>
+</div>
+<style>
+  #vesluma-visit-explainer .vv-event {display:flex;align-items:flex-start;gap:12px;padding:8px 0}
+  #vesluma-visit-explainer .vv-dot {display:block;flex:0 0 10px;height:10px;margin-top:6px;border-radius:50%;background:var(--viz-series-1)}
+  #vesluma-visit-explainer .vv-empty {color:var(--muted-foreground);padding:8px 0}
+</style>
+<script>
+(() => {
+  const root = document.getElementById('vesluma-visit-explainer');
+  const citySelect = root.querySelector('#vv-city');
+  const stageButtons = Array.from(root.querySelectorAll('[data-stage]'));
+  const labels = {nanjing:'南京 · 夫子庙',xian:'西安 · 钟楼'};
+  let city = 'nanjing';
+  let stages = {nanjing:1,xian:0};
+  const normalizeStage = value => Number.isInteger(value) && value >= 0 && value <= 2 ? value : 0;
+  function restore(saved) {
+    const content = saved && saved.privateContent;
+    if (!content || content.version !== 1) return;
+    city = Object.hasOwn(labels, content.city) ? content.city : 'nanjing';
+    const existing = content.stages || {};
+    stages = {nanjing:normalizeStage(existing.nanjing),xian:normalizeStage(existing.xian)};
+  }
+  function render() {
+    const stage = stages[city];
+    citySelect.value = city;
+    stageButtons.forEach(button => button.setAttribute('aria-pressed',String(Number(button.dataset.stage) === stage)));
+    root.querySelector('#vv-landmark').textContent = labels[city];
+    root.querySelector('#vv-map').textContent = stage === 0 ? '对应区域仍有迷雾' : '对应区域已展开';
+    root.querySelector('#vv-first').textContent = stage === 0 ? '尚未激活' : '第 1 天 · 10:20';
+    root.querySelector('#vv-count').textContent = stage + ' 次';
+    const container = root.querySelector('#vv-events');
+    container.replaceChildren();
+    if (stage === 0) {
+      const empty = document.createElement('div');
+      empty.className = 'vv-empty';
+      empty.textContent = '尚无打卡照片';
+      container.append(empty);
+      return;
+    }
+    const events = [
+      ['第 1 天 · 首次打卡','保存合影 A，展开对应区域'],
+      ['第 3 天 · 再次打卡','新增合影 B，保留首次激活时间和已展开地图']
+    ];
+    events.slice(0,stage).forEach(([title,description]) => {
+      const row = document.createElement('div');
+      row.className = 'vv-event';
+      const dot = document.createElement('span');
+      dot.className = 'vv-dot';
+      dot.setAttribute('aria-hidden','true');
+      const text = document.createElement('div');
+      const titleNode = document.createElement('div');
+      titleNode.textContent = title;
+      const detailNode = document.createElement('div');
+      detailNode.className = 'text-small';
+      detailNode.textContent = description;
+      text.append(titleNode,detailNode);
+      row.append(dot,text);
+      container.append(row);
+    });
+  }
+  function save() {
+    const host = window.openai;
+    if (host && typeof host.setWidgetState === 'function') {
+      const snapshot = {
+        modelContent:{topic:'Vesluma 到访规则示例',city:labels[city],stage:stages[city],status:'重访记录方式是设计建议'},
+        privateContent:{version:1,city,stages:{...stages}}
+      };
+      host.setWidgetState(snapshot).catch(() => {});
+    }
+  }
+  restore(window.openai && window.openai.widgetState);
+  render();
+  citySelect.addEventListener('change',() => {city=citySelect.value;render();save()});
+  stageButtons.forEach(button => button.addEventListener('click',() => {stages[city]=Number(button.dataset.stage);render();save()}));
+  window.addEventListener('openai:set_globals',event => {
+    const globals = event.detail && event.detail.globals;
+    if (globals && Object.hasOwn(globals,'widgetState')) {restore(globals.widgetState);render()}
+  });
+})();
+</script>
