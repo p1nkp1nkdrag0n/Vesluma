@@ -7,3 +7,14 @@
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+# Build and local dependencies
+node_modules/
+dist/
+android/.gradle/
+android/local.properties
+android/app/build/
+ios/App/Pods/
+ios/App/build/
+playwright-report/
+test-results/
