@@ -39,3 +39,17 @@ Lighting/mood: warm amber sunset and softly illuminated roof edges, pale warm sk
 Constraints: standalone photo; no UI, no border, no captions, no readable text, no watermark, no invented signs.
 Avoid: oversaturated postcard treatment, crowds, fantasy architecture.
 ```
+## 地图材质（2026-09-30）
+
+两张生产纹理由内置 Image Gen 生成，再做 WebP 编码，保持原始像素尺寸。纸感约 50 KB、藏宝图约 92 KB，纹理本身没有任何道路、文字或地理内容。运行时仅绘制在未解锁主题层，已解锁区将纹理与其他主题像素一起清除。
+
+- `public/images/map-paper-texture.webp`：浅纸感。
+- `public/images/map-treasure-texture.webp`：暖旧纸感。
+
+纸感生成提示词：
+
+> Use case: stylized-concept. Asset type: seamless tileable background texture for an actual mobile map canvas, not a map or mockup. Generate a 1024x1024 square flat scanned sheet of very pale fine ivory drawing paper, color target #f4f1e9. Paper grain delicate microscopic cellulose fibers and tiny natural mottling, elegant C paper travel-map look. Entire image uniform front-on plane, soft diffuse even lighting, no shadows, no edges or vignette, no marks/roads/letters/objects. No creases or stains. Seamless tiling edges so repetition is inconspicuous. Texture must remain faint and calm under live vector road names and outlines; high readability, warm offwhite almost white, not mustard or brown, not canvas weave. This is a standalone production background asset; all geography and UI text will be drawn separately in code.
+
+藏宝图生成提示词：
+
+> Use case: stylized-concept. Asset type: seamless tileable paper texture ONLY for optional treasure-map background in a modern mobile exploration app. Generate 1024x1024 square flat scanned pale parchment sheet, color target #f2e6cc, warmly aged ivory with delicate sepia paper fibers, very subtle mottling and a faint fold crease near one third of canvas. Strong enough to evoke a treasured travel map but calm under live road labels. Even diffuse front-on flat lighting, seamless edges, no vignette or dark burnt perimeter, no frame, no objects, no text, no map drawings, no roads, no illustrations, no compass, no stains obscuring readability, no yellow saturation or distressed grunge. Entire output a production background material asset; vector geography and UI text will be drawn separately. Soft fine texture reminiscent of a well preserved paper map, lightly warmer than regular ivory drawing paper, natural texture scale at phone screen size.
