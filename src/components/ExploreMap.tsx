@@ -235,8 +235,8 @@ export const ExploreMap = memo(function ExploreMap({
     attribution.getContainer()?.setAttribute('aria-label', '地图数据版权');
     let errors = 0;
     let successfulTiles = 0;
-    tiles.on('loading', () => { errors = 0; successfulTiles = 0; });
-    tiles.on('tileload', () => { successfulTiles += 1; setTileState('ready'); });
+    tiles.on('loading', () => { errors = 0; successfulTiles = 0; setTileState('loading'); });
+    tiles.on('tileload', () => { successfulTiles += 1; });
     tiles.on('tileerror', () => { errors += 1; });
     tiles.on('load', () => {
       setTileState(errors ? (successfulTiles ? 'partial' : 'unavailable') : 'ready');
@@ -250,6 +250,9 @@ export const ExploreMap = memo(function ExploreMap({
     return () => {
       resizeObserver.disconnect();
       map.remove();
+      // StrictMode replays effects with the same refs; a recreated Leaflet map
+      // must be allowed to focus its first position again.
+      focusedCitiesRef.current.clear();
       mapRef.current = null;
       fogRef.current = null;
       markersRef.current = null;
@@ -260,6 +263,7 @@ export const ExploreMap = memo(function ExploreMap({
   }, []);
 
   useEffect(() => {
+    focusedCitiesRef.current.delete(city.id);
     if (mapRef.current) fitCity(mapRef.current, city, compact, overlayBottom);
   }, [city.id, city.center[0], city.center[1], city.zoom]);
 
@@ -378,6 +382,8 @@ export const ExploreMap = memo(function ExploreMap({
       <span>{skeletonStatus === 'loading' ? '主干道正在加载' : '主干道数据暂未加载'}</span>
       {skeletonStatus === 'error' ? <button type="button" onClick={() => setSkeletonRetryKey(key => key + 1)}>重试</button> : null}
     </div> : null}
+    {skeletonStatus === 'ready' && tileState === 'loading' && unlockedRegionIds.length > 0
+      ? <div className="vesluma-skeleton-status" role="status">详细底图正在加载</div> : null}
     <div className="vesluma-map-controls" aria-label="地图操作">
       <button type="button" aria-label="查看城市试验范围" title="查看城市试验范围" onClick={() => mapRef.current && fitCity(mapRef.current, city, compact, overlayBottom)}><MapControlIcon kind="fit" /></button>
       <div className="vesluma-zoom-controls">
@@ -386,7 +392,7 @@ export const ExploreMap = memo(function ExploreMap({
       </div>
       <button type="button" className="vesluma-locate-control" aria-label={position ? '回到最近位置' : '回到城市中心'} title={position ? '回到最近位置' : '回到城市中心'} onClick={recenter}><MapControlIcon kind="locate" /></button>
     </div>
-    {tileState === 'unavailable' || tileState === 'partial' ? <div className="vesluma-map-error" role="status">
+    {unlockedRegionIds.length > 0 && (tileState === 'unavailable' || tileState === 'partial') ? <div className="vesluma-map-error" role="status">
       <span>{tileState === 'partial' ? '部分底图暂未加载' : '底图暂未加载'} · 地标与记录可查看</span>
       <button type="button" onClick={retryTiles}>重试</button>
     </div> : null}

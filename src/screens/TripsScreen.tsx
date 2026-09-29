@@ -81,7 +81,7 @@ export function TripsScreen({ state, onStart, onManage, onLandmark, onVisit }: T
     <div className="trip-selection"><div className="trip-city-mark"><Compass size={21} /></div><div className="trip-selection-title"><h2>{selectedTrip.name}</h2><p>{city.name}<span>·</span>{dateLabel(startedAt)}{selectedTrip.mode === 'squad' ? <><span>·</span><UsersRound size={12} />小队旅行</> : null}</p></div><span className={`trip-status ${selectedTrip.status}`}><i />{statusText}</span></div>
 
     <section className="trip-map-preview" aria-label="旅程的地图回放">
-      <ExploreMap city={replayMapCity} compact unlockedRegionIds={replay.unlockedRegionIds} visitedLandmarkIds={landmarkIds} points={replay.points} position={null} onSelectLandmark={onLandmark} fitKey={selectedTrip.startedAt} />
+      <ExploreMap mapTheme={state.mapTheme ?? 'paper'} city={replayMapCity} compact unlockedRegionIds={replay.unlockedRegionIds} visitedLandmarkIds={landmarkIds} points={replay.points} position={null} onSelectLandmark={onLandmark} fitKey={selectedTrip.startedAt} />
       <div className="trip-map-caption"><span><Footprints size={13} />展开 {expandedCount} 片区域</span><b>{replayProgress === 1000 ? '完整记录' : `回放至 ${clockLabel(cursorAt)}`}</b></div>
     </section>
 
