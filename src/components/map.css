@@ -1,0 +1,282 @@
+.vesluma-map {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 160px;
+  overflow: hidden;
+  isolation: isolate;
+  background: #edf2ef;
+}
+
+.vesluma-map-surface {
+  width: 100%;
+  height: 100%;
+  background: #f0f4f1;
+  font-family: inherit;
+}
+
+.vesluma-map .leaflet-container {
+  cursor: grab;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.vesluma-map .leaflet-container.leaflet-drag-target,
+.vesluma-map .leaflet-container.leaflet-dragging {
+  cursor: grabbing;
+}
+
+.vesluma-fog-canvas {
+  position: absolute;
+  pointer-events: none;
+  opacity: 1;
+}
+
+.vesluma-landmark-marker {
+  border: 0;
+  background: transparent;
+}
+
+.vesluma-landmark-pin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  box-sizing: border-box;
+  border: 1px solid rgba(129, 153, 138, 0.28);
+  border-radius: 50%;
+  color: #82958b;
+  background: #fff;
+  box-shadow: 0 3px 10px rgba(61, 85, 69, 0.08);
+  transition: background 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.vesluma-landmark-pin svg {
+  width: 21px;
+  height: 21px;
+}
+
+.vesluma-landmark-marker.is-small .vesluma-landmark-pin { width: 24px; height: 24px; margin: 5px; }
+.vesluma-landmark-marker.is-small .vesluma-landmark-pin svg { width: 15px; height: 15px; }
+.vesluma-map.is-compact .vesluma-map-controls { display: none; }
+
+.vesluma-landmark-pin.is-unlocked {
+  color: #fff;
+  background: #218675;
+  border-color: #fff;
+  box-shadow: 0 0 0 3px rgba(33, 134, 117, 0.1), 0 3px 10px rgba(33, 100, 86, 0.12);
+}
+
+.vesluma-landmark-pin.is-selected {
+  color: #218675;
+  border: 1.5px solid #218675;
+  box-shadow: 0 0 0 5px rgba(33, 134, 117, 0.12), 0 3px 10px rgba(33, 100, 86, 0.1);
+  transform: scale(1.08);
+}
+
+.vesluma-landmark-pin.is-selected.is-unlocked {
+  color: #fff;
+}
+
+.vesluma-map .leaflet-marker-icon:focus-visible {
+  outline: 2px solid #218675;
+  outline-offset: 6px;
+  border-radius: 50%;
+}
+
+.vesluma-map .leaflet-tooltip.vesluma-map-label {
+  padding: 3px 7px;
+  border: 0;
+  border-radius: 6px;
+  color: #667a6e;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 1px 4px rgba(57, 80, 65, 0.035);
+  font-size: 10px;
+  line-height: 1.4;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  white-space: nowrap;
+}
+
+.vesluma-map .leaflet-tooltip.vesluma-map-label::before {
+  display: none;
+}
+
+.vesluma-map .leaflet-tooltip.vesluma-map-label.is-selected {
+  color: #218675;
+  background: rgba(255, 255, 255, 0.96);
+  font-weight: 600;
+}
+
+.vesluma-position-marker {
+  border: 0;
+  background: transparent;
+}
+
+.vesluma-position-dot {
+  display: block;
+  width: 14px;
+  height: 14px;
+  margin: 4px;
+  box-sizing: border-box;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: #25b5b7;
+  box-shadow: 0 0 0 5px rgba(33, 134, 117, 0.15), 0 2px 5px rgba(28, 93, 73, 0.18);
+}
+
+.vesluma-map-controls {
+  position: absolute;
+  z-index: 800;
+  right: 16px;
+  bottom: var(--map-controls-bottom, 170px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.vesluma-map-controls button {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid rgba(183, 200, 188, 0.24);
+  border-radius: 12px;
+  color: #647f6e;
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 3px 12px rgba(47, 78, 56, 0.06);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.vesluma-map-controls button:hover {
+  color: #218675;
+  background: #fff;
+}
+
+.vesluma-map-controls button:focus-visible,
+.vesluma-map-error button:focus-visible {
+  outline: 2px solid #218675;
+  outline-offset: 3px;
+}
+
+.vesluma-map-controls svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.45;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.vesluma-zoom-controls {
+  overflow: hidden;
+  border: 1px solid rgba(183, 200, 188, 0.24);
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(47, 78, 56, 0.06);
+}
+
+.vesluma-zoom-controls button {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.vesluma-zoom-controls button + button {
+  border-top: 1px solid #eef2ef;
+}
+
+.vesluma-map-controls .vesluma-locate-control {
+  color: #218675;
+}
+
+.vesluma-map .leaflet-control-attribution {
+  margin: 0 0 var(--map-attribution-bottom, 8px) 10px;
+  padding: 3px 5px;
+  border-radius: 5px;
+  color: #63776c;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: none;
+  font-size: 8px;
+  line-height: 1.4;
+}
+
+.vesluma-map .leaflet-control-attribution a {
+  color: #516e5e;
+  text-decoration: none;
+}
+
+.vesluma-map .leaflet-control-attribution a:hover {
+  text-decoration: underline;
+}
+
+.vesluma-map-coordinate-note {
+  position: absolute;
+  z-index: 790;
+  right: 12px;
+  bottom: var(--map-attribution-bottom, 8px);
+  color: #81928a;
+  font-size: 8px;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+}
+
+.vesluma-map-error {
+  position: absolute;
+  z-index: 810;
+  left: 16px;
+  right: 16px;
+  bottom: var(--map-error-bottom, 118px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 9px 11px;
+  border: 1px solid #dce6de;
+  border-radius: 10px;
+  color: #6e8173;
+  background: rgba(255, 255, 255, 0.96);
+  font-size: 10px;
+  line-height: 1.5;
+  box-shadow: 0 2px 12px rgba(37, 71, 46, 0.06);
+}
+
+.vesluma-map-error button {
+  flex-shrink: 0;
+  padding: 4px 5px;
+  border: 0;
+  border-radius: 4px;
+  color: #218675;
+  background: transparent;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.vesluma-map.is-compact .vesluma-map-controls {
+  right: 11px;
+  bottom: var(--map-controls-bottom, 36px);
+  gap: 7px;
+}
+
+.vesluma-map.is-compact .vesluma-map-controls button {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+}
+
+.vesluma-map.is-compact .vesluma-zoom-controls button {
+  border-radius: 0;
+}
+
+.vesluma-map.is-compact .vesluma-map-error {
+  bottom: 34px;
+  left: 10px;
+  right: 52px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vesluma-landmark-pin { transition: none; }
+}

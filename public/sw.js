@@ -1,0 +1,82 @@
+/* App-shell caching only. Map tiles, location data and remote responses are never cached. */
+const CACHE_NAME = 'vesluma-shell-v2';
+const SHELL = ['/', '/index.html', '/manifest.webmanifest', '/icon.svg', '/images/nanjing.png', '/images/xian.png'];
+const MAX_LOCAL_ASSETS = 60;
+
+self.addEventListener('install', (event) => {
+  event.waitUntil((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    const response = await fetch('/index.html', { cache: 'reload' });
+    if (!response.ok) throw new Error('App shell could not be loaded.');
+    await cache.put('/index.html', response.clone());
+    await cache.put('/', response.clone());
+    const html = await response.text();
+    // Vite writes hashed script, stylesheet and modulepreload URLs into this HTML.
+    // Only this origin's JS/CSS under /assets/ is eligible; no remote/map prefetch.
+    const bundleUrls = [...html.matchAll(/\b(?:src|href)\s*=\s*["']([^"']+)["']/gi)]
+      .map((match) => new URL(match[1], self.location.origin))
+      .filter((url) => url.origin === self.location.origin && url.pathname.startsWith('/assets/')
+        && /\.(?:js|css)$/i.test(url.pathname))
+      .map((url) => `${url.pathname}${url.search}`);
+    const bootAssets = [...new Set([...SHELL.filter((path) => path !== '/' && path !== '/index.html'), ...bundleUrls])];
+    await cache.addAll(bootAssets);
+    await self.skipWaiting();
+  })());
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil((async () => {
+    const names = await caches.keys();
+    await Promise.all(names
+      .filter((name) => name.startsWith('vesluma-shell-') && name !== CACHE_NAME)
+      .map((name) => caches.delete(name)));
+    await self.clients.claim();
+  })());
+});
+
+async function remember(request, response) {
+  if (!response.ok || response.type !== 'basic' || /no-store/i.test(response.headers.get('cache-control') || '')) return;
+  try {
+    const cache = await caches.open(CACHE_NAME);
+    await cache.put(request, response.clone());
+    const localAssets = (await cache.keys()).filter((key) => {
+      const path = new URL(key.url).pathname;
+      return path.startsWith('/assets/') || path.startsWith('/images/');
+    });
+    while (localAssets.length > MAX_LOCAL_ASSETS) await cache.delete(localAssets.shift());
+  } catch {
+    // Quota/permission failures must not turn a successful network load into an error.
+  }
+}
+
+self.addEventListener('fetch', (event) => {
+  const request = event.request;
+  const url = new URL(request.url);
+  if (request.method !== 'GET' || url.origin !== self.location.origin) return;
+
+  if (request.mode === 'navigate') {
+    event.respondWith((async () => {
+      try {
+        const response = await fetch(request);
+        await remember('/index.html', response);
+        return response;
+      } catch {
+        return (await caches.match('/index.html')) || (await caches.match('/')) || Response.error();
+      }
+    })());
+    return;
+  }
+
+  const isBundledAsset = url.pathname.startsWith('/assets/') || url.pathname.startsWith('/images/');
+  const isShellAsset = SHELL.includes(url.pathname) && url.pathname !== '/' && url.pathname !== '/index.html';
+  if (!isBundledAsset && !isShellAsset) return;
+
+  event.respondWith((async () => {
+    let cached;
+    try { cached = await caches.match(request); } catch { /* Continue with the network. */ }
+    if (cached) return cached;
+    const response = await fetch(request);
+    await remember(request, response);
+    return response;
+  })());
+});

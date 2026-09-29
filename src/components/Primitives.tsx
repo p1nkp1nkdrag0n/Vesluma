@@ -1,0 +1,12 @@
+import { useEffect, useRef } from 'react';
+import type { ReactNode } from 'react';
+import { X, Compass, Map, UserRound, Signal, Wifi, BatteryFull } from 'lucide-react';
+
+export function StatusBar() { return <div className="status-bar" aria-hidden="true"><b>9:41</b><div className="island" /><span><Signal size={14} fill="currentColor" /><Wifi size={15} /><BatteryFull size={22} /></span></div>; }
+export function BottomNav({ active, onChange }: { active: string; onChange: (view: 'explore' | 'trips' | 'profile') => void }) { return <nav className="bottom-nav" aria-label="主导航">{([{ id: 'explore', label: '探索', Icon: Compass }, { id: 'trips', label: '旅程', Icon: Map }, { id: 'profile', label: '我的', Icon: UserRound }] as const).map(({ id, label, Icon }) => <button key={id} className={active === id ? 'active' : ''} aria-current={active === id ? 'page' : undefined} onClick={() => onChange(id)}><Icon size={23} strokeWidth={1.8} /><span>{label}</span></button>)}</nav>; }
+export function Modal({ title, children, onClose }: { title: string; children: ReactNode; onClose: () => void }) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => { const old = document.activeElement as HTMLElement | null; ref.current?.focus(); const key = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); if (e.key === 'Tab') { const list = ref.current?.querySelectorAll<HTMLElement>('button:not(:disabled),input,select,[tabindex="0"]'); if (!list?.length) return; const first = list[0], last = list[list.length - 1]; if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); } else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); } } }; document.addEventListener('keydown', key); return () => { document.removeEventListener('keydown', key); old?.focus(); }; }, [onClose]);
+  return <div className="modal-backdrop" onClick={onClose}><div className="modal" role="dialog" aria-modal="true" aria-label={title} tabIndex={-1} ref={ref} onClick={e => e.stopPropagation()}><div className="modal-heading"><h2>{title}</h2><button className="icon-button" aria-label="关闭" onClick={onClose}><X size={20} /></button></div>{children}</div></div>;
+}
+export function EmptyState({ icon, title, body, action }: { icon: ReactNode; title: string; body: string; action?: ReactNode }) { return <div className="empty-state"><div className="empty-icon">{icon}</div><h3>{title}</h3><p>{body}</p>{action}</div>; }

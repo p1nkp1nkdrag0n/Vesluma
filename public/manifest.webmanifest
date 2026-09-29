@@ -1,0 +1,21 @@
+{
+  "id": "/",
+  "name": "Vesluma",
+  "short_name": "Vesluma",
+  "description": "跟随方向，发现城市。在途中留下自己的足迹。",
+  "lang": "zh-CN",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#edf2ef",
+  "theme_color": "#218675",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
