@@ -1,4 +1,4 @@
-import { createInitialState, isAppState, type AppState } from './model'
+import { createInitialState, isAppState, normalizeAppState, type AppState } from './model'
 
 export const STATE_STORAGE_KEY = 'vesluma:state:v1'
 const DATABASE_NAME = 'vesluma-local-v1'
@@ -21,7 +21,7 @@ export function loadState(): AppState {
     unrecoveredCorruption = false
     // Device coordinates are only meaningful while freshly obtained. Never claim
     // an old device location is a new sample after a restart.
-    return { ...parsed, position: null }
+    return { ...normalizeAppState(parsed), position: null }
   } catch (error) {
     lastError = error instanceof Error ? error.message : '无法读取本地记录。'
     try {
@@ -157,7 +157,7 @@ export async function importBackup(file: Blob): Promise<AppState> {
   if (backup?.format !== 'vesluma-local-backup' || backup.version !== 1 || !isAppState(backup.state) || !Array.isArray(backup.photos)) {
     throw new Error('备份格式不匹配，当前记录未被替换。')
   }
-  const state = backup.state
+  const state = normalizeAppState(backup.state)
   if (state.visits.some((visit) => visit.photoUrl && (!visit.demo || !/^\/images\/(?:nanjing|xian)\.png$/.test(visit.photoUrl)))) {
     throw new Error('备份含不支持的外部照片地址。')
   }

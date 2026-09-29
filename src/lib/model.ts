@@ -1,4 +1,6 @@
 import { cities, getCity, getLandmark, getRegion, type CityId, type Landmark } from '../data/cities'
+import { isMapTheme, type MapTheme } from './mapTheme'
+export type { MapTheme } from './mapTheme'
 
 export type LocationMode = 'demo' | 'device'
 export interface Profile { id: string; name: string }
@@ -66,6 +68,7 @@ export interface Preferences {
   cityId: CityId
   activeTripId: string | null
   targetLandmarkId: string | null
+  mapTheme?: MapTheme
 }
 export interface AppState {
   version: 1
@@ -81,6 +84,7 @@ export interface AppState {
   unlocks: Unlock[]
   position: Position | null
   locationMode: LocationMode
+  mapTheme?: MapTheme
 }
 
 type CheckInAction = {
@@ -99,6 +103,7 @@ export type Action =
   | { type: 'set-city'; cityId: CityId }
   | { type: 'set-target'; landmarkId: string | null }
   | { type: 'set-location-mode'; mode: LocationMode }
+  | { type: 'set-map-theme'; theme: MapTheme }
   | { type: 'set-position'; position: Position | null }
   | { type: 'add-point'; point: Point }
   | CheckInAction
@@ -117,7 +122,7 @@ export function createInitialState(at = Date.now()): AppState {
   return {
     version: 1, profile, profiles: [profile, { id: 'local-2', name: '同行者' }], preferences: {},
     cityId: 'nanjing', activeTripId: null, targetLandmarkId: null,
-    trips: [], visits: [], points: [], unlocks: [], locationMode: 'demo',
+    trips: [], visits: [], points: [], unlocks: [], locationMode: 'demo', mapTheme: 'paper',
     position: { ...getCity('nanjing').startPosition, at, accuracy: 5, source: 'demo' },
   }
 }
@@ -193,7 +198,7 @@ export function validateCheckIn(state: AppState, landmarkId: string, now: number
 
 function withPreference(state: AppState): AppState {
   return { ...state, preferences: { ...state.preferences, [state.profile.id]: {
-    cityId: state.cityId, activeTripId: state.activeTripId, targetLandmarkId: state.targetLandmarkId,
+    cityId: state.cityId, activeTripId: state.activeTripId, targetLandmarkId: state.targetLandmarkId, mapTheme: state.mapTheme ?? 'paper',
   } } }
 }
 function replaceTrip(state: AppState, trip: Trip): AppState {
@@ -205,6 +210,10 @@ function replaceTrip(state: AppState, trip: Trip): AppState {
  */
 export function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
+    case 'set-map-theme': {
+      if (!isMapTheme(action.theme) || action.theme === (state.mapTheme ?? 'paper')) return state
+      return withPreference({ ...state, mapTheme: action.theme })
+    }
     case 'set-city': {
       if (!cities.some((city) => city.id === action.cityId) || action.cityId === state.cityId) return state
       return withPreference({ ...state, cityId: action.cityId, targetLandmarkId: null, position: null })
@@ -220,13 +229,13 @@ export function reducer(state: AppState, action: Action): AppState {
       if (!action.profile.id.trim()) return state
       const saved = withPreference(state)
       const preference = Object.hasOwn(saved.preferences, action.profile.id) ? saved.preferences[action.profile.id]
-        : { cityId: 'nanjing' as CityId, activeTripId: null, targetLandmarkId: null }
+        : { cityId: 'nanjing' as CityId, activeTripId: null, targetLandmarkId: null, mapTheme: 'paper' as const }
       const trip = saved.trips.find((item) => item.id === preference.activeTripId && item.status !== 'ended')
       return { ...saved, profile: action.profile,
         profiles: saved.profiles.some((profile) => profile.id === action.profile.id)
           ? saved.profiles.map((profile) => profile.id === action.profile.id ? action.profile : profile)
           : [...saved.profiles, action.profile],
-        ...preference, activeTripId: trip?.id ?? null, position: null }
+        ...preference, mapTheme: preference.mapTheme ?? 'paper', activeTripId: trip?.id ?? null, position: null }
     }
     case 'start-trip': {
       if (getActiveTrip(state) || state.trips.some((trip) => trip.id === action.id) || !action.id || !Number.isFinite(action.at)) return state
@@ -348,9 +357,11 @@ export function isAppState(value: unknown): value is AppState {
     || !cities.some((city) => city.id === state.cityId) || !Array.isArray(state.profiles)
     || !state.preferences || typeof state.preferences !== 'object' || Array.isArray(state.preferences)
     || !Array.isArray(state.trips) || !Array.isArray(state.visits) || !Array.isArray(state.points) || !Array.isArray(state.unlocks)
-    || !['demo', 'device'].includes(state.locationMode) || (state.position !== null && !isValidPosition(state.position))) return false
+    || !['demo', 'device'].includes(state.locationMode) || (state.position !== null && !isValidPosition(state.position))
+    || (state.mapTheme !== undefined && !isMapTheme(state.mapTheme))) return false
   if (!state.profiles.every((profile) => profile && typeof profile.id === 'string' && typeof profile.name === 'string')) return false
   if (!Object.values(state.preferences).every((preference) => preference && cities.some((city) => city.id === preference.cityId)
+    && (preference.mapTheme === undefined || isMapTheme(preference.mapTheme))
     && (preference.activeTripId === null || typeof preference.activeTripId === 'string')
     && (preference.targetLandmarkId === null || getLandmark(preference.targetLandmarkId)?.cityId === preference.cityId))) return false
   if (!state.trips.every((trip) => trip && typeof trip.id === 'string' && typeof trip.userId === 'string' && typeof trip.name === 'string'
@@ -384,4 +395,13 @@ export function isAppState(value: unknown): value is AppState {
   if (state.activeTripId !== null && !state.trips.some((trip) => trip.id === state.activeTripId)) return false
   if (state.targetLandmarkId !== null && getLandmark(state.targetLandmarkId)?.cityId !== state.cityId) return false
   return true
+}
+
+/** Extend valid v1 records without changing their trips, photos, points or rights. */
+export function normalizeAppState(state: AppState): AppState {
+  const preferences = Object.fromEntries(Object.entries(state.preferences).map(([id, value]) => [id, { ...value, mapTheme: value.mapTheme ?? 'paper' }]))
+  const mapTheme = state.mapTheme ?? preferences[state.profile.id]?.mapTheme ?? 'paper'
+  return { ...state, mapTheme, preferences: { ...preferences, [state.profile.id]: {
+    cityId: state.cityId, activeTripId: state.activeTripId, targetLandmarkId: state.targetLandmarkId, mapTheme,
+  } } }
 }
