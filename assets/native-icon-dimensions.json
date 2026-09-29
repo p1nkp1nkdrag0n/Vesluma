@@ -1,0 +1,196 @@
+[
+  {
+    "file": "ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png",
+    "width": 1024,
+    "height": 1024,
+    "alpha": false
+  },
+  {
+    "file": "android/app/src/main/res/mipmap-mdpi/ic_launcher.png",
+    "width": 48,
+    "height": 48,
+    "alpha": true
+  },
+  {
+    "file": "android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png",
+    "width": 48,
+    "height": 48,
+    "alpha": true
+  },
+  {
+    "file": "android/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png",
+    "width": 108,
+    "height": 108,
+    "alpha": true
+  },
+  {
+    "file": "android/app/src/main/res/mipmap-hdpi/ic_launcher.png",
+    "width": 72,
+    "height": 72,
+    "alpha": true
+  },
+  {
+    "file": "android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png",
+    "width": 72,
+    "height": 72,
+    "alpha": true
+  },
+  {
+    "file": "android/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png",
+    "width": 162,
+    "height": 162,
+    "alpha": true
+  },
+  {
+    "file": "android/app/src/main/res/mipmap-xhdpi/ic_launcher.png",
+    "width": 96,
+    "height": 96,
+    "alpha": true
+  },
+  {
+    "file": "android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png",
+    "width": 96,
+    "height": 96,
+    "alpha": true
+  },
+  {
+    "file": "android/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png",
+    "width": 216,
+    "height": 216,
+    "alpha": true
+  },
+  {
+    "file": "android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png",
+    "width": 144,
+    "height": 144,
+    "alpha": true
+  },
+  {
+    "file": "android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png",
+    "width": 144,
+    "height": 144,
+    "alpha": true
+  },
+  {
+    "file": "android/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png",
+    "width": 324,
+    "height": 324,
+    "alpha": true
+  },
+  {
+    "file": "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+    "width": 192,
+    "height": 192,
+    "alpha": true
+  },
+  {
+    "file": "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png",
+    "width": 192,
+    "height": 192,
+    "alpha": true
+  },
+  {
+    "file": "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png",
+    "width": 432,
+    "height": 432,
+    "alpha": true
+  },
+  {
+    "file": "android/app/src/main/res/drawable/splash.png",
+    "width": 480,
+    "height": 320,
+    "alpha": false,
+    "color": "#ffffff"
+  },
+  {
+    "file": "android/app/src/main/res/drawable-land-hdpi/splash.png",
+    "width": 800,
+    "height": 480,
+    "alpha": false,
+    "color": "#ffffff"
+  },
+  {
+    "file": "android/app/src/main/res/drawable-land-mdpi/splash.png",
+    "width": 480,
+    "height": 320,
+    "alpha": false,
+    "color": "#ffffff"
+  },
+  {
+    "file": "android/app/src/main/res/drawable-land-xhdpi/splash.png",
+    "width": 1280,
+    "height": 720,
+    "alpha": false,
+    "color": "#ffffff"
+  },
+  {
+    "file": "android/app/src/main/res/drawable-land-xxhdpi/splash.png",
+    "width": 1600,
+    "height": 960,
+    "alpha": false,
+    "color": "#ffffff"
+  },
+  {
+    "file": "android/app/src/main/res/drawable-land-xxxhdpi/splash.png",
+    "width": 1920,
+    "height": 1280,
+    "alpha": false,
+    "color": "#ffffff"
+  },
+  {
+    "file": "android/app/src/main/res/drawable-port-hdpi/splash.png",
+    "width": 480,
+    "height": 800,
+    "alpha": false,
+    "color": "#ffffff"
+  },
+  {
+    "file": "android/app/src/main/res/drawable-port-mdpi/splash.png",
+    "width": 320,
+    "height": 480,
+    "alpha": false,
+    "color": "#ffffff"
+  },
+  {
+    "file": "android/app/src/main/res/drawable-port-xhdpi/splash.png",
+    "width": 720,
+    "height": 1280,
+    "alpha": false,
+    "color": "#ffffff"
+  },
+  {
+    "file": "android/app/src/main/res/drawable-port-xxhdpi/splash.png",
+    "width": 960,
+    "height": 1600,
+    "alpha": false,
+    "color": "#ffffff"
+  },
+  {
+    "file": "android/app/src/main/res/drawable-port-xxxhdpi/splash.png",
+    "width": 1280,
+    "height": 1920,
+    "alpha": false,
+    "color": "#ffffff"
+  },
+  {
+    "file": "ios/App/App/Assets.xcassets/Splash.imageset/splash-2732x2732.png",
+    "width": 2732,
+    "height": 2732,
+    "alpha": false,
+    "color": "#ffffff"
+  },
+  {
+    "file": "ios/App/App/Assets.xcassets/Splash.imageset/splash-2732x2732-1.png",
+    "width": 2732,
+    "height": 2732,
+    "alpha": false,
+    "color": "#ffffff"
+  },
+  {
+    "file": "ios/App/App/Assets.xcassets/Splash.imageset/splash-2732x2732-2.png",
+    "width": 2732,
+    "height": 2732,
+    "alpha": false,
+    "color": "#ffffff"
+  }
+]
