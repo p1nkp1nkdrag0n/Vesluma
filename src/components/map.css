@@ -5,13 +5,13 @@
   min-height: 160px;
   overflow: hidden;
   isolation: isolate;
-  background: #edf2ef;
+  background: #f4f0e7;
 }
 
 .vesluma-map-surface {
   width: 100%;
   height: 100%;
-  background: #f0f4f1;
+  background: #f4f0e7;
   font-family: inherit;
 }
 
@@ -30,6 +30,70 @@
   pointer-events: none;
   opacity: 1;
 }
+
+.vesluma-map[data-map-theme="treasure"] { background: #f2e6cc; }
+.vesluma-map[data-map-theme="treasure"] .vesluma-map-surface { background: #f2e6cc; }
+
+.vesluma-map-north {
+  position: absolute;
+  z-index: 790;
+  top: 24px;
+  right: 21px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  color: #218675;
+  pointer-events: none;
+}
+
+.vesluma-map-north span {
+  color: #69756b;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
+.vesluma-map-north svg { width: 23px; height: 28px; }
+.vesluma-map-north .compass-north { fill: currentColor; stroke: none; }
+.vesluma-map-north .compass-south { fill: #74b8a9; stroke: none; }
+.vesluma-map-north.is-treasure { top: 20px; right: 16px; gap: 0; color: #795f41; }
+.vesluma-map-north.is-treasure span { color: #795f41; font-family: Georgia, serif; font-size: 10px; }
+.vesluma-map-north.is-treasure svg { width: 37px; height: 37px; fill: none; stroke: #795f41; stroke-width: 0.8; }
+.vesluma-map-north.is-treasure .compass-rose-lines { opacity: 0.62; }
+.vesluma-map-north.is-treasure .compass-north { fill: #218675; stroke: #795f41; stroke-width: 0.6; }
+.vesluma-map-north.is-treasure .compass-south { fill: #f2e6cc; stroke: #795f41; stroke-width: 0.6; }
+
+.vesluma-skeleton-status {
+  position: absolute;
+  z-index: 810;
+  top: 71px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 10px;
+  border: 1px solid rgba(129, 145, 134, 0.2);
+  border-radius: 9px;
+  color: #69756b;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 2px 8px rgba(47, 78, 56, 0.04);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.vesluma-skeleton-status button {
+  padding: 0;
+  border: 0;
+  color: #218675;
+  background: transparent;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.vesluma-skeleton-status button:focus-visible { outline: 2px solid #218675; outline-offset: 3px; }
+.vesluma-map.is-compact .vesluma-skeleton-status { top: 12px; left: 12px; }
 
 .vesluma-landmark-marker {
   border: 0;

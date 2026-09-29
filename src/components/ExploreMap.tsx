@@ -2,8 +2,13 @@ import { memo, useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './map.css';
+import { getCitySkeleton, loadCitySkeleton } from '../data/map';
+import type { MapSkeleton } from '../data/map';
+import { SkeletonLayer } from './SkeletonLayer';
+import { isPointUnlocked } from './mapGeometry';
+import type { MapCoordinates, MapTheme } from './mapGeometry';
 
-export type MapCoordinates = [lng: number, lat: number];
+export type { MapCoordinates, MapTheme } from './mapGeometry';
 
 export interface ExploreMapCity {
   id: string;
@@ -25,189 +30,17 @@ export interface ExploreMapProps {
   recenterKey?: number;
   fitKey?: number;
   compact?: boolean;
+  mapTheme?: MapTheme;
+  overlayBottom?: number;
 }
 
 type TileState = 'loading' | 'ready' | 'partial' | 'unavailable';
-type FogRegion = ExploreMapCity['regions'][number];
-
-const FOG_COLOR = '#edf2ef';
-const OUTSIDE_COLOR = '#e7ede9';
+type SkeletonStatus = 'loading' | 'ready' | 'error';
 const JADE = '#218675';
-const FOG_MARGIN = 192;
 const landmarkSvg = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9h16M6 9l6-4 6 4M7 10v8m5-8v8m5-8v8M4 19h16M6 16h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
 function toLatLng([lng, lat]: MapCoordinates): L.LatLngTuple {
   return [lat, lng];
-}
-
-/** Ray casting is only used to label markers; the fog uses polygon union compositing. */
-function containsPoint(point: MapCoordinates, polygon: MapCoordinates[]): boolean {
-  let inside = false;
-  for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-    const [x1, y1] = polygon[i];
-    const [x2, y2] = polygon[j];
-    if ((y1 > point[1]) !== (y2 > point[1])
-      && point[0] < ((x2 - x1) * (point[1] - y1)) / (y2 - y1) + x1) {
-      inside = !inside;
-    }
-  }
-  return inside;
-}
-
-/**
- * An opaque viewport canvas, above all tiles and below records. Clearing each
- * unlocked polygon produces the union of holes, including overlapping regions.
- * Overscan keeps pan edges covered; nonanimated zoom prevents transient leaks.
- */
-class FogLayer extends L.Layer {
-  private leafletMap: L.Map | null = null;
-  private canvas: HTMLCanvasElement | null = null;
-  private outsideCanvas: HTMLCanvasElement | null = null;
-  private regions: FogRegion[] = [];
-  private unlocked = new Set<string>();
-  private animationFrame = 0;
-
-  onAdd(map: L.Map): this {
-    this.leafletMap = map;
-    this.canvas = L.DomUtil.create('canvas', 'vesluma-fog-canvas');
-    this.canvas.setAttribute('aria-hidden', 'true');
-    this.outsideCanvas = document.createElement('canvas');
-    map.getPane('fogPane')!.appendChild(this.canvas);
-    map.on('move zoom resize viewreset', this.scheduleDraw, this);
-    this.draw();
-    return this;
-  }
-
-  onRemove(map: L.Map): this {
-    map.off('move zoom resize viewreset', this.scheduleDraw, this);
-    cancelAnimationFrame(this.animationFrame);
-    this.canvas?.remove();
-    this.canvas = null;
-    this.outsideCanvas = null;
-    this.leafletMap = null;
-    return this;
-  }
-
-  setRegions(regions: FogRegion[], unlockedRegionIds: string[]): void {
-    this.regions = regions;
-    this.unlocked = new Set(unlockedRegionIds);
-    // Rights changes must be painted before a subsequent interaction frame.
-    this.draw();
-  }
-
-  private scheduleDraw = (): void => {
-    if (this.animationFrame) return;
-    this.animationFrame = requestAnimationFrame(() => {
-      this.animationFrame = 0;
-      this.draw();
-    });
-  };
-
-  private traceRegion(context: CanvasRenderingContext2D, region: FogRegion): void {
-    const map = this.leafletMap!;
-    context.beginPath();
-    region.polygon.forEach((coordinate, index) => {
-      const point = map.latLngToContainerPoint(toLatLng(coordinate));
-      if (index === 0) context.moveTo(point.x + FOG_MARGIN, point.y + FOG_MARGIN);
-      else context.lineTo(point.x + FOG_MARGIN, point.y + FOG_MARGIN);
-    });
-    context.closePath();
-  }
-
-  private draw(): void {
-    const map = this.leafletMap;
-    const canvas = this.canvas;
-    const outsideCanvas = this.outsideCanvas;
-    if (!map || !canvas || !outsideCanvas) return;
-    const size = map.getSize();
-    if (!size.x || !size.y) return;
-    const width = size.x + FOG_MARGIN * 2;
-    const height = size.y + FOG_MARGIN * 2;
-    const ratio = Math.min(window.devicePixelRatio || 1, 2);
-    const pixelWidth = Math.ceil(width * ratio);
-    const pixelHeight = Math.ceil(height * ratio);
-    for (const surface of [canvas, outsideCanvas]) {
-      if (surface.width !== pixelWidth || surface.height !== pixelHeight) {
-        surface.width = pixelWidth;
-        surface.height = pixelHeight;
-      }
-    }
-    canvas.style.width = `${width}px`;
-    canvas.style.height = `${height}px`;
-    L.DomUtil.setPosition(canvas, map.containerPointToLayerPoint([-FOG_MARGIN, -FOG_MARGIN]));
-    const context = canvas.getContext('2d')!;
-    const outsideContext = outsideCanvas.getContext('2d')!;
-    context.setTransform(ratio, 0, 0, ratio, 0, 0);
-    outsideContext.setTransform(ratio, 0, 0, ratio, 0, 0);
-    context.globalCompositeOperation = 'source-over';
-    context.clearRect(0, 0, width, height);
-    context.fillStyle = FOG_COLOR;
-    context.fillRect(0, 0, width, height);
-
-    // Fine decorative grain is deliberately unrelated to roads or geography.
-    context.fillStyle = '#dfe7e1';
-    for (let y = 6; y < height; y += 24) {
-      for (let x = (y % 48 === 6 ? 6 : 18); x < width; x += 24) {
-        context.fillRect(x, y, 1, 1);
-      }
-    }
-    context.globalCompositeOperation = 'destination-out';
-    context.fillStyle = '#000';
-    for (const region of this.regions) {
-      if (!this.unlocked.has(region.id) || region.polygon.length < 3) continue;
-      this.traceRegion(context, region);
-      context.fill();
-    }
-    context.globalCompositeOperation = 'source-over';
-
-    // Outside the configured UNION stays opaque and has a distinct texture.
-    outsideContext.globalCompositeOperation = 'source-over';
-    outsideContext.clearRect(0, 0, width, height);
-    outsideContext.fillStyle = OUTSIDE_COLOR;
-    outsideContext.fillRect(0, 0, width, height);
-    outsideContext.strokeStyle = '#dbe4dd';
-    outsideContext.lineWidth = 0.7;
-    outsideContext.beginPath();
-    for (let x = -height; x < width; x += 15) {
-      outsideContext.moveTo(x, height);
-      outsideContext.lineTo(x + height, 0);
-    }
-    outsideContext.stroke();
-    outsideContext.globalCompositeOperation = 'destination-out';
-    outsideContext.fillStyle = '#000';
-    for (const region of this.regions) {
-      if (region.polygon.length < 3) continue;
-      this.traceRegion(outsideContext, region);
-      outsideContext.fill();
-    }
-    outsideContext.globalCompositeOperation = 'source-over';
-    // Draw the secondary surface at CSS dimensions after its device-scale paint.
-    context.drawImage(outsideCanvas, 0, 0, pixelWidth, pixelHeight, 0, 0, width, height);
-
-    context.lineWidth = 1;
-    for (const region of this.regions) {
-      if (region.polygon.length < 3) continue;
-      this.traceRegion(context, region);
-      const unlocked = this.unlocked.has(region.id);
-      context.strokeStyle = unlocked ? '#83b7a9' : '#d0ded5';
-      context.setLineDash(unlocked ? [] : [3, 7]);
-      context.stroke();
-    }
-    context.setLineDash([]);
-    context.font = '10px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-    context.textAlign = 'center';
-    context.fillStyle = '#8d9e93';
-    // Labels appear only where the sampled location is outside configured areas.
-    for (let y = 90; y < size.y; y += 270) {
-      for (let x = 100; x < size.x; x += 270) {
-        const location = map.containerPointToLatLng([x, y]);
-        const point: MapCoordinates = [location.lng, location.lat];
-        if (!this.regions.some(region => containsPoint(point, region.polygon))) {
-          context.fillText('尚未纳入试验', x + FOG_MARGIN, y + FOG_MARGIN);
-        }
-      }
-    }
-  }
 }
 
 function createLandmarkIcon(name: string, unlocked: boolean, selected: boolean): L.DivIcon {
@@ -230,18 +63,27 @@ function createPositionIcon(): L.DivIcon {
   return L.divIcon({ html: element, className: 'vesluma-position-marker', iconSize: [22, 22], iconAnchor: [11, 11] });
 }
 
-function fitCity(map: L.Map, city: ExploreMapCity, compact: boolean): void {
+function fitCity(map: L.Map, city: ExploreMapCity, compact: boolean, overlayBottom: number): void {
   const coordinates = city.regions.flatMap(region => region.polygon);
   const landmarks = city.landmarks.map(landmark => landmark.coordinates);
   const allCoordinates = compact ? landmarks : [...coordinates, ...landmarks];
   if (allCoordinates.length) {
     map.fitBounds(L.latLngBounds(allCoordinates.map(toLatLng)), {
       paddingTopLeft: [42, compact ? 34 : 65],
-      paddingBottomRight: [52, compact ? 34 : 285],
+      paddingBottomRight: [52, compact ? 34 : overlayBottom + 35],
       maxZoom: city.zoom,
       animate: false,
     });
   } else map.setView(toLatLng(city.center), city.zoom, { animate: false });
+}
+
+function focusPosition(map: L.Map, position: { lat: number; lng: number }, zoom: number, compact: boolean, overlayBottom: number): void {
+  map.setView([position.lat, position.lng], zoom, { animate: false });
+  if (compact) return;
+  const mapHeight = map.getSize().y;
+  const visibleHeight = Math.max(1, mapHeight - overlayBottom);
+  // Leave room below the user for the city ahead and the collapsed sheet.
+  map.panBy([0, mapHeight / 2 - visibleHeight * 0.28], { animate: false });
 }
 
 function resolveTiles(): { url: string; options: L.TileLayerOptions; provider: string } {
@@ -252,11 +94,13 @@ function resolveTiles(): { url: string; options: L.TileLayerOptions; provider: s
   const customUrl = typeof environment?.VITE_MAP_TILE_URL === 'string' ? environment.VITE_MAP_TILE_URL.trim() : '';
   const osmAttribution = '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> contributors';
   if (customUrl) {
+    const customAttribution = typeof environment?.VITE_MAP_ATTRIBUTION === 'string' ? environment.VITE_MAP_ATTRIBUTION : '';
     return {
       url: customUrl,
       options: {
         maxZoom: 19,
-        attribution: typeof environment?.VITE_MAP_ATTRIBUTION === 'string' ? environment.VITE_MAP_ATTRIBUTION : osmAttribution,
+        // The bundled skeleton remains OSM data even with a custom raster source.
+        attribution: customAttribution.includes('openstreetmap.org') ? customAttribution : [customAttribution, osmAttribution].filter(Boolean).join(', '),
         updateWhenIdle: true,
         keepBuffer: 1,
       },
@@ -301,6 +145,14 @@ function MapControlIcon({ kind }: { kind: 'fit' | 'locate' | 'plus' | 'minus' })
   return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4m12-4h4v4M4 16v4h4m12-4v4h-4" /><path d="m8 12 4-4 4 4-4 4z" /></svg>;
 }
 
+function MapNorth({ theme }: { theme: MapTheme }) {
+  return <div className={`vesluma-map-north${theme === 'treasure' ? ' is-treasure' : ''}`} role="img" aria-label="地图上方为北">
+    <span>N</span>
+    {theme === 'treasure' ? <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="13.5" /><path d="M20 1v38M1 20h38M9 9l22 22M9 31 31 9" className="compass-rose-lines" /><path d="m20 3 5 17-5 5-5-5z" className="compass-north" /><path d="m20 37 5-17-5 5-5-5z" className="compass-south" /></svg>
+      : <svg viewBox="0 0 28 34" aria-hidden="true"><path d="m14 2 10 29-10-7-10 7z" className="compass-north" /><path d="M14 2v22l10 7z" className="compass-south" /></svg>}
+  </div>;
+}
+
 export const ExploreMap = memo(function ExploreMap({
   city,
   unlockedRegionIds,
@@ -312,21 +164,43 @@ export const ExploreMap = memo(function ExploreMap({
   recenterKey = 0,
   fitKey = 0,
   compact = false,
+  mapTheme = 'paper',
+  overlayBottom = 190,
 }: ExploreMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
-  const fogRef = useRef<FogLayer | null>(null);
+  const fogRef = useRef<SkeletonLayer | null>(null);
   const markersRef = useRef<L.LayerGroup | null>(null);
   const pointsRef = useRef<L.LayerGroup | null>(null);
   const positionRef = useRef<L.LayerGroup | null>(null);
   const tilesRef = useRef<L.TileLayer | null>(null);
   const onSelectRef = useRef(onSelectLandmark);
   const cityRef = useRef(city);
+  const focusedCitiesRef = useRef(new Set<string>());
   const [tileState, setTileState] = useState<TileState>('loading');
   const [provider, setProvider] = useState('WGS84');
   const [mapZoom, setMapZoom] = useState(city.zoom);
+  const [skeletonRetryKey, setSkeletonRetryKey] = useState(0);
+  const [skeletonState, setSkeletonState] = useState<{ cityId: string; skeleton: MapSkeleton | null; status: SkeletonStatus }>(() => {
+    const skeleton = getCitySkeleton(city.id);
+    return { cityId: city.id, skeleton, status: skeleton ? 'ready' : 'loading' };
+  });
+  const skeleton = skeletonState.cityId === city.id ? skeletonState.skeleton : null;
+  const skeletonStatus = skeletonState.cityId === city.id ? skeletonState.status : 'loading';
   onSelectRef.current = onSelectLandmark;
   cityRef.current = city;
+
+  useEffect(() => {
+    let cancelled = false;
+    const cached = getCitySkeleton(city.id);
+    setSkeletonState({ cityId: city.id, skeleton: cached, status: cached ? 'ready' : 'loading' });
+    loadCitySkeleton(city.id).then(loaded => {
+      if (!cancelled) setSkeletonState({ cityId: city.id, skeleton: loaded, status: loaded ? 'ready' : 'error' });
+    }).catch(() => {
+      if (!cancelled) setSkeletonState({ cityId: city.id, skeleton: null, status: 'error' });
+    });
+    return () => { cancelled = true; };
+  }, [city.id, skeletonRetryKey]);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -367,7 +241,7 @@ export const ExploreMap = memo(function ExploreMap({
     tiles.on('load', () => {
       setTileState(errors ? (successfulTiles ? 'partial' : 'unavailable') : 'ready');
     });
-    fogRef.current = new FogLayer().addTo(map);
+    fogRef.current = new SkeletonLayer().addTo(map);
     markersRef.current = L.layerGroup().addTo(map);
     pointsRef.current = L.layerGroup().addTo(map);
     positionRef.current = L.layerGroup().addTo(map);
@@ -386,23 +260,31 @@ export const ExploreMap = memo(function ExploreMap({
   }, []);
 
   useEffect(() => {
-    if (mapRef.current) fitCity(mapRef.current, city, compact);
+    if (mapRef.current) fitCity(mapRef.current, city, compact, overlayBottom);
   }, [city.id, city.center[0], city.center[1], city.zoom]);
 
   useEffect(() => {
-    fogRef.current?.setRegions(city.regions, unlockedRegionIds);
-  }, [city.regions, unlockedRegionIds]);
+    const map = mapRef.current;
+    if (compact || !map || !position || focusedCitiesRef.current.has(city.id)) return;
+    if (!Number.isFinite(position.lat) || !Number.isFinite(position.lng)
+      || Math.abs(position.lat) > 90 || Math.abs(position.lng) > 180) return;
+    focusedCitiesRef.current.add(city.id);
+    focusPosition(map, position, city.zoom, false, overlayBottom);
+  }, [city.id, city.zoom, position?.lat, position?.lng, compact, overlayBottom]);
+
+  useEffect(() => {
+    fogRef.current?.setContent({ regions: city.regions, unlockedRegionIds, skeleton, dataStatus: skeletonStatus, theme: mapTheme, landmarks: city.landmarks, compact });
+  }, [city.id, city.regions, city.landmarks, unlockedRegionIds, skeleton, skeletonStatus, mapTheme, compact]);
 
   useEffect(() => {
     const group = markersRef.current;
     if (!group) return;
     group.clearLayers();
     const unlocked = new Set(unlockedRegionIds);
-    const regions = city.regions.filter(region => unlocked.has(region.id));
     for (const landmark of city.landmarks) {
       const revealed = visitedLandmarkIds
         ? visitedLandmarkIds.includes(landmark.id)
-        : regions.some(region => containsPoint(landmark.coordinates, region.polygon));
+        : isPointUnlocked(landmark.coordinates, city.regions, unlocked);
       const selected = selectedLandmarkId === landmark.id;
       const marker = L.marker(toLatLng(landmark.coordinates), {
         icon: createLandmarkIcon(landmark.name, revealed, selected),
@@ -469,18 +351,18 @@ export const ExploreMap = memo(function ExploreMap({
 
   useEffect(() => {
     if (recenterKey && position && mapRef.current) {
-      mapRef.current.setView([position.lat, position.lng], Math.max(city.zoom, mapRef.current.getZoom()), { animate: false });
+      focusPosition(mapRef.current, position, Math.max(city.zoom, mapRef.current.getZoom()), compact, overlayBottom);
     }
   }, [recenterKey]);
 
   useEffect(() => {
-    if (fitKey && mapRef.current) fitCity(mapRef.current, city, compact);
+    if (fitKey && mapRef.current) fitCity(mapRef.current, city, compact, overlayBottom);
   }, [fitKey]);
 
   function recenter() {
     const map = mapRef.current;
     if (!map) return;
-    if (position) map.setView([position.lat, position.lng], Math.max(map.getZoom(), city.zoom), { animate: false });
+    if (position) focusPosition(map, position, Math.max(map.getZoom(), city.zoom), compact, overlayBottom);
     else map.setView(toLatLng(city.center), city.zoom, { animate: false });
   }
 
@@ -489,10 +371,15 @@ export const ExploreMap = memo(function ExploreMap({
     tilesRef.current?.redraw();
   }
 
-  return <div className={`vesluma-map${compact ? ' is-compact' : ''}`} data-map-provider={provider}>
+  return <div className={`vesluma-map${compact ? ' is-compact' : ''}`} data-map-provider={provider} data-map-theme={mapTheme} data-map-zoom={mapZoom} data-skeleton-status={skeletonStatus}>
     <div ref={containerRef} className="vesluma-map-surface" aria-label={`${city.name}探索地图，可拖动和缩放`} />
+    {!compact ? <MapNorth theme={mapTheme} /> : null}
+    {skeletonStatus !== 'ready' ? <div className="vesluma-skeleton-status" role="status">
+      <span>{skeletonStatus === 'loading' ? '主干道正在加载' : '主干道数据暂未加载'}</span>
+      {skeletonStatus === 'error' ? <button type="button" onClick={() => setSkeletonRetryKey(key => key + 1)}>重试</button> : null}
+    </div> : null}
     <div className="vesluma-map-controls" aria-label="地图操作">
-      <button type="button" aria-label="查看城市试验范围" title="查看城市试验范围" onClick={() => mapRef.current && fitCity(mapRef.current, city, compact)}><MapControlIcon kind="fit" /></button>
+      <button type="button" aria-label="查看城市试验范围" title="查看城市试验范围" onClick={() => mapRef.current && fitCity(mapRef.current, city, compact, overlayBottom)}><MapControlIcon kind="fit" /></button>
       <div className="vesluma-zoom-controls">
         <button type="button" aria-label="放大地图" title="放大地图" onClick={() => mapRef.current?.zoomIn()}><MapControlIcon kind="plus" /></button>
         <button type="button" aria-label="缩小地图" title="缩小地图" onClick={() => mapRef.current?.zoomOut()}><MapControlIcon kind="minus" /></button>
