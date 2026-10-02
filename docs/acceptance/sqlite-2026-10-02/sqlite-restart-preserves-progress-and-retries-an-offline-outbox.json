@@ -1,0 +1,72 @@
+{
+  "title": "sqlite-restart-preserves-progress-and-retries-an-offline-outbox",
+  "status": "passed",
+  "environment": "Two or more isolated Chromium contexts on one local machine; simulated devices; local spaces are not production authentication",
+  "browser": "151.0.7922.34",
+  "database": "C:\\Users\\A\\AppData\\Local\\Temp\\vesluma-local-sync-qa\\database-dBfQTO\\acceptance.sqlite",
+  "pageErrors": [],
+  "console": [
+    "device 1 warning: Service Worker registration blocked by Playwright",
+    "device 2 warning: Service Worker registration blocked by Playwright",
+    "device 1 error: Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "device 1 error: Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "device 3 warning: Service Worker registration blocked by Playwright"
+  ],
+  "unexpectedConsole": [],
+  "requests": [
+    {
+      "device": 1,
+      "method": "PUT",
+      "path": "/api/photos/sync-visit-05c2c161-5def-4a83-8bcf-b00478bf1a0c",
+      "status": 200
+    },
+    {
+      "device": 1,
+      "method": "POST",
+      "path": "/api/sync",
+      "status": 200
+    },
+    {
+      "device": 1,
+      "method": "PUT",
+      "path": "/api/photos/sync-visit-05c2c161-5def-4a83-8bcf-b00478bf1a0c",
+      "status": 200
+    },
+    {
+      "device": 1,
+      "method": "PUT",
+      "path": "/api/photos/sync-visit-6c39f6cc-27ca-44c1-be66-3a07c6ea733b",
+      "status": 200
+    },
+    {
+      "device": 1,
+      "method": "POST",
+      "path": "/api/sync",
+      "status": 200
+    },
+    {
+      "device": 3,
+      "method": "POST",
+      "path": "/api/sync",
+      "status": 200
+    },
+    {
+      "device": 3,
+      "method": "GET",
+      "path": "/api/photos/sync-visit-05c2c161-5def-4a83-8bcf-b00478bf1a0c",
+      "status": 200
+    },
+    {
+      "device": 3,
+      "method": "GET",
+      "path": "/api/photos/sync-visit-6c39f6cc-27ca-44c1-be66-3a07c6ea733b",
+      "status": 200
+    },
+    {
+      "device": 1,
+      "method": "GET",
+      "path": "/api/sync",
+      "status": 200
+    }
+  ]
+}

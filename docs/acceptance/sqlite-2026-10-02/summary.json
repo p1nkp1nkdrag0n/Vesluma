@@ -1,0 +1,101 @@
+{
+  "date": "2026-10-02",
+  "finalResult": {
+    "uniqueScenarios": 36,
+    "passed": 36,
+    "failed": 0,
+    "notRun": 0,
+    "additionalNarrowViewportReplay": "passed, 320x568, existing space-isolation scenario"
+  },
+  "testedProductionBuild": {
+    "entry": "dist/assets/index-BnTzUqHb.js",
+    "entrySha256": "50B60E367782923F27C310FC6A65DC174B4BED2B19F1F7BA82352F9EC80D5132",
+    "serverFactory": ".local-build/local-server.mjs",
+    "serverSha256": "0F8A48A474B58A740678D535AC52182E8FFB8ECB2F924241A5DDCED06F11AEF5",
+    "serviceWorker": "vesluma-shell-v6",
+    "productionSourceUnchangedDuringFinalRuns": true
+  },
+  "environment": {
+    "browser": "Chromium Headless Shell 151.0.7922.34",
+    "runner": "Playwright 1.63.0; Browser plugin not available",
+    "baselineUrl": "http://127.0.0.1:4175",
+    "databasePolicy": "Every service uses createLocalServer with an explicit newly-created temporary SQLite path. The default .local-data is never used.",
+    "baselineDatabase": "C:/Users/A/AppData/Local/Temp/vesluma-local-sync-qa/baseline-server-rcNxSD/acceptance.sqlite",
+    "syncDevices": "Two or more isolated browser contexts on this one machine, not physical devices.",
+    "viewports": [
+      "320x568",
+      "390x844",
+      "1280x900"
+    ],
+    "deterministicResources": "Workflow tests stub external raster tiles and fonts. The public-network smoke runs separately without these stubs."
+  },
+  "runs": [
+    {
+      "suite": "local synchronization",
+      "passed": 10,
+      "failed": 0,
+      "seconds": 42.9,
+      "pageErrors": 0,
+      "unexpectedConsole": 0
+    },
+    {
+      "suite": "baseline initial on SQLite server",
+      "passed": 21,
+      "failed": 4,
+      "skipped": 1,
+      "explanation": "All four failures were the fault-injection proxy: its original Origin differed from the strict upstream origin, and its chunked transfer of the immutable large JSON produced ERR_CACHE_WRITE_FAILURE in this environment. Direct-server SW loading and offline reload passed."
+    },
+    {
+      "suite": "offline final targeted rerun",
+      "passed": 4,
+      "failed": 0,
+      "seconds": 15.1,
+      "explanation": "The trusted fixture maps only its own same-origin header to the upstream origin and sends the exact length of its already buffered response bytes. No production security or cache behavior was relaxed."
+    },
+    {
+      "suite": "real public map smoke",
+      "passed": 1,
+      "failed": 0,
+      "seconds": 5.6,
+      "evidence": "After check-in and return to a new Explore map, eight OpenStreetMap tile responses were HTTP 200 and all eight tile images decoded with naturalWidth > 0; no detailed-map loading or retry notice remained."
+    },
+    {
+      "suite": "additional 320px sync panel replay",
+      "passed": 1,
+      "failed": 0,
+      "seconds": 6.7,
+      "uniqueScenarioAlreadyCounted": true
+    }
+  ],
+  "syncScenarios": [
+    "Pre-sync local records and original IndexedDB photo bytes remain intact; metadata migration copy is retained; local public flag remains local and newly restored photos are private.",
+    "Two offline isolated contexts record the same landmark, then merge to two visits and one regional entitlement with both photos intact.",
+    "A POST committed by SQLite but whose response is lost is replayed after browser refresh with the same durable request ID, without duplicate records.",
+    "A new local check-in created during synchronization survives the older response and is subsequently synchronized.",
+    "Stopping and recreating the local server/database connection at the same port with the same temporary file preserves saved data and retries an offline outbox.",
+    "Failed photo download remains pending, does not claim success, and recovers with valid photo bytes after retry and refresh.",
+    "local-a and local-b remain isolated, unknown foreign photos return 404, binding cannot be changed in place, and pause/resume does not delete data.",
+    "Identical request-ID replay is idempotent; the same request ID with different payload returns 409 without changing the database.",
+    "A new request ID cannot silently overwrite the immutable evidence of an existing visit; conflict returns 409.",
+    "Missing photo returns 422 and remains retryable; sequence 3 followed by 2 preserves the union; replay returns the current union; photo and receipt namespaces remain space-local."
+  ],
+  "evidence": {
+    "archivedScreenshots": [
+      "sync-complete.png",
+      "isolated-space.png"
+    ],
+    "archivedCaseLogs": [
+      "two-offline-device-contexts-merge-visits-and-deduplicate-region.json",
+      "sqlite-restart-preserves-progress-and-retries-an-offline-outbox.json"
+    ],
+    "fullLocalEvidenceDirectory": "C:/Users/A/AppData/Local/Temp/vesluma-local-sync-qa",
+    "note": "Representative evidence is committed here; full per-case captures remain in the local temporary QA directory."
+  },
+  "remainingLimits": [
+    "Local loopback verification only: no cloud account, credentials, public deployment or production authentication. Local space names are test namespaces, not access-control credentials.",
+    "Isolated browser contexts simulate multiple devices. Physical phones, real camera/GPS, field arrival points and geographic boundary calibration were not tested.",
+    "Same-browser multi-tab concurrency is outside this agreed test scope.",
+    "Persistence was verified by closing and recreating the service/database connection; OS crashes, sudden power loss and filesystem failure were not simulated.",
+    "Offline app/map behavior requires a successful prior shell cache. External detailed map tiles are intentionally not stored for offline use."
+  ]
+}

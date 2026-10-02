@@ -18,3 +18,7 @@ ios/App/Pods/
 ios/App/build/
 playwright-report/
 test-results/
+
+# Local-only backend: never commit user databases or generated server bundles.
+.local-data/
+.local-build/

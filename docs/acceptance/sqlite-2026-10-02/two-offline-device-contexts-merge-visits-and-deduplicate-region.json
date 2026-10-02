@@ -1,0 +1,113 @@
+{
+  "title": "two-offline-device-contexts-merge-visits-and-deduplicate-region",
+  "status": "passed",
+  "environment": "Two or more isolated Chromium contexts on one local machine; simulated devices; local spaces are not production authentication",
+  "browser": "151.0.7922.34",
+  "database": "C:\\Users\\A\\AppData\\Local\\Temp\\vesluma-local-sync-qa\\database-oWSTNI\\acceptance.sqlite",
+  "pageErrors": [],
+  "console": [
+    "device 1 warning: Service Worker registration blocked by Playwright",
+    "device 2 warning: Service Worker registration blocked by Playwright",
+    "device 2 error: Failed to load resource: net::ERR_INTERNET_DISCONNECTED",
+    "device 1 error: Failed to load resource: net::ERR_INTERNET_DISCONNECTED"
+  ],
+  "unexpectedConsole": [],
+  "requests": [
+    {
+      "device": 1,
+      "method": "POST",
+      "path": "/api/sync",
+      "status": 200
+    },
+    {
+      "device": 2,
+      "method": "POST",
+      "path": "/api/sync",
+      "status": 200
+    },
+    {
+      "device": 1,
+      "method": "POST",
+      "path": "/api/sync",
+      "status": 200
+    },
+    {
+      "device": 1,
+      "method": "PUT",
+      "path": "/api/photos/sync-visit-cab33a90-9fbc-4cc7-b3b6-a42d74267ec5",
+      "status": 200
+    },
+    {
+      "device": 1,
+      "method": "POST",
+      "path": "/api/sync",
+      "status": 200
+    },
+    {
+      "device": 2,
+      "method": "POST",
+      "path": "/api/sync",
+      "status": 200
+    },
+    {
+      "device": 2,
+      "method": "GET",
+      "path": "/api/photos/sync-visit-cab33a90-9fbc-4cc7-b3b6-a42d74267ec5",
+      "status": 200
+    },
+    {
+      "device": 2,
+      "method": "PUT",
+      "path": "/api/photos/sync-visit-cab33a90-9fbc-4cc7-b3b6-a42d74267ec5",
+      "status": 200
+    },
+    {
+      "device": 2,
+      "method": "PUT",
+      "path": "/api/photos/sync-visit-cb8078f4-d653-46b0-8b67-39c429297e12",
+      "status": 200
+    },
+    {
+      "device": 2,
+      "method": "POST",
+      "path": "/api/sync",
+      "status": 200
+    },
+    {
+      "device": 1,
+      "method": "GET",
+      "path": "/api/sync",
+      "status": 200
+    },
+    {
+      "device": 1,
+      "method": "GET",
+      "path": "/api/photos/sync-visit-cb8078f4-d653-46b0-8b67-39c429297e12",
+      "status": 200
+    },
+    {
+      "device": 1,
+      "method": "GET",
+      "path": "/api/sync",
+      "status": 200
+    },
+    {
+      "device": 2,
+      "method": "GET",
+      "path": "/api/sync",
+      "status": 200
+    },
+    {
+      "device": 2,
+      "method": "GET",
+      "path": "/api/sync",
+      "status": 200
+    },
+    {
+      "device": 1,
+      "method": "GET",
+      "path": "/api/sync",
+      "status": 200
+    }
+  ]
+}

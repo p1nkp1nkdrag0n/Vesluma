@@ -5,8 +5,8 @@ import type { AddressInfo, Socket } from 'node:net';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
-// Browser/network simulations only. A separate origin forwards the final Vite
-// preview unchanged and can fail navigation at the HTTP server, behind the SW.
+// Browser/network simulations only. A separate origin forwards the final build
+// and can fail navigation at the HTTP server, behind the SW.
 // Playwright page.route is deliberately not used to fake SW network failures.
 const evidenceDir = process.env.VESLUMA_QA_DIR ?? join(tmpdir(), 'vesluma-pink-qa');
 const stateKey = 'vesluma:state:v1';
@@ -60,14 +60,20 @@ test.describe('cached production shell', () => {
         return;
       }
       try {
-        const upstream = await fetch(url, { redirect: 'manual', headers: request.headers.origin ? { origin: request.headers.origin } : {} });
+        // A same-origin module request to this trusted test proxy becomes a
+        // same-origin request at the upstream server. Preserve the presence of
+        // Origin for cache/Vary coverage; unrelated origins remain unchanged.
+        const forwardedOrigin = request.headers.origin === origin ? new URL(baseURL).origin : request.headers.origin;
+        const upstream = await fetch(url, { redirect: 'manual', headers: forwardedOrigin ? { origin: forwardedOrigin } : {} });
         const headers = Object.fromEntries(upstream.headers.entries());
-        // fetch has decoded any upstream encoding; let this server frame bytes.
+        // fetch has decoded upstream encoding. Preserve a precise body length
+        // so Chromium can cache the large immutable JSON assets normally.
+        const body = Buffer.from(await upstream.arrayBuffer());
         delete headers['content-encoding'];
-        delete headers['content-length'];
         delete headers['transfer-encoding'];
+        headers['content-length'] = String(body.length);
         response.writeHead(upstream.status, headers);
-        response.end(Buffer.from(await upstream.arrayBuffer()));
+        response.end(body);
       } catch {
         response.writeHead(502, { 'content-type': 'text/plain' });
         response.end('Production preview unavailable');

@@ -77,8 +77,12 @@ export function TripsScreen({ state, onStart, onManage, onLandmark, onVisit, ini
 
   const startedAt = selectedTrip.startedAt;
   const lastEventAt = Math.max(tripPoints.reduce((last, point) => Math.max(last, point.at), startedAt), visits.reduce((last, visit) => Math.max(last, visit.at), startedAt));
-  const endedAt = selectedTrip.endedAt || (selectedTrip.status === 'ended' ? lastEventAt : Math.max(lastEventAt, Date.now()));
-  const cursorAt = startedAt + Math.round((endedAt - startedAt) * replayProgress / 1000);
+  const endedAt = selectedTrip.endedAt ?? (selectedTrip.status === 'ended' ? lastEventAt : Math.max(lastEventAt, Date.now()));
+  // Another offline browser can contribute a later arrival to an already ended
+  // trip. Include its evidence in the full replay without changing the end time.
+  const replayEndAt = Math.max(endedAt, lastEventAt);
+  const hasLateRecords = selectedTrip.status === 'ended' && lastEventAt > endedAt;
+  const cursorAt = startedAt + Math.round((replayEndAt - startedAt) * replayProgress / 1000);
   const replay = getReplayState(state, selectedTrip.id, cursorAt);
   const replayVisits = replay.visits.slice().sort((a, b) => a.at - b.at);
   const landmarkIds = [...new Set(replayVisits.map((visit) => visit.landmarkId))];
@@ -109,7 +113,7 @@ export function TripsScreen({ state, onStart, onManage, onLandmark, onVisit, ini
       <button className="trip-replay-play" disabled={!hasReplay} aria-label={playing ? '暂停回放' : '播放旅行回放'} onClick={() => { if (!playing && replayProgress === 1000) setReplayProgress(0); setPlaying((value) => !value); }}>{playing ? <Pause size={17} fill="currentColor" /> : <Play size={17} fill="currentColor" />}</button>
       <div className="trip-replay-track"><div><span>回看这一程</span><b>{clockLabel(cursorAt)}</b></div><input type="range" min="0" max="1000" step="1" value={replayProgress} disabled={!hasReplay} aria-label="旅行回放时间" aria-valuetext={`${dateLabel(cursorAt)} ${clockLabel(cursorAt)}`} style={{ '--replay-progress': `${replayProgress / 10}%` } as CSSProperties} onChange={(event) => { setPlaying(false); setReplayProgress(Number(event.target.value)); }} /><div className="trip-replay-times"><span>{clockLabel(startedAt)} 出发</span><span>{clockLabel(endedAt)} {selectedTrip.status === 'ended' ? '结束' : '此刻'}</span></div></div>
     </section>
-    <p className="trip-data-note">{hasReplay ? '回放只呈现当时已留下的足迹与到访。' : '还没有足迹。获取位置或拍照到访后，就可以回放。'}{personalUnlocks.length > expandedCount ? '历史已展开区域继续保留。' : ''}</p>
+    <p className="trip-data-note">{hasReplay ? '回放只呈现当时已留下的足迹与到访。' : '还没有足迹。获取位置或拍照到访后，就可以回放。'}{hasLateRecords ? '稍后同步的离线记录已纳入回放，原结束时间保持不变。' : ''}{personalUnlocks.length > expandedCount ? '历史已展开区域继续保留。' : ''}</p>
 
     {isCurrent ? <button className="trip-manage" onClick={onManage}><div><span className={`trip-recording-dot ${selectedTrip.status}`} /><span>{selectedTrip.status === 'paused' ? '这段旅行正在休息' : '新的足迹，还在继续'}</span></div><span>管理旅行<Settings2 size={15} /></span></button> : null}
 

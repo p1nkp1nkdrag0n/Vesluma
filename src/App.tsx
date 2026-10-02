@@ -8,6 +8,7 @@ import type { Action, AppState, Visit } from './lib/model';
 import { loadState, saveState, getStorageError, importBackup } from './lib/storage';
 import { useLocation } from './lib/useLocation';
 import { usePhoto } from './lib/usePhoto';
+import { useLocalSync } from './lib/localSyncHook';
 import { useCompass } from './lib/useCompass';
 import { useAppNavigation } from './lib/useAppNavigation';
 import type { Dialog, View } from './lib/navigation';
@@ -25,6 +26,7 @@ export default function App() {
   const [state, setState] = useState(loadState);
   const stateRef = useRef(state);
   const applyState = useCallback((next: AppState) => { stateRef.current = next; setState(next); }, []);
+  const localSync = useLocalSync(state, stateRef, applyState);
   const dispatch = useCallback((action: Action) => applyState(reducer(stateRef.current, action)), [applyState]);
   const onCityChange = useCallback((cityId: CityId) => {
     if (stateRef.current.cityId !== cityId) dispatch({ type: 'set-city', cityId });
@@ -144,6 +146,7 @@ export default function App() {
   };
   const restore = async () => {
     if (!restoreFile || restoring) return;
+    if (!localSync.pauseForImport()) { notify('无法安全暂停同步，备份尚未导入。请检查本地存储后重试。'); return; }
     setRestoring(true);
     try {
       const previous = JSON.stringify(stateRef.current);
@@ -165,7 +168,7 @@ export default function App() {
     {view === 'landmark' && landmarkId && <LandmarkScreen onRegions={() => setView('regions')} state={state} landmarkId={landmarkId} onBack={() => navigation.back()} onCheckIn={checkIn} onTarget={() => { setTarget(landmarkId); setView('explore'); }} onPublic={showVisit} />}
     {view === 'checkin' && landmarkId && <CheckInScreen key={landmarkId} state={state} landmarkId={landmarkId} locationError={location.error} onDraftChange={onDraftChange} onBack={() => navigation.back()} onArrive={arrive} onSubmit={submit} onLocation={() => { location.retry(); setDialog('location'); }} />}
     {view === 'trips' && <TripsScreen key={`${state.profile.id}:${tripContextVersion}`} initialContext={tripContexts.current[state.profile.id]} onContextChange={context => { tripContexts.current[state.profile.id] = context; }} state={state} onStart={openStart} onManage={() => setDialog('manage')} onLandmark={showLandmark} onVisit={showVisit} />}
-    {view === 'profile' && <ProfileScreen state={state} onAccount={() => setDialog('account')} onLocation={() => setDialog('location')} onMapTheme={() => setDialog('map-theme')} onCity={chooseCity} onImport={file => { setRestoreFile(file); setDialog('restore'); }} onGallery={() => setDialog('gallery')} onToast={notify} />}
+    {view === 'profile' && <ProfileScreen state={state} sync={localSync} onAccount={() => setDialog('account')} onLocation={() => setDialog('location')} onMapTheme={() => setDialog('map-theme')} onCity={chooseCity} onImport={file => { setRestoreFile(file); setDialog('restore'); }} onGallery={() => setDialog('gallery')} onToast={notify} />}
   </main><BottomNav active={view === 'landmark' || view === 'checkin' || view === 'regions' ? 'explore' : view} onChange={next => { if (setView(next)) setPendingCheckIn(false); }} />
   {dialog && <Modal title={({cities:'去遇见哪座城？',start:'开始一段新的旅程',manage:'此刻的旅程',account:'本地体验账号',location:'位置与体验方式',join:'加入本次小队',photo:'这一刻的记忆',gallery:'我的相册',success:'抵达，已被记住',restore:'从备份恢复记录','map-theme':'地图显示主题'})[dialog]} onClose={closeDialog}>
     {dialog === 'cities' && <><p className="modal-description">每座城市的开图进度都独立保留。你可以从任何地标开始。</p><div className="modal-options">{cities.map(c => { const progress = getCityProgress(state,c.id); return <button className={`city-option ${state.cityId === c.id ? 'selected' : ''}`} key={c.id} onClick={() => chooseCity(c.id)}><img src={c.landmarks[0].cover} alt="城市概念图"/><div><b>{c.name}</b><span>{c.enName} · 已展开 {progress.unlocked} / {progress.total} 片区域</span></div>{c.id === state.cityId ? <Check size={18}/> : <ChevronRight size={17}/>}</button>; })}</div><div className="notice-box">南京 11 区、西安 10 区覆盖完整市域。仅一级地标承担开图任务，二、三级地标记录游览。<br/>分区采用公开资料规划，候选拍照点仍待现场核实。</div></>}

@@ -1,0 +1,13 @@
+.local-sync-panel{margin:24px 0 18px;padding:17px 15px;border:1px solid #dce7e1;border-radius:16px;background:#f8fbf9;color:var(--ink);overflow-wrap:anywhere}
+.local-sync-panel h2{display:flex;align-items:center;gap:8px;font-size:15px;margin:0 0 10px}
+.local-sync-panel p{font-size:11px;line-height:1.85;margin:8px 0}
+.local-sync-panel .local-sync-disclosure,.local-sync-panel .local-sync-footnote{font-size:10px;color:#62776d}
+.local-sync-space{font-size:11px;display:flex;flex-direction:column;gap:7px;margin:14px 0}
+.local-sync-space select{min-height:42px;max-width:100%;border:1px solid #cfddd4;border-radius:9px;padding:8px;background:#fff;color:var(--ink)}
+.local-sync-space select:focus-visible{outline:3px solid #9bd0c1;outline-offset:3px}
+.local-sync-bound{font-weight:500;color:#476d5a}
+.local-sync-status{font-size:11px;display:flex;flex-wrap:wrap;gap:5px 10px;padding:9px 0;color:#477762}
+.local-sync-status strong{font-weight:600}.local-sync-status span{font-size:10px}
+.local-sync-panel .local-sync-error{color:#a04232;background:#fff0ea;padding:9px 11px;border-radius:8px;white-space:normal}
+.local-sync-actions{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 11px}
+.local-sync-actions button{min-height:44px;flex:1;font-size:12px;padding:10px 11px;white-space:nowrap}
