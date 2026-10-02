@@ -147,6 +147,7 @@ const cityAssets: Record<string, { url: string; bounds: SkeletonBounds }> = {
 };
 const citySkeletons = new Map<string, MapSkeleton>();
 const pendingLoads = new Map<string, Promise<MapSkeleton | null>>();
+export const MAP_LOAD_TIMEOUT_MS = 30_000;
 const permittedRoadClasses = new Set(['motorway', 'motorway_link', 'trunk', 'trunk_link', 'primary', 'primary_link', 'secondary', 'secondary_link']);
 
 function isObject(value: unknown): value is Record<string, unknown> {
@@ -216,18 +217,32 @@ export function getCitySkeleton(cityId: string): MapSkeleton | null {
 /** Successes and in-flight loads are shared. A rejected request can be retried. */
 export function loadCitySkeleton(cityId: string): Promise<MapSkeleton | null> {
   if (!Object.hasOwn(cityAssets, cityId)) return Promise.resolve(null);
+  const cached = citySkeletons.get(cityId);
+  if (cached) return Promise.resolve(cached);
   const pending = pendingLoads.get(cityId);
   if (pending) return pending;
-  const load = fetch(cityAssets[cityId].url).then(async response => {
+  const controller = new AbortController();
+  let timer: ReturnType<typeof setTimeout>;
+  const timeout = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => {
+      reject(new Error('主干道加载超时，请检查网络后重试。'));
+      controller.abort();
+    }, MAP_LOAD_TIMEOUT_MS);
+  });
+  const request = fetch(cityAssets[cityId].url, { signal: controller.signal }).then(async response => {
     if (!response.ok) throw new Error('城市主干道未能加载，请重试。');
     const collection: unknown = await response.json();
     validateSkeletonCollection(collection, cityId);
-    const skeleton = normalizeSkeleton(collection);
+    return normalizeSkeleton(collection);
+  });
+  // Race the entire body load as well as the response headers. Only the winning
+  // request may populate the cache, even when a transport ignores AbortSignal.
+  const load = Promise.race([request, timeout]).then(skeleton => {
     citySkeletons.set(cityId, skeleton);
     return skeleton;
-  }).catch(error => {
+  }).finally(() => {
+    clearTimeout(timer);
     pendingLoads.delete(cityId);
-    throw error;
   });
   pendingLoads.set(cityId, load);
   return load;

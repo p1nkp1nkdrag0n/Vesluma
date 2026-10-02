@@ -1,7 +1,8 @@
 /* App-shell caching only. Map tiles, location data and remote responses are never cached. */
-const CACHE_NAME = 'vesluma-shell-v5';
+const CACHE_NAME = 'vesluma-shell-v6';
 const SHELL = ['/', '/index.html', '/manifest.webmanifest', '/icon.svg', '/images/nanjing.png', '/images/xian.png', '/images/map-paper-texture.webp', '/images/map-treasure-texture.webp'];
 const MAX_LOCAL_ASSETS = 60;
+const NAVIGATION_TIMEOUT_MS = 4_000;
 
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
@@ -46,8 +47,9 @@ self.addEventListener('activate', (event) => {
 async function remember(request, response) {
   if (!response.ok || response.type !== 'basic' || /no-store/i.test(response.headers.get('cache-control') || '')) return;
   try {
+    const copy = response.clone();
     const cache = await caches.open(CACHE_NAME);
-    await cache.put(request, response.clone());
+    await cache.put(request, copy);
     const localAssets = (await cache.keys()).filter((key) => {
       const path = new URL(key.url).pathname;
       return path.startsWith('/assets/') || path.startsWith('/images/');
@@ -58,21 +60,46 @@ async function remember(request, response) {
   }
 }
 
+async function navigationResponse(request, event) {
+  let cached;
+  try {
+    const cache = await caches.open(CACHE_NAME);
+    cached = (await cache.match('/index.html')) || (await cache.match('/'));
+  } catch { /* A successful network navigation does not require cache access. */ }
+  const controller = new AbortController();
+  let timer;
+  try {
+    const network = fetch(request, { signal: controller.signal }).then(async response => {
+      // Receiving headers alone is not enough to open the app. Read a clone so
+      // a stalled HTML body also falls back, preserving the original response.
+      if (cached && response.ok) await response.clone().arrayBuffer();
+      return response;
+    });
+    // A cached app should remain usable on a stalled connection. Without a
+    // cache, let the browser complete the first load at the available speed.
+    const response = cached ? await Promise.race([network, new Promise((_, reject) => {
+      timer = setTimeout(() => {
+        reject(new Error('Navigation timed out.'));
+        controller.abort();
+      }, NAVIGATION_TIMEOUT_MS);
+    })]) : await network;
+    if (!response.ok) return cached || response;
+    event.waitUntil(remember('/index.html', response));
+    return response;
+  } catch {
+    return cached || Response.error();
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 self.addEventListener('fetch', (event) => {
   const request = event.request;
   const url = new URL(request.url);
   if (request.method !== 'GET' || url.origin !== self.location.origin) return;
 
   if (request.mode === 'navigate') {
-    event.respondWith((async () => {
-      try {
-        const response = await fetch(request);
-        await remember('/index.html', response);
-        return response;
-      } catch {
-        return (await caches.match('/index.html')) || (await caches.match('/')) || Response.error();
-      }
-    })());
+    event.respondWith(navigationResponse(request, event));
     return;
   }
 
@@ -82,7 +109,13 @@ self.addEventListener('fetch', (event) => {
 
   event.respondWith((async () => {
     let cached;
-    try { cached = await caches.match(request); } catch { /* Continue with the network. */ }
+    try {
+      const cache = await caches.open(CACHE_NAME);
+      // Only the same-origin static paths allowed above reach this branch.
+      // Module/CSS requests carry Origin, while install-time cache.addAll
+      // requests do not. Vite's Vary: Origin must not hide identical bundles.
+      cached = await cache.match(request, { ignoreVary: true });
+    } catch { /* Continue with the network. */ }
     if (cached) return cached;
     const response = await fetch(request);
     await remember(request, response);

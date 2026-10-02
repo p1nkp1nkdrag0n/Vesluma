@@ -1,0 +1,15 @@
+{
+  "title": "failed-record-storage-retry-is-single-save",
+  "url": "http://127.0.0.1:4173/",
+  "browser": "151.0.7922.34",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "status": "passed",
+  "console": [
+    "warning: Service Worker registration blocked by Playwright"
+  ],
+  "pageErrors": [],
+  "unexpectedConsole": []
+}

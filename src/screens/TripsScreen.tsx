@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { ArrowUpRight, Camera, ChevronRight, Clock3, Compass, Footprints, Grid2X2, List, MapPin, Pause, Play, Plus, Settings2, Sparkles, UsersRound } from 'lucide-react';
 import type { AppState, Visit } from '../lib/model';
@@ -10,21 +10,36 @@ import { EmptyState } from '../components/Primitives';
 import { VisitPhoto } from './LandmarkScreen';
 import './trips.css';
 
+export interface TripsScreenContext {
+  selectedId: string | null;
+  tab: 'timeline' | 'gallery';
+  replayProgress: number;
+  scrollTop: number;
+}
+
 interface TripsScreenProps {
   state: AppState;
   onStart: () => void;
   onManage: () => void;
   onLandmark: (id: string) => void;
   onVisit: (visit: Visit) => void;
+  initialContext?: TripsScreenContext;
+  onContextChange?: (context: TripsScreenContext) => void;
 }
 
-export function TripsScreen({ state, onStart, onManage, onLandmark, onVisit }: TripsScreenProps) {
+export function TripsScreen({ state, onStart, onManage, onLandmark, onVisit, initialContext, onContextChange }: TripsScreenProps) {
   const trips = getProfileTrips(state).slice().sort((a, b) => b.startedAt - a.startedAt);
   const activeTrip = getActiveTrip(state);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [tab, setTab] = useState<'timeline' | 'gallery'>('timeline');
-  const [replayProgress, setReplayProgress] = useState(1000);
+  const [selectedId, setSelectedId] = useState<string | null>(initialContext?.selectedId ?? null);
+  const [tab, setTab] = useState<'timeline' | 'gallery'>(initialContext?.tab ?? 'timeline');
+  const [replayProgress, setReplayProgress] = useState(initialContext?.replayProgress ?? 1000);
   const [playing, setPlaying] = useState(false);
+  const screen = useRef<HTMLDivElement>(null);
+  const scrollTop = useRef(initialContext?.scrollTop ?? 0);
+  const contextCallback = useRef(onContextChange);
+  contextCallback.current = onContextChange;
+  useLayoutEffect(() => { if (screen.current) screen.current.scrollTop = scrollTop.current; }, []);
+  useEffect(() => { contextCallback.current?.({ selectedId, tab, replayProgress, scrollTop: scrollTop.current }); }, [selectedId, tab, replayProgress]);
   const selectedTrip = trips.find((trip) => trip.id === selectedId) || activeTrip || trips[0];
   const profileVisits = getProfileVisits(state);
   const visits = selectedTrip ? profileVisits.filter((visit) => visit.tripId === selectedTrip.id).sort((a, b) => a.at - b.at) : [];
@@ -75,7 +90,10 @@ export function TripsScreen({ state, onStart, onManage, onLandmark, onVisit }: T
   const isCurrent = activeTrip?.id === selectedTrip.id;
   const statusText = selectedTrip.status === 'active' ? '记录中' : selectedTrip.status === 'paused' ? '已暂停' : '已珍藏';
 
-  return <div className="trips-screen scroll-screen">
+  return <div className="trips-screen scroll-screen" ref={screen} onScroll={event => {
+    scrollTop.current = event.currentTarget.scrollTop;
+    contextCallback.current?.({ selectedId, tab, replayProgress, scrollTop: scrollTop.current });
+  }}>
     <header className="trips-heading"><h1>这一程，留了下来</h1><button className="trip-add-button icon-button" aria-label="开始新旅行" onClick={onStart}><Plus size={22} /></button></header>
 
     <div className="trip-selection"><div className="trip-city-mark"><Compass size={21} /></div><div className="trip-selection-title"><h2>{selectedTrip.name}</h2><p>{city.name}<span>·</span>{dateLabel(startedAt)}{selectedTrip.mode === 'squad' ? <><span>·</span><UsersRound size={12} />小队旅行</> : null}</p></div><span className={`trip-status ${selectedTrip.status}`}><i />{statusText}</span></div>

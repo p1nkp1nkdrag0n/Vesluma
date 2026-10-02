@@ -1,0 +1,44 @@
+{
+  "name": "stall-navigation-fallback",
+  "environment": "Chromium browser simulation; not physical-device or field validation",
+  "url": "http://127.0.0.1:62250/?qa-stall=1",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "elapsedMs": 4091,
+  "cache": {
+    "names": [
+      "vesluma-shell-v6"
+    ],
+    "paths": [
+      "/index.html",
+      "/",
+      "/manifest.webmanifest",
+      "/icon.svg",
+      "/images/nanjing.png",
+      "/images/xian.png",
+      "/images/map-paper-texture.webp",
+      "/images/map-treasure-texture.webp",
+      "/assets/index-x-KTD-gM.js",
+      "/assets/react-runtime-BZIfiq8F.js",
+      "/assets/map-engine-BZOsmtGx.js",
+      "/assets/map-engine-CIGW-MKW.css",
+      "/assets/index-C_OGpjQE.css",
+      "/assets/nanjing-CySEN2L4.json",
+      "/assets/xian-DuXZFYl-.json",
+      "/assets/web-DI3Ey4rU.js"
+    ],
+    "origins": [
+      "http://127.0.0.1:62250"
+    ]
+  },
+  "faults": [
+    {
+      "kind": "stall",
+      "at": 1790925614702,
+      "url": "/?qa-stall=1"
+    }
+  ],
+  "pageErrors": []
+}

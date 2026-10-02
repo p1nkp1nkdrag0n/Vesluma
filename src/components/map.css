@@ -64,13 +64,19 @@
 .vesluma-map-north.is-treasure .compass-north { fill: #218675; stroke: #795f41; stroke-width: 0.6; }
 .vesluma-map-north.is-treasure .compass-south { fill: #f2e6cc; stroke: #795f41; stroke-width: 0.6; }
 
-.vesluma-skeleton-status {
+.vesluma-map-statuses {
   position: absolute;
   z-index: 810;
-  top: 71px;
+  top: 64px;
   left: 16px;
+  right: 16px;
+  pointer-events: none;
+}
+
+.vesluma-skeleton-status {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
   padding: 7px 10px;
   border: 1px solid rgba(129, 145, 134, 0.2);
@@ -80,10 +86,13 @@
   box-shadow: 0 2px 8px rgba(47, 78, 56, 0.04);
   font-size: 10px;
   line-height: 1.5;
+  pointer-events: auto;
 }
 
 .vesluma-skeleton-status button {
-  padding: 0;
+  flex-shrink: 0;
+  min-height: 28px;
+  padding: 0 5px;
   border: 0;
   color: #218675;
   background: transparent;
@@ -93,7 +102,7 @@
 }
 
 .vesluma-skeleton-status button:focus-visible { outline: 2px solid #218675; outline-offset: 3px; }
-.vesluma-map.is-compact .vesluma-skeleton-status { top: 12px; left: 12px; }
+.vesluma-map.is-compact .vesluma-map-statuses { top: 12px; left: 12px; right: 12px; }
 
 .vesluma-landmark-marker {
   border: 0;
@@ -288,11 +297,6 @@
 }
 
 .vesluma-map-error {
-  position: absolute;
-  z-index: 810;
-  left: 16px;
-  right: 16px;
-  bottom: var(--map-error-bottom, 118px);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -305,10 +309,12 @@
   font-size: 10px;
   line-height: 1.5;
   box-shadow: 0 2px 12px rgba(37, 71, 46, 0.06);
+  pointer-events: auto;
 }
 
 .vesluma-map-error button {
   flex-shrink: 0;
+  min-height: 28px;
   padding: 4px 5px;
   border: 0;
   border-radius: 4px;
@@ -333,12 +339,6 @@
 
 .vesluma-map.is-compact .vesluma-zoom-controls button {
   border-radius: 0;
-}
-
-.vesluma-map.is-compact .vesluma-map-error {
-  bottom: 34px;
-  left: 10px;
-  right: 52px;
 }
 
 @media (prefers-reduced-motion: reduce) {

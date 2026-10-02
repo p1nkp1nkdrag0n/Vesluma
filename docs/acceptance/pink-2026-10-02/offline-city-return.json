@@ -1,0 +1,58 @@
+{
+  "name": "offline-city-return",
+  "environment": "Chromium browser simulation; not physical-device or field validation",
+  "url": "http://127.0.0.1:62250/",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "cache": {
+    "names": [
+      "vesluma-shell-v6"
+    ],
+    "paths": [
+      "/index.html",
+      "/",
+      "/manifest.webmanifest",
+      "/icon.svg",
+      "/images/nanjing.png",
+      "/images/xian.png",
+      "/images/map-paper-texture.webp",
+      "/images/map-treasure-texture.webp",
+      "/assets/index-x-KTD-gM.js",
+      "/assets/react-runtime-BZIfiq8F.js",
+      "/assets/map-engine-BZOsmtGx.js",
+      "/assets/map-engine-CIGW-MKW.css",
+      "/assets/index-C_OGpjQE.css",
+      "/assets/nanjing-CySEN2L4.json",
+      "/assets/xian-DuXZFYl-.json",
+      "/assets/web-DI3Ey4rU.js"
+    ],
+    "origins": [
+      "http://127.0.0.1:62250"
+    ]
+  },
+  "mapResponses": [
+    {
+      "path": "/assets/nanjing-CySEN2L4.json",
+      "fromServiceWorker": true,
+      "status": 200
+    },
+    {
+      "path": "/assets/xian-DuXZFYl-.json",
+      "fromServiceWorker": true,
+      "status": 200
+    },
+    {
+      "path": "/assets/xian-DuXZFYl-.json",
+      "fromServiceWorker": true,
+      "status": 200
+    },
+    {
+      "path": "/assets/nanjing-CySEN2L4.json",
+      "fromServiceWorker": true,
+      "status": 200
+    }
+  ],
+  "pageErrors": []
+}

@@ -1,0 +1,38 @@
+{
+  "map": "after save success and return to explore",
+  "responses": [
+    {
+      "host": "tile.openstreetmap.org",
+      "status": 200
+    },
+    {
+      "host": "tile.openstreetmap.org",
+      "status": 200
+    },
+    {
+      "host": "tile.openstreetmap.org",
+      "status": 200
+    },
+    {
+      "host": "tile.openstreetmap.org",
+      "status": 200
+    },
+    {
+      "host": "tile.openstreetmap.org",
+      "status": 200
+    },
+    {
+      "host": "tile.openstreetmap.org",
+      "status": 200
+    },
+    {
+      "host": "tile.openstreetmap.org",
+      "status": 200
+    },
+    {
+      "host": "tile.openstreetmap.org",
+      "status": 200
+    }
+  ],
+  "decodedTileImages": 8
+}

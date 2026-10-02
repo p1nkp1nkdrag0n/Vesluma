@@ -1,5 +1,7 @@
 # Vesluma
 
+> Pink 本地试用候选：本轮异常恢复、返回操作、窄屏及模拟网络验收记录见 [Pink 验收报告](docs/pink-local-trial-acceptance.md)。主分支保留已完成的全市地图基线；Pink 未合并、未部署。
+
 以地标激活、区域揭雾和旅行记录为核心，支持个人探索与小队同行的城市探索记录应用。
 
 > Uncover the city. Keep the memories.<br>
@@ -46,16 +48,18 @@ npm run dev
 
 ```sh
 npm test
+npm run typecheck
 npm run build
+npm run test:e2e
 npm run native:sync
 npm run preview
 ```
 
-75 项单元验收覆盖永久进度、双城与身份隔离、首次与重访、小队共享、位置校验、历史回放、损坏备份，以及真实几何、源数据筛选、异步加载／重试、主题迁移、区域并集和标签避让。浏览器复验覆盖主题切换、激活前后、缩放拖动、旧记录与两个身份、两城离线骨架。已解锁内部的主题画布 alpha 在 C／藏宝图均为 0，未解锁内部为 255；切换主题时详细底图 URL 保持不变。
+单元验收覆盖永久进度、双城与身份隔离、首次与重访、小队共享、位置校验、历史回放、损坏备份，以及真实几何、源数据筛选、异步加载／重试、主题迁移、区域并集和标签避让。上轮浏览器复验覆盖主题切换、激活前后、缩放拖动、旧记录与两个身份、两城离线骨架。已解锁内部的主题画布 alpha 在 C／藏宝图均为 0，未解锁内部为 255；切换主题时详细底图 URL 保持不变。本轮新增定位异常、数值边界、导航与缓存恢复回归，并保存可重复的 Playwright 流程；最终数量、执行环境和限制见 [Pink 验收报告](docs/pink-local-trial-acceptance.md)。项目没有独立 lint 配置。
 
 应用入口代码、React 运行时和地图引擎分别打包；两城 JSON 作为独立资源，按需读取并缓存。可复现数据导入、许可及坐标限制见[地图数据来源](docs/map-data-provenance.md)。
 
-`android/` 与 `ios/` 已生成并同步构建资源，原生图标与权限声明已配置。iOS 工程使用 Swift Package Manager。尚未编译、签名或实机验证 APK / IPA；iOS 运行需要 macOS 与 Xcode，Android 运行需要对应 SDK。详见[原生工程说明](docs/native-projects.md)。
+`android/` 与 `ios/` 已生成工程，原生图标与权限声明已配置。Pink 本轮只验收 Web 生产构建，未运行 `native:sync`，原生工程内的资源仍是此前基线；原生试用前需重新同步。iOS 工程使用 Swift Package Manager。尚未编译、签名或实机验证 APK / IPA；iOS 运行需要 macOS 与 Xcode，Android 运行需要对应 SDK。详见[原生工程说明](docs/native-projects.md)。
 
 ## 项目资料
 

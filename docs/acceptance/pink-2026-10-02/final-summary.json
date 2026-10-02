@@ -1,0 +1,30 @@
+{
+  "dateUtc": "2026-10-02",
+  "result": { "uniqueScenarios": 26, "passed": 26, "failed": 0, "notRun": 0 },
+  "productionEntry": "assets/index-x-KTD-gM.js",
+  "entrySha256": "592D61C2F1430200A66B675C89685C36BA0594142D6759BDD3220F8D16B70045",
+  "serviceWorker": "vesluma-shell-v6",
+  "serviceWorkerSha256": "43FC34E8C21CCBC55CFB6542DF821107621EB8C031148ECBF6985E5A4AA9AF95",
+  "environment": {
+    "url": "http://127.0.0.1:4173/",
+    "browser": "Chromium Headless Shell 151.0.7922.34, Playwright 1.63.0",
+    "browserPlugin": "not available; regular Playwright used",
+    "viewports": ["320x568", "390x844", "1280x900"],
+    "ordinaryTests": "Public raster tiles and Google Fonts CSS stubbed; actual local production JS, CSS, bundled map data, localStorage and IndexedDB exercised.",
+    "realNetworkTest": "Separate approved read-only public-network run; after save success and return to new Explore map, 8 OpenStreetMap HTTP 200 responses and 8 loaded images with naturalWidth > 0; loading and retry notices absent."
+  },
+  "runs": [
+    { "scope": "full frozen-build suite", "passed": 24, "failed": 1, "skipped": 1, "detail": "One harness selector omitted expanding the collapsed landmark list after refresh. Product progress was correct. Public network smoke opts in separately." },
+    { "scope": "targeted final follow-up", "passed": 5, "failed": 0, "detail": "Corrected landmark selector; IndexedDB photos decoded after refresh; precise 250m and 100m accuracy thresholds; three navigation regressions with final console hooks." },
+    { "scope": "real public network", "passed": 1, "failed": 0, "detail": "New map after check-in reached fully decoded detailed tiles. All tests ran on the same unchanged production build." }
+  ],
+  "scenarioGroups": [
+    { "group": "Core browser workflows", "passed": 19 },
+    { "group": "Navigation and privacy regressions", "passed": 3 },
+    { "group": "Service worker offline and failure recovery", "passed": 4 }
+  ],
+  "boundaryEvidence": { "acceptedDistanceMeters": [249.9, 250], "rejectedDistanceMeters": [250.1], "acceptedAccuracyMeters": [100], "rejectedAccuracyMeters": [100.1, 101], "staleRejectedAgeSeconds": 301 },
+  "timeouts": { "geolocationNoCallbackSeconds": 15, "mapTotalRequestSeconds": 30, "cachedNavigationNoHeadersMilliseconds": 4091, "cachedNavigationIncompleteBodyMilliseconds": 4081 },
+  "screenshots": ["explore-320.png", "explore-390.png", "explore-1280.png", "checkin-320.png", "exact-250m.png", "outside-250m.png", "map-tiles-failed-320.png", "map-tiles-recovered-320.png", "map-resource-failed.png", "map-resource-recovered.png", "storage-failed-retains-draft.png", "save-in-flight.png", "offline-xian-after-refresh.png", "offline-city-return.png", "stall-navigation-fallback.png", "stall-body-navigation-fallback.png", "http500-navigation-fallback.png", "real-external-map.png"],
+  "limitations": ["Browser simulation only: no physical phone, real GPS, real camera, field arrival or candidate boundary calibration.", "No cloud synchronization or production deployment exercised.", "Offline behavior requires successful prior shell caching; remote detailed map tiles are intentionally not cached.", "Expected injected network failures and deliberate Playwright service-worker-block warning are documented; no uncaught application errors were observed."]
+}

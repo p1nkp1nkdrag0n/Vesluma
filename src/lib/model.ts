@@ -181,6 +181,8 @@ export function getSortedLandmarks(state: AppState): Array<Landmark & { distance
 export interface CheckInValidation { ok: boolean; reason: string; distanceMeters: number | null; ageMs: number | null }
 export const MAX_POSITION_AGE_MS = 5 * 60_000
 export const MAX_POSITION_ACCURACY_METERS = 100
+// Only absorb sub-micrometre floating-point roundoff at the inclusive boundary.
+const DISTANCE_ROUNDING_TOLERANCE_METERS = 1e-6
 
 export function validateCheckIn(state: AppState, landmarkId: string, now: number): CheckInValidation {
   const landmark = getLandmark(landmarkId)
@@ -193,9 +195,10 @@ export function validateCheckIn(state: AppState, landmarkId: string, now: number
   if (!trip || trip.cityId !== landmark.cityId) return result(false, '先开始本城的一次旅行，照片会保存在这一程。')
   if (trip.status === 'paused') return result(false, '旅行已暂停，恢复后可记录到访。')
   if (!position || !isValidPosition(position)) return result(false, '尚未取得可用位置；照片可以保留，获取位置后再提交。')
+  if (position.source !== state.locationMode) return result(false, '定位方式已变化，请重新获取当前位置。')
   if (ageMs === null || ageMs > MAX_POSITION_AGE_MS || ageMs < -5_000) return result(false, '位置已过期，请重新获取地标附近的位置。')
   if (position.accuracy > MAX_POSITION_ACCURACY_METERS) return result(false, '当前位置精度不足，请在开阔处重新获取。')
-  if (distance === null || distance > landmark.arrivalRadiusMeters) return result(false, `需要到达地标附近 ${landmark.arrivalRadiusMeters} 米内再提交。`)
+  if (distance === null || distance > landmark.arrivalRadiusMeters + DISTANCE_ROUNDING_TOLERANCE_METERS) return result(false, `需要到达地标附近 ${landmark.arrivalRadiusMeters} 米内再提交。`)
   return result(true, position.source === 'demo' ? '演示位置通过校验 · 此次记录会标为演示' : '当前位置通过基础校验')
 }
 

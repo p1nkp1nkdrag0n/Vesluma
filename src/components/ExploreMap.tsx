@@ -1,11 +1,11 @@
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './map.css';
 import { getCitySkeleton, loadCitySkeleton } from '../data/map';
 import type { MapSkeleton } from '../data/map';
 import { SkeletonLayer } from './SkeletonLayer';
-import { isPointUnlocked, regionPolygons } from './mapGeometry';
+import { containsRegionPoint, isPointUnlocked, regionPolygons } from './mapGeometry';
 import type { MapCoordinates, MapTheme, MapRegion } from './mapGeometry';
 
 export type { MapCoordinates, MapTheme } from './mapGeometry';
@@ -187,12 +187,19 @@ export const ExploreMap = memo(function ExploreMap({
   const [provider, setProvider] = useState('WGS84');
   const [mapZoom, setMapZoom] = useState(city.zoom);
   const [skeletonRetryKey, setSkeletonRetryKey] = useState(0);
-  const [skeletonState, setSkeletonState] = useState<{ cityId: string; skeleton: MapSkeleton | null; status: SkeletonStatus }>(() => {
+  const [skeletonState, setSkeletonState] = useState<{ cityId: string; skeleton: MapSkeleton | null; status: SkeletonStatus; message?: string }>(() => {
     const skeleton = getCitySkeleton(city.id);
     return { cityId: city.id, skeleton, status: skeleton ? 'ready' : 'loading' };
   });
   const skeleton = skeletonState.cityId === city.id ? skeletonState.skeleton : null;
   const skeletonStatus = skeletonState.cityId === city.id ? skeletonState.status : 'loading';
+  const positionInCity = useMemo(() => {
+    if (!position) return false;
+    const coordinate: MapCoordinates = [position.lng, position.lat];
+    return city.boundary
+      ? containsRegionPoint(coordinate, { id: city.id, geometry: city.boundary })
+      : city.regions.some(region => containsRegionPoint(coordinate, region));
+  }, [city.id, city.boundary, city.regions, position?.lat, position?.lng]);
   onSelectRef.current = onSelectLandmark;
   cityRef.current = city;
 
@@ -202,8 +209,9 @@ export const ExploreMap = memo(function ExploreMap({
     setSkeletonState({ cityId: city.id, skeleton: cached, status: cached ? 'ready' : 'loading' });
     loadCitySkeleton(city.id).then(loaded => {
       if (!cancelled) setSkeletonState({ cityId: city.id, skeleton: loaded, status: loaded ? 'ready' : 'error' });
-    }).catch(() => {
-      if (!cancelled) setSkeletonState({ cityId: city.id, skeleton: null, status: 'error' });
+    }).catch(error => {
+      if (!cancelled) setSkeletonState({ cityId: city.id, skeleton: null, status: 'error',
+        message: error instanceof Error ? error.message : '主干道数据暂未加载' });
     });
     return () => { cancelled = true; };
   }, [city.id, skeletonRetryKey]);
@@ -237,18 +245,25 @@ export const ExploreMap = memo(function ExploreMap({
     map.getPane('locationPane')!.style.pointerEvents = 'none';
     const tileConfig = resolveTiles();
     setProvider(tileConfig.provider);
-    const tiles = L.tileLayer(tileConfig.url, tileConfig.options).addTo(map);
+    const tiles = L.tileLayer(tileConfig.url, tileConfig.options);
     tilesRef.current = tiles;
     const attribution = L.control.attribution({ position: 'bottomleft', prefix: false }).addTo(map);
     attribution.getContainer()?.setAttribute('aria-label', '地图数据版权');
     let errors = 0;
     let successfulTiles = 0;
-    tiles.on('loading', () => { errors = 0; successfulTiles = 0; setTileState('loading'); });
+    let tileTimer: ReturnType<typeof setTimeout> | undefined;
+    tiles.on('loading', () => {
+      clearTimeout(tileTimer);
+      errors = 0; successfulTiles = 0; setTileState('loading');
+      tileTimer = setTimeout(() => setTileState(successfulTiles ? 'partial' : 'unavailable'), 30_000);
+    });
     tiles.on('tileload', () => { successfulTiles += 1; });
     tiles.on('tileerror', () => { errors += 1; });
     tiles.on('load', () => {
+      clearTimeout(tileTimer);
       setTileState(errors ? (successfulTiles ? 'partial' : 'unavailable') : 'ready');
     });
+    tiles.addTo(map);
     fogRef.current = new SkeletonLayer().addTo(map);
     map.createPane('regionPane').style.zIndex = '470';
     regionsRef.current = L.layerGroup().addTo(map);
@@ -258,6 +273,7 @@ export const ExploreMap = memo(function ExploreMap({
     const resizeObserver = new ResizeObserver(() => map.invalidateSize({ animate: false }));
     resizeObserver.observe(containerRef.current);
     return () => {
+      clearTimeout(tileTimer);
       resizeObserver.disconnect();
       map.remove();
       // StrictMode replays effects with the same refs; a recreated Leaflet map
@@ -280,12 +296,12 @@ export const ExploreMap = memo(function ExploreMap({
 
   useEffect(() => {
     const map = mapRef.current;
-    if (compact || !map || !position || focusedCitiesRef.current.has(city.id)) return;
+    if (compact || !map || !position || !positionInCity || focusedCitiesRef.current.has(city.id)) return;
     if (!Number.isFinite(position.lat) || !Number.isFinite(position.lng)
       || Math.abs(position.lat) > 90 || Math.abs(position.lng) > 180) return;
     focusedCitiesRef.current.add(city.id);
     focusPosition(map, position, city.zoom, false, overlayBottom);
-  }, [city.id, city.zoom, position?.lat, position?.lng, compact, overlayBottom]);
+  }, [city.id, city.zoom, position?.lat, position?.lng, positionInCity, compact, overlayBottom]);
 
   useEffect(() => {
     fogRef.current?.setContent({ regions: city.regions, boundary: city.boundary, unlockedRegionIds, skeleton, dataStatus: skeletonStatus, theme: mapTheme, landmarks: city.landmarks, compact });
@@ -440,12 +456,18 @@ export const ExploreMap = memo(function ExploreMap({
   return <div className={`vesluma-map${compact ? ' is-compact' : ''}`} data-map-provider={provider} data-map-theme={mapTheme} data-map-zoom={mapZoom} data-skeleton-status={skeletonStatus}>
     <div ref={containerRef} className="vesluma-map-surface" aria-label={`${city.name}探索地图，可拖动和缩放`} />
     {!compact ? <MapNorth theme={mapTheme} /> : null}
+    <div className="vesluma-map-statuses">
     {skeletonStatus !== 'ready' ? <div className="vesluma-skeleton-status" role="status">
-      <span>{skeletonStatus === 'loading' ? '主干道正在加载' : '主干道数据暂未加载'}</span>
+      <span>{skeletonStatus === 'loading' ? '主干道正在加载' : skeletonState.message ?? '主干道数据暂未加载'}</span>
       {skeletonStatus === 'error' ? <button type="button" onClick={() => setSkeletonRetryKey(key => key + 1)}>重试</button> : null}
     </div> : null}
     {skeletonStatus === 'ready' && tileState === 'loading' && unlockedRegionIds.length > 0
       ? <div className="vesluma-skeleton-status" role="status">详细底图正在加载</div> : null}
+    {skeletonStatus === 'ready' && unlockedRegionIds.length > 0 && (tileState === 'unavailable' || tileState === 'partial') ? <div className="vesluma-map-error" role="status">
+      <span>{tileState === 'partial' ? '部分底图暂未加载' : '底图暂未加载'} · 地标与记录可查看</span>
+      <button type="button" onClick={retryTiles}>重试底图</button>
+    </div> : null}
+    </div>
     <div className="vesluma-map-controls" aria-label="地图操作">
       <button type="button" aria-label="查看全市范围" title="查看全市范围" onClick={() => mapRef.current && fitCity(mapRef.current, city, compact, overlayBottom)}><MapControlIcon kind="fit" /></button>
       <div className="vesluma-zoom-controls">
@@ -454,10 +476,6 @@ export const ExploreMap = memo(function ExploreMap({
       </div>
       <button type="button" className="vesluma-locate-control" aria-label={position ? '回到最近位置' : '回到城市中心'} title={position ? '回到最近位置' : '回到城市中心'} onClick={recenter}><MapControlIcon kind="locate" /></button>
     </div>
-    {unlockedRegionIds.length > 0 && (tileState === 'unavailable' || tileState === 'partial') ? <div className="vesluma-map-error" role="status">
-      <span>{tileState === 'partial' ? '部分底图暂未加载' : '底图暂未加载'} · 地标与记录可查看</span>
-      <button type="button" onClick={retryTiles}>重试</button>
-    </div> : null}
   </div>;
 });
 

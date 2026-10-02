@@ -14,4 +14,15 @@
 .native-app .phone-shell{padding-top:env(safe-area-inset-top)}
 .map-theme-trigger{position:absolute;top:18px;left:209px;z-index:550;width:36px;height:36px;border-radius:50%;background:#fff;color:#689c83;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px #315e3710}
 .map-information-legend{font-size:10px;color:#7e9586;text-align:center;padding:7px 0 2px;flex-shrink:0}
+.map-stage .landmark-sheet.expanded{max-height:min(510px,calc(100% - 122px))}
+.map-stage:has(.landmark-sheet.expanded) .vesluma-map-controls{visibility:hidden}
+@media(max-width:600px) and (max-height:700px){
+  .map-stage .vesluma-map-controls{bottom:230px;flex-direction:row;gap:8px}
+  .map-stage .vesluma-zoom-controls{display:flex}
+  .map-stage .vesluma-zoom-controls button+button{border-top:0;border-left:1px solid #eef2ef}
+  .map-stage .map-invitation{display:none}
+  .map-stage .compass-pill{top:58px;bottom:auto;left:16px;right:16px;transform:none;min-width:0;padding:6px 12px}
+  .map-stage:has(.vesluma-map-statuses>div) .compass-pill{visibility:hidden}
+  .map-stage .vesluma-map-statuses{top:58px}
+}
 .map-theme-options{display:flex;flex-direction:column;gap:12px}.map-theme-option{padding:0 13px 0 0;border:1px solid #dfe8df;border-radius:14px;overflow:hidden;display:flex;align-items:center;text-align:left;width:100%;gap:14px;min-height:85px}.map-theme-option.selected{border-color:#6dac96;background:#f6fbf7}.map-theme-sample{height:88px;width:88px;flex-shrink:0;position:relative;overflow:hidden;background-size:150px;background-color:#f4f1e9;display:flex;align-items:center;justify-content:center;color:#61987d}.map-theme-sample.treasure{color:#927048;background-color:#f2e6cc}.sample-arterial{position:absolute;background:#fff5;border:1px solid #a9b5a580;display:block;opacity:.7}.treasure .sample-arterial{border-color:#a3896b80}.sample-arterial.vertical{height:130px;width:8px;left:24px;top:-15px;transform:rotate(10deg)}.sample-arterial.horizontal{height:8px;width:130px;left:-15px;top:62px;transform:rotate(-10deg)}.map-theme-sample>svg{position:relative;background:#ffffff80;border-radius:50%;padding:4px;box-sizing:content-box;margin:0 0 20px 25px}.map-theme-copy{flex:1}.map-theme-copy b{display:block;font-size:14px;font-weight:600}.map-theme-copy small{display:block;font-size:10px;line-height:1.8;color:#91a194;margin-top:5px}.theme-check{width:18px;color:var(--jade)}

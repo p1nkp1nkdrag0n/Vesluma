@@ -1,24 +1,36 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { ArrowLeft, ArrowUpRight, ChevronDown, Maximize, MapPin } from 'lucide-react';
 import { getCity, getLandmark, getMapRegions, planningEvidence } from '../data/cities';
 import { getCityProgress, type AppState } from '../lib/model';
 import ExploreMap from '../components/ExploreMap';
 import './regions.css';
 
-export function CityRegionsScreen({ state, onBack, onCity, onLandmark }: {
+export interface CityRegionsContext { selectedId: string | null; scrollTop: number }
+
+export function CityRegionsScreen({ state, onBack, onCity, onLandmark, initialContext, onContextChange }: {
   state: AppState; onBack: () => void; onCity: () => void; onLandmark: (id: string) => void;
+  initialContext?: CityRegionsContext; onContextChange?: (context: CityRegionsContext) => void;
 }) {
   const city = getCity(state.cityId);
   const progress = getCityProgress(state);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(initialContext?.selectedId ?? null);
   const [fitKey, setFitKey] = useState(0);
+  const screen = useRef<HTMLDivElement>(null);
+  const scrollTop = useRef(initialContext?.scrollTop ?? 0);
+  const contextCallback = useRef(onContextChange);
+  contextCallback.current = onContextChange;
+  useLayoutEffect(() => { if (screen.current) screen.current.scrollTop = scrollTop.current; }, []);
+  useEffect(() => { contextCallback.current?.({ selectedId, scrollTop: scrollTop.current }); }, [selectedId]);
   const selected = city.regions.find(r => r.id === selectedId);
   const mapCity = useMemo(() => ({ ...city, regions: getMapRegions(city.id),
     center: [city.center[1], city.center[0]] as [number, number],
     landmarks: city.landmarks.filter(l => l.tier === 1).map(l => ({ ...l, coordinates: [l.lng, l.lat] as [number, number] })),
   }), [city]);
   const sources = planningEvidence.filter(source => city.regions.some(r => r.evidenceIds.includes(source.id)));
-  return <div className="regions-screen scroll-screen">
+  return <div className="regions-screen scroll-screen" ref={screen} onScroll={event => {
+    scrollTop.current = event.currentTarget.scrollTop;
+    contextCallback.current?.({ selectedId, scrollTop: scrollTop.current });
+  }}>
     <header className="simple-heading"><button className="icon-button" aria-label="返回探索" onClick={onBack}><ArrowLeft size={21} /></button>
       <h2>全市分区</h2><button className="text-button" onClick={onCity}>{city.name}<ChevronDown size={14} /></button></header>
     <div className="regions-intro"><span className="eyebrow">一处代表，展开一片城市</span><h1>{city.name}，分 {city.regions.length} 次展开</h1>

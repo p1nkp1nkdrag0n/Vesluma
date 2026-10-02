@@ -3,7 +3,7 @@ import nanjing from './nanjing.json';
 import xian from './xian.json';
 
 beforeEach(() => { vi.resetModules(); });
-afterEach(() => { vi.unstubAllGlobals(); });
+afterEach(() => { vi.useRealTimers(); vi.unstubAllGlobals(); });
 
 describe('per-city local map asset loading', () => {
   it('shares an in-flight city request, caches success and loads another city independently', async () => {
@@ -38,6 +38,41 @@ describe('per-city local map asset loading', () => {
     expect(getCitySkeleton('nanjing')).toBeNull();
     expect((await loadCitySkeleton('nanjing'))?.cityId).toBe('nanjing');
     expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it('times out a hanging response, releases the shared request and ignores its late result', async () => {
+    vi.useFakeTimers();
+    let resolveOld!: (response: Response) => void;
+    const fetchMock = vi.fn().mockImplementationOnce(() => new Promise<Response>(resolve => { resolveOld = resolve; }))
+      .mockResolvedValueOnce(Response.json(nanjing));
+    vi.stubGlobal('fetch', fetchMock);
+    const { loadCitySkeleton, getCitySkeleton, MAP_LOAD_TIMEOUT_MS } = await import('./index');
+    const first = loadCitySkeleton('nanjing');
+    const failed = expect(first).rejects.toThrow('超时');
+    await vi.advanceTimersByTimeAsync(MAP_LOAD_TIMEOUT_MS);
+    await failed;
+    expect(fetchMock.mock.calls[0][1].signal.aborted).toBe(true);
+    expect(getCitySkeleton('nanjing')).toBeNull();
+    const recovered = await loadCitySkeleton('nanjing');
+    resolveOld(Response.json(nanjing));
+    await vi.runAllTimersAsync();
+    expect(getCitySkeleton('nanjing')).toBe(recovered);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it('also bounds a hanging body and keeps different-city loads independent', async () => {
+    vi.useFakeTimers();
+    const fetchMock = vi.fn().mockResolvedValueOnce({ ok: true, json: () => new Promise(() => {}) })
+      .mockResolvedValueOnce(Response.json(xian));
+    vi.stubGlobal('fetch', fetchMock);
+    const { loadCitySkeleton, getCitySkeleton, MAP_LOAD_TIMEOUT_MS } = await import('./index');
+    const failed = expect(loadCitySkeleton('nanjing')).rejects.toThrow('超时');
+    const otherCity = await loadCitySkeleton('xian');
+    expect(otherCity?.cityId).toBe('xian');
+    await vi.advanceTimersByTimeAsync(MAP_LOAD_TIMEOUT_MS);
+    await failed;
+    expect(getCitySkeleton('nanjing')).toBeNull();
+    expect(getCitySkeleton('xian')).toBe(otherCity);
   });
 
   it('rejects a wrong city, datum or detailed-road payload without poisoning future loads', async () => {
