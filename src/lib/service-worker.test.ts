@@ -7,19 +7,27 @@ const workerSource = readFileSync(new URL('../../public/sw.js', import.meta.url)
 function worker(fetchMock: typeof fetch, cached?: Response, cacheFailure = false, varyByOrigin = false) {
   const listeners: Record<string, (event: unknown) => void> = {};
   const put = vi.fn().mockResolvedValue(undefined);
+  const addAll = vi.fn().mockResolvedValue(undefined);
+  const skipWaiting = vi.fn().mockResolvedValue(undefined);
   const cache = { match: vi.fn().mockImplementation(async (request: Request | string, options?: CacheQueryOptions) => {
     if (varyByOrigin && typeof request !== 'string' && request.headers.get('Origin') && !options?.ignoreVary) return undefined;
     return cached?.clone();
-  }), put, keys: vi.fn().mockResolvedValue([]) };
+  }), put, addAll, keys: vi.fn().mockResolvedValue([]) };
   const open = vi.fn().mockImplementation(async () => {
     if (cacheFailure) throw new Error('Cache storage unavailable');
     return cache;
   });
   runInNewContext(workerSource, {
-    self: { location: { origin: 'https://vesluma.test' }, addEventListener: (name: string, callback: (event: unknown) => void) => { listeners[name] = callback; } },
+    self: { location: { origin: 'https://vesluma.test' }, skipWaiting,
+      addEventListener: (name: string, callback: (event: unknown) => void) => { listeners[name] = callback; } },
     caches: { open }, fetch: fetchMock, URL, Response, AbortController, setTimeout, clearTimeout,
   });
   const pending: Promise<unknown>[] = [];
+  function install() {
+    let installation!: Promise<unknown>;
+    listeners.install({ waitUntil: (value: Promise<unknown>) => { installation = value; } });
+    return installation;
+  }
   function navigate() {
     let response!: Promise<Response>;
     listeners.fetch({ request: { url: 'https://vesluma.test/', method: 'GET', mode: 'navigate' },
@@ -36,7 +44,7 @@ function worker(fetchMock: typeof fetch, cached?: Response, cacheFailure = false
     });
     return response;
   }
-  return { navigate, resource, pending, put, open };
+  return { navigate, resource, install, pending, put, open, addAll, skipWaiting };
 }
 
 afterEach(() => { vi.useRealTimers(); });
@@ -46,7 +54,7 @@ describe('service worker navigation recovery', () => {
     const fetchMock = vi.fn().mockResolvedValue(new Response('server failure', { status }));
     const app = worker(fetchMock, new Response('cached app'));
     expect(await (await app.navigate()).text()).toBe('cached app');
-    expect(app.open).toHaveBeenCalledWith('vesluma-shell-v6');
+    expect(app.open).toHaveBeenCalledWith('vesluma-shell-v7');
     expect(app.put).not.toHaveBeenCalled();
   });
 
@@ -122,5 +130,56 @@ describe('service worker navigation recovery', () => {
     expect(app.resource('https://tile.openstreetmap.org/10/100/100.png')).toBeUndefined();
     expect(fetchMock).not.toHaveBeenCalled();
     expect(app.open).not.toHaveBeenCalled();
+  });
+});
+
+describe('six-city offline installation', () => {
+  // Vite hashes the final extension: beijing.json-HASH.gz, not beijing-HASH.json.gz.
+  const snapshots = ['nanjing-aaa.json', 'xian-bbb.json', 'beijing.json-zKQGpKMN.gz', 'shanghai.json-C-fEtP8b.gz', 'hangzhou.json-EE_123ab.gz', 'chengdu.json-fff12345.gz'];
+  function installFetch() {
+    return vi.fn().mockImplementation(async (url: string) => {
+      if (url === '/index.html') return new Response('<script src="/assets/app-aaa.js"></script><link href="/assets/app-bbb.css" rel="stylesheet">');
+      if (url === '/.vite/manifest.json') return Response.json({
+        'index.html': { file: 'assets/app-aaa.js', css: ['assets/app-bbb.css'], assets: snapshots.map(name => `assets/${name}`) },
+        rawCompressed: { file: 'assets/beijing.json.gz' },
+        ignoredRemote: { file: 'https://remote.example/assets/remote.json-abcdef12.gz' },
+        ignoredApi: { file: 'api/private.json-abcdef12.gz' },
+        ignoredUnsupported: { file: 'assets/private.db.gz' },
+      });
+      throw new Error(`Unexpected install request: ${url}`);
+    });
+  }
+
+  it('includes the four hashed gzip snapshots and all city covers before activating the offline shell', async () => {
+    const app = worker(installFetch());
+    await app.install();
+    expect(app.addAll).toHaveBeenCalledTimes(1);
+    const urls = app.addAll.mock.calls[0][0] as string[];
+    expect(urls).toEqual(expect.arrayContaining(snapshots.map(name => `/assets/${name}`)));
+    expect(urls).toEqual(expect.arrayContaining(['nanjing', 'xian', 'beijing', 'shanghai', 'hangzhou', 'chengdu'].map(city => `/images/${city}.png`)));
+    expect(urls).toContain('/assets/app-aaa.js');
+    expect(urls).toContain('/assets/app-bbb.css');
+    expect(urls).toContain('/assets/beijing.json.gz');
+    expect(urls.filter(url => url === '/assets/app-aaa.js')).toHaveLength(1);
+    expect(urls.some(url => /remote\.example|\/api\/|private\.db/.test(url))).toBe(false);
+    expect(app.skipWaiting).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not activate an incomplete shell when a new compressed city asset fails to cache', async () => {
+    const app = worker(installFetch());
+    app.addAll.mockImplementation(async (urls: string[]) => {
+      if (urls.includes('/assets/hangzhou.json-EE_123ab.gz')) throw new Error('Hangzhou snapshot unavailable');
+    });
+    await expect(app.install()).rejects.toThrow('Hangzhou snapshot unavailable');
+    expect(app.skipWaiting).not.toHaveBeenCalled();
+  });
+
+  it('serves cached gzip bytes unchanged while offline and leaves decompression to the app', async () => {
+    const compressed = Uint8Array.from([31, 139, 8, 0, 1, 2, 3, 4]);
+    const fetchMock = vi.fn().mockRejectedValue(new TypeError('offline'));
+    const app = worker(fetchMock, new Response(compressed));
+    const response = await app.resource('https://vesluma.test/assets/beijing.json-zKQGpKMN.gz');
+    expect(new Uint8Array(await response!.arrayBuffer())).toEqual(compressed);
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 });

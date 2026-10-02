@@ -1,0 +1,160 @@
+{
+  "status": "passed",
+  "url": "http://127.0.0.1:4173",
+  "browser": "151.0.7922.34",
+  "environment": "Desktop Chromium browser simulation; Vite preview host compatibility only, no physical device/field verification. OSM raster tiles and Google Fonts stubbed; bundled geographic snapshots served as real local assets.",
+  "outcomes": [
+    {
+      "cityId": "nanjing",
+      "status": "passed",
+      "skeleton": "ready"
+    },
+    {
+      "cityId": "xian",
+      "status": "passed",
+      "skeleton": "ready"
+    },
+    {
+      "cityId": "beijing",
+      "status": "passed",
+      "skeleton": "ready"
+    },
+    {
+      "cityId": "shanghai",
+      "status": "passed",
+      "skeleton": "ready"
+    },
+    {
+      "cityId": "hangzhou",
+      "status": "passed",
+      "skeleton": "ready"
+    },
+    {
+      "cityId": "chengdu",
+      "status": "passed",
+      "skeleton": "ready"
+    }
+  ],
+  "responses": [
+    {
+      "cityId": "nanjing",
+      "path": "/assets/nanjing-CySEN2L4.json",
+      "status": 200,
+      "contentType": "application/json",
+      "contentEncoding": "gzip"
+    },
+    {
+      "cityId": "xian",
+      "path": "/assets/xian-DuXZFYl-.json",
+      "status": 200,
+      "contentType": "application/json",
+      "contentEncoding": "gzip"
+    },
+    {
+      "cityId": "beijing",
+      "path": "/assets/beijing.json-zKQGpKMN.gz",
+      "status": 200,
+      "contentType": "",
+      "contentEncoding": "gzip"
+    },
+    {
+      "cityId": "shanghai",
+      "path": "/assets/shanghai.json-C-fEtP8b.gz",
+      "status": 200,
+      "contentType": "",
+      "contentEncoding": "gzip"
+    },
+    {
+      "cityId": "hangzhou",
+      "path": "/assets/hangzhou.json-nj-uVRVO.gz",
+      "status": 200,
+      "contentType": "",
+      "contentEncoding": "gzip"
+    },
+    {
+      "cityId": "chengdu",
+      "path": "/assets/chengdu.json-h_Z5-iVh.gz",
+      "status": 200,
+      "contentType": "",
+      "contentEncoding": "gzip"
+    }
+  ],
+  "rawHttpResponses": [
+    {
+      "cityId": "nanjing",
+      "path": "/assets/nanjing-CySEN2L4.json",
+      "status": 200,
+      "contentType": "application/json",
+      "contentEncoding": "gzip",
+      "bytes": 19282046,
+      "firstTwoBytes": [
+        123,
+        34
+      ]
+    },
+    {
+      "cityId": "xian",
+      "path": "/assets/xian-DuXZFYl-.json",
+      "status": 200,
+      "contentType": "application/json",
+      "contentEncoding": "gzip",
+      "bytes": 13227236,
+      "firstTwoBytes": [
+        123,
+        34
+      ]
+    },
+    {
+      "cityId": "beijing",
+      "path": "/assets/beijing.json-zKQGpKMN.gz",
+      "status": 200,
+      "contentType": "",
+      "contentEncoding": "gzip",
+      "bytes": 38486384,
+      "firstTwoBytes": [
+        123,
+        34
+      ]
+    },
+    {
+      "cityId": "shanghai",
+      "path": "/assets/shanghai.json-C-fEtP8b.gz",
+      "status": 200,
+      "contentType": "",
+      "contentEncoding": "gzip",
+      "bytes": 38032209,
+      "firstTwoBytes": [
+        123,
+        34
+      ]
+    },
+    {
+      "cityId": "hangzhou",
+      "path": "/assets/hangzhou.json-nj-uVRVO.gz",
+      "status": 200,
+      "contentType": "",
+      "contentEncoding": "gzip",
+      "bytes": 44343929,
+      "firstTwoBytes": [
+        123,
+        34
+      ]
+    },
+    {
+      "cityId": "chengdu",
+      "path": "/assets/chengdu.json-h_Z5-iVh.gz",
+      "status": 200,
+      "contentType": "",
+      "contentEncoding": "gzip",
+      "bytes": 25239918,
+      "firstTwoBytes": [
+        123,
+        34
+      ]
+    }
+  ],
+  "pageErrors": [],
+  "consoleMessages": [
+    "warning: Service Worker registration blocked by Playwright"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "pageErrors": [],
+  "consoleMessages": [
+    "warning: Service Worker registration blocked by Playwright",
+    "warning: Service Worker registration blocked by Playwright"
+  ]
+}

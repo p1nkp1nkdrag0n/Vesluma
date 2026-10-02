@@ -1,0 +1,169 @@
+{
+  "environment": "Desktop Chromium with network disabled after complete SW installation; geographic data are bundled snapshots, external detail tiles are not promised offline.",
+  "url": "http://127.0.0.1:50128",
+  "cache": {
+    "names": [
+      "vesluma-shell-v7"
+    ],
+    "paths": [
+      "/index.html",
+      "/",
+      "/manifest.webmanifest",
+      "/icon.svg",
+      "/images/nanjing.png",
+      "/images/xian.png",
+      "/images/beijing.png",
+      "/images/shanghai.png",
+      "/images/hangzhou.png",
+      "/images/chengdu.png",
+      "/images/map-paper-texture.webp",
+      "/images/map-treasure-texture.webp",
+      "/assets/index-D4muoB0T.js",
+      "/assets/react-runtime-BZIfiq8F.js",
+      "/assets/map-engine-BZOsmtGx.js",
+      "/assets/map-engine-CIGW-MKW.css",
+      "/assets/index-i-NuwVLl.css",
+      "/assets/nanjing-CySEN2L4.json",
+      "/assets/xian-DuXZFYl-.json",
+      "/assets/beijing.json-zKQGpKMN.gz",
+      "/assets/shanghai.json-C-fEtP8b.gz",
+      "/assets/hangzhou.json-nj-uVRVO.gz",
+      "/assets/chengdu.json-h_Z5-iVh.gz",
+      "/assets/web-CaykSPIJ.js"
+    ],
+    "origins": [
+      "http://127.0.0.1:50128"
+    ]
+  },
+  "responses": [
+    {
+      "path": "/images/nanjing.png",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/assets/nanjing-CySEN2L4.json",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/images/xian.png",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/images/beijing.png",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/images/shanghai.png",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/images/hangzhou.png",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/images/chengdu.png",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/assets/xian-DuXZFYl-.json",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/assets/beijing.json-zKQGpKMN.gz",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/assets/shanghai.json-C-fEtP8b.gz",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/images/nanjing.png",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/images/xian.png",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/images/beijing.png",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/images/hangzhou.png",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/images/chengdu.png",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/assets/hangzhou.json-nj-uVRVO.gz",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/assets/chengdu.json-h_Z5-iVh.gz",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/images/chengdu.png",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/assets/chengdu.json-h_Z5-iVh.gz",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/images/nanjing.png",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/images/xian.png",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/images/beijing.png",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/images/shanghai.png",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/images/hangzhou.png",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/assets/nanjing-CySEN2L4.json",
+      "status": 200,
+      "fromServiceWorker": true
+    }
+  ],
+  "visitedOnlineBeforeOffline": [
+    "nanjing"
+  ],
+  "status": "passed"
+}

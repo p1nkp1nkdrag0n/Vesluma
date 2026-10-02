@@ -1,15 +1,18 @@
 import { describe, expect, it } from 'vitest';
+import { readFileSync } from 'node:fs';
+import { gunzipSync } from 'node:zlib';
+import pc, { type Polygon } from 'polygon-clipping';
 import { cities } from '../cities';
-import nanjing from './nanjing.json';
-import xian from './xian.json';
 import { getCitySkeleton as getCachedCitySkeleton, normalizeSkeleton, validateSkeletonCollection,
   type SkeletonCoordinate, type SkeletonFeatureCollection } from './index';
 
-// Raw JSON imports belong only to source tests; application code loads URL assets.
-const skeletonCollections: Record<string, SkeletonFeatureCollection> = {
-  nanjing: nanjing as unknown as SkeletonFeatureCollection,
-  xian: xian as unknown as SkeletonFeatureCollection,
-};
+// Read committed assets only in source tests. Keeping large geometry out of static
+// TypeScript JSON imports avoids rebuilding a second huge JavaScript object bundle.
+const skeletonCollections: Record<string, SkeletonFeatureCollection> = Object.fromEntries(cities.map(city => {
+  const compressed = !['nanjing', 'xian'].includes(city.id);
+  const bytes = readFileSync(new URL(`./${city.id}.json${compressed ? '.gz' : ''}`, import.meta.url));
+  return [city.id, JSON.parse((compressed ? gunzipSync(bytes) : bytes).toString('utf8')) as SkeletonFeatureCollection];
+}));
 const normalized = Object.fromEntries(Object.entries(skeletonCollections).map(([id, data]) => {
   validateSkeletonCollection(data, id);
   return [id, normalizeSkeleton(data)];
@@ -60,7 +63,7 @@ describe('bundled real city skeleton', () => {
           const [lng, lat] = coordinate;
           // Scan every original node without allocating hundreds of thousands
           // of assertion objects now that the snapshot spans whole cities.
-          if (!Number.isFinite(lng) || !Number.isFinite(lat) || lng <= 100 || lng >= 125 || lat <= 25 || lat >= 40) {
+          if (!Number.isFinite(lng) || !Number.isFinite(lat) || lng < -180 || lng > 180 || lat < -90 || lat > 90) {
             throw new Error(`Invalid original coordinate in ${road.id}, node ${index}`);
           }
           const id = source.properties.nodeIds![index];
@@ -72,7 +75,7 @@ describe('bundled real city skeleton', () => {
       expect(new Set(collection.features.map(feature => feature.id)).size).toBe(collection.features.length);
       expect(collection.features.every(feature => ['road', 'water', 'waterLine'].includes(feature.properties.kind))).toBe(true);
     }
-  });
+  }, 30_000); // This deliberately scans every original road/node in all six complete extents.
 
   it('preserves real shore polygons and the islands inside Xuanwu Lake', () => {
     for (const city of cities) {
@@ -119,10 +122,33 @@ describe('bundled real city skeleton', () => {
       expect(Number.isFinite(Date.parse(skeleton.source.downloadedAt))).toBe(true);
       expect(skeleton.source.requests.length).toBeGreaterThan(0);
       for (const request of skeleton.source.requests) {
-        expect(request.url).toBe('https://overpass-api.de/api/interpreter');
+        expect(['https://overpass-api.de/api/interpreter', 'https://overpass.private.coffee/api/interpreter',
+          'https://maps.mail.ru/osm/tools/overpass/api/interpreter']).toContain(request.url);
         expect(request.sha256).toMatch(/^[a-f0-9]{64}$/);
         expect(Number.isFinite(Date.parse(request.downloadedAt))).toBe(true);
       }
+    }
+  });
+
+  it('proves the recorded Overpass query partitions exactly cover each complete city extent', () => {
+    const rectangle = ([west, south, east, north]: number[]): Polygon => [[[west, south], [east, south], [east, north], [west, north], [west, south]]];
+    const bboxPattern = /\((-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)\)/g;
+    for (const city of cities) {
+      const collection = skeletonCollections[city.id];
+      const partitions = collection.source.requests.map(receipt => {
+        expect(typeof receipt.query).toBe('string');
+        const selectors = [...receipt.query!.matchAll(bboxPattern)].map(match => match.slice(1).map(Number));
+        expect(selectors).toHaveLength(4); // Arterials, named waterways, water ways and water relations.
+        for (const selector of selectors) expect(selector).toEqual(selectors[0]);
+        const [south, west, north, east] = selectors[0];
+        expect(south).toBeLessThan(north);
+        expect(west).toBeLessThan(east);
+        return rectangle([west, south, east, north]);
+      });
+      const coverage = pc.union(partitions[0], ...partitions.slice(1));
+      const completeCityBox = rectangle(collection.bbox);
+      expect(pc.difference(completeCityBox, coverage), `${city.id}: a query partition is missing`).toEqual([]);
+      expect(pc.difference(coverage, completeCityBox), `${city.id}: a cached partition belongs to another extent`).toEqual([]);
     }
   });
 });

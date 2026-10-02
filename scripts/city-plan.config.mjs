@@ -2,6 +2,10 @@
  * Tiers express product roles; an independent rural cluster can have a tier-1
  * representative without being claimed as nationally more famous than tier 2.
  */
+import { evidence as beijingShanghaiEvidence, cityPlans as beijingShanghaiCities } from './city-plan.beijing-shanghai.mjs';
+import { evidence as hangzhouChengduEvidence, cityPlans as hangzhouChengduCities } from './city-plan.hangzhou-chengdu.mjs';
+// This version is also stored in existing local/SQLite visits. Keep the original
+// two cities and their IDs stable when adding independent city configurations.
 export const planVersion = 'citywide-2026-10-02';
 export const evidence = [
   { id: 'nj-heat', title: '南京公安：2026 清明客流前五与五一组团交通', date: '2026-04-30', url: 'https://gaj.nanjing.gov.cn/jtgl/202604/t20260430_5832898.html', kind: 'visitor-ranking' },
@@ -112,3 +116,6 @@ xa.find(z => z.key === 'center').districtClips = { 新城区: { latitude: 34.282
 const weiyang = xa.find(z => z.key === 'weiyang');
 weiyang.districts.push('新城区');
 weiyang.districtClips = { 新城区: { latitude: 34.282, keep: 'north' } };
+
+evidence.push(...beijingShanghaiEvidence, ...hangzhouChengduEvidence);
+cityPlans.push(...beijingShanghaiCities, ...hangzhouChengduCities);

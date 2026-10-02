@@ -1,6 +1,6 @@
 /* App-shell caching only. Map tiles, location data and remote responses are never cached. */
-const CACHE_NAME = 'vesluma-shell-v6';
-const SHELL = ['/', '/index.html', '/manifest.webmanifest', '/icon.svg', '/images/nanjing.png', '/images/xian.png', '/images/map-paper-texture.webp', '/images/map-treasure-texture.webp'];
+const CACHE_NAME = 'vesluma-shell-v7';
+const SHELL = ['/', '/index.html', '/manifest.webmanifest', '/icon.svg', '/images/nanjing.png', '/images/xian.png', '/images/beijing.png', '/images/shanghai.png', '/images/hangzhou.png', '/images/chengdu.png', '/images/map-paper-texture.webp', '/images/map-treasure-texture.webp'];
 const MAX_LOCAL_ASSETS = 60;
 const NAVIGATION_TIMEOUT_MS = 4_000;
 
@@ -19,14 +19,15 @@ self.addEventListener('install', (event) => {
       .filter((url) => url.origin === self.location.origin && url.pathname.startsWith('/assets/')
         && /\.(?:js|css)$/i.test(url.pathname))
       .map((url) => `${url.pathname}${url.search}`);
-    // The two real geographic snapshots are local JSON assets, loaded by city.
+    // Real geographic snapshots are local JSON or losslessly compressed JSON
+    // assets, loaded by city. Cache gzip bytes unchanged; the app decompresses.
     // Include their hashed build URLs in the shell cache without eagerly parsing
-    // either dataset in the application or requesting any remote map tiles.
+    // those datasets in the application or requesting any remote map tiles.
     const manifestResponse = await fetch('/.vite/manifest.json', { cache: 'reload' });
     if (!manifestResponse.ok) throw new Error('Build asset manifest could not be loaded.');
     const manifest = await manifestResponse.json();
     const localBuildAssets = Object.values(manifest).flatMap((entry) => [entry.file, ...(entry.css || []), ...(entry.assets || [])])
-      .filter((path) => typeof path === 'string' && path.startsWith('assets/') && /\.(?:js|css|json)$/i.test(path))
+      .filter((path) => typeof path === 'string' && path.startsWith('assets/') && /\.(?:js|css|json|json(?:-[\w-]+)?\.gz)$/i.test(path))
       .map((path) => `/${path}`);
     const bootAssets = [...new Set([...SHELL.filter((path) => path !== '/' && path !== '/index.html'), ...bundleUrls, ...localBuildAssets])];
     await cache.addAll(bootAssets);

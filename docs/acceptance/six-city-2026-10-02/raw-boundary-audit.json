@@ -1,0 +1,46 @@
+{
+  "researchedOn": "2026-10-02",
+  "method": "polygon-clipping Boolean union/difference and every pairwise district intersection; not area equality or point sampling.",
+  "cities": [
+    {
+      "city": "beijing",
+      "districts": 16,
+      "missingPolygons": 0,
+      "outsidePolygons": 0,
+      "overlapPairs": 0,
+      "source": "src/data/map/boundaries/beijing.json",
+      "sourceSHA256": "416a84b6038bcd25ccab2d7a7ae47d1b60dc72e96a6d6f3476cc0ba550c3fb77",
+      "plannedHandling": "Retain the original municipality and complete formal district layer."
+    },
+    {
+      "city": "shanghai",
+      "districts": 16,
+      "missingPolygons": 0,
+      "outsidePolygons": 9,
+      "overlapPairs": 0,
+      "source": "src/data/map/boundaries/shanghai.json",
+      "sourceSHA256": "3f59d58e29e6539f1e4c6c64963eae5672948b70fce05c1c80313d253abb1aa6",
+      "plannedHandling": "Intersect proposed regions with the unmodified original municipality."
+    },
+    {
+      "city": "hangzhou",
+      "districts": 13,
+      "missingPolygons": 0,
+      "outsidePolygons": 0,
+      "overlapPairs": 0,
+      "source": "src/data/map/boundaries/hangzhou.json",
+      "sourceSHA256": "0477c1b28a707c1cfe584723dba4c7d368d77d161f4cfa5d7c21a6b2d8e917b9",
+      "plannedHandling": "Retain the original municipality and complete formal district layer."
+    },
+    {
+      "city": "chengdu",
+      "districts": 20,
+      "missingPolygons": 0,
+      "outsidePolygons": 0,
+      "overlapPairs": 0,
+      "source": "src/data/map/boundaries/chengdu.json",
+      "sourceSHA256": "1350e9aae3af04ff82519f35a268436152a1955f1c3b4b77b5c574be4e75fd47",
+      "plannedHandling": "Retain the original municipality and complete formal district layer."
+    }
+  ]
+}

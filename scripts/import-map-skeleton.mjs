@@ -1,55 +1,109 @@
 /**
- * Import an authentic OpenStreetMap skeleton for both COMPLETE city extents.
- * Run: node scripts/import-map-skeleton.mjs [nanjing|xian] [--refresh]
+ * Import authentic OpenStreetMap skeletons for COMPLETE city extents.
+ * Run: node scripts/import-map-skeleton.mjs [city] [--refresh] [--endpoint=https://...]
  *
- * One bounded Overpass query per city; never tile the OSM editing API at city scale.
- * Requests are sequential and cached. Nothing is queried by the running app.
+ * New city extents use sequential bounded Overpass partitions, with finer partitions
+ * only for query-size timeouts. Never tile the OSM editing API at city scale.
+ * Responses and exact source receipts are cached. Nothing is queried by the running app.
  */
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { mkdir, readFile, writeFile, stat } from 'node:fs/promises';
+import { mkdir, readFile, writeFile, stat, rm } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { gzipSync } from 'node:zlib';
 
 const project = dirname(dirname(fileURLToPath(import.meta.url)));
 const cache = join(project, 'node_modules', '.cache', 'vesluma-boundaries');
 const output = join(project, 'src', 'data', 'map');
 const refresh = process.argv.includes('--refresh');
 const requestedCity = process.argv.slice(2).find(argument => !argument.startsWith('--'));
+const legacyCities = new Set(['nanjing', 'xian']);
 const extents = {
   nanjing: [118.3345, 31.2267, 119.2396, 32.6158],
   xian: [107.6584, 33.6961, 109.8239, 34.7438],
+  // Rounded outward from the verified complete municipality Nominatim extents.
+  beijing: [115.4168, 39.1707, 117.7372, 41.0593],
+  shanghai: [120.8508, 30.6693, 123.2258, 31.8721],
+  hangzhou: [118.3396, 29.1888, 120.7255, 30.5649],
+  chengdu: [102.9896, 30.0916, 104.8949, 31.4371],
 };
-if (requestedCity && !(requestedCity in extents)) throw new Error('Expected nanjing or xian');
+if (requestedCity && !Object.hasOwn(extents, requestedCity)) throw new Error(`Expected one of ${Object.keys(extents).join(', ')}`);
 const roadClasses = new Set([
   'motorway', 'motorway_link', 'trunk', 'trunk_link',
   'primary', 'primary_link', 'secondary', 'secondary_link',
 ]);
 const requests = [];
-const api = 'https://overpass-api.de/api/interpreter';
+const legacyApi = 'https://overpass-api.de/api/interpreter';
+const defaultApi = 'https://maps.mail.ru/osm/tools/overpass/api/interpreter';
+const supportedApis = new Set([legacyApi, defaultApi, 'https://overpass.private.coffee/api/interpreter']);
+const endpoint = process.argv.find(argument => argument.startsWith('--endpoint='))?.slice('--endpoint='.length);
+if (endpoint && !supportedApis.has(endpoint)) throw new Error('Use an explicitly supported public Overpass endpoint.');
+let lastDownloadAt = 0;
+const bboxPattern = /\((-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)\)/g;
+function comparableQuery(value) {
+  return value.replace(/\[timeout:\d+\]/g, '[timeout:*]').replace(/\[maxsize:\d+\]/g, '')
+    .replace(bboxPattern, (_match, south, west, north, east) => `(${[south, west, north, east].map(value => Math.round(Number(value) * 1e7) / 1e7).join(',')})`);
+}
 
 await mkdir(cache, { recursive: true });
 await mkdir(output, { recursive: true });
 
-async function downloadCity(cityId, [west, south, east, north]) {
+async function downloadCity(cityId, [west, south, east, north], api) {
   const box = `${south},${west},${north},${east}`;
-  const query = `[out:json][timeout:150];(way[highway~"^(motorway|trunk|primary|secondary)(_link)?$"](${box});way[waterway~"^(river|canal)$"][name](${box});way[natural=water](${box});relation[natural=water][type=multipolygon](${box}););(._;>;);out meta;`;
+  // A large requested timeout also reserves more shared dispatcher capacity.
+  // Smaller new-city partitions can use a modest budget; preserve legacy receipt text.
+  const queryTimeout = legacyCities.has(cityId) ? 150 : 45;
+  const memoryBudget = legacyCities.has(cityId) ? '' : '[maxsize:134217728]';
+  const query = `[out:json][timeout:${queryTimeout}]${memoryBudget};(way[highway~"^(motorway|trunk|primary|secondary)(_link)?$"](${box});way[waterway~"^(river|canal)$"][name](${box});way[natural=water](${box});relation[natural=water][type=multipolygon](${box}););(._;>;);out meta;`;
   const file = join(cache, `${cityId}-overpass.json`);
+  const receiptFile = `${file}.receipt.json`;
   let raw;
   if (!refresh) { try { raw = await readFile(file, 'utf8'); } catch { /* Fetch below. */ } }
+  let receipt;
+  if (raw) {
+    try { receipt = JSON.parse(await readFile(receiptFile, 'utf8')); } catch {
+      // Only these two historical cache names were created by the former importer,
+      // whose endpoint and query are known. New caches must retain an exact receipt.
+      if (!legacyCities.has(cityId)) throw new Error(`Missing source receipt for ${cityId}; do not guess its endpoint.`);
+      receipt = { url: legacyApi, query, downloadedAt: (await stat(file)).mtime.toISOString(), sha256: createHash('sha256').update(raw).digest('hex') };
+    }
+    if (!supportedApis.has(receipt.url) || receipt.sha256 !== createHash('sha256').update(raw).digest('hex')
+      || typeof receipt.query !== 'string' || comparableQuery(receipt.query) !== comparableQuery(query)
+      || !Number.isFinite(Date.parse(receipt.downloadedAt))) {
+      throw new Error(`Invalid cached source receipt for ${cityId}. Preserve the files and investigate before refreshing.`);
+    }
+  }
   if (!raw) {
-    console.log(`${cityId}: downloading complete city skeleton via Overpass`);
-    raw = execFileSync(process.platform === 'win32' ? 'curl.exe' : 'curl', [
-      '--silent', '--show-error', '--fail', '--compressed', '--max-time', '180',
-      '--user-agent', 'VeslumaCityPlanning/0.3', '--data-urlencode', `data=${query}`, api,
-    ], { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024, timeout: 185000 });
+    const wait = Math.max(0, 5_000 - (Date.now() - lastDownloadAt));
+    if (wait) await new Promise(resolve => setTimeout(resolve, wait));
+    console.log(`${cityId}: downloading original arterial/water nodes via ${api}`);
+    try {
+      raw = execFileSync(process.platform === 'win32' ? 'curl.exe' : 'curl', [
+        '--silent', '--show-error', '--fail-with-body', '--compressed', '--max-time', '180',
+        '--user-agent', 'VeslumaCityPlanning/0.3', '--data-urlencode', `data=${query}`, api,
+      ], { encoding: 'utf8', maxBuffer: 512 * 1024 * 1024, timeout: 185000 });
+    } catch (failure) {
+      const detail = String(failure.stdout || failure.stderr || failure.message);
+      const error = new Error(`Overpass download failed for ${cityId}: ${detail.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 500)}`);
+      // A dispatcher outage also fails tiny queries. Do not create a burst of smaller
+      // requests in response; retain successful caches and retry the server later.
+      error.partitionRetry = /query timed out|runtime error.*timed out|out of memory/i.test(detail) && !/dispatcher|too busy/i.test(detail);
+      throw error;
+    } finally { lastDownloadAt = Date.now(); }
     const body = JSON.parse(raw);
-    if (body.remark || !body.elements?.length) throw new Error(`Incomplete Overpass response: ${body.remark}`);
+    if (body.remark || !body.elements?.length) {
+      const error = new Error(`Incomplete Overpass response: ${body.remark}`);
+      error.partitionRetry = /query timed out|out of memory/i.test(body.remark ?? '');
+      throw error;
+    }
     await writeFile(file, raw);
+    receipt = { url: api, query, downloadedAt: (await stat(file)).mtime.toISOString(), sha256: createHash('sha256').update(raw).digest('hex') };
+    await writeFile(receiptFile, `${JSON.stringify(receipt)}\n`);
   }
   const body = JSON.parse(raw);
   if (body.remark || !body.elements?.length) throw new Error(`Incomplete Overpass response: ${body.remark}`);
-  requests.push({ url: api, query, downloadedAt: (await stat(file)).mtime.toISOString(), sha256: createHash('sha256').update(raw).digest('hex') });
+  requests.push(receipt);
   return body.elements;
 }
 
@@ -109,7 +163,8 @@ function areaSquareMetres(ring) {
   const latitude = ring.reduce((sum, coordinate) => sum + coordinate[1], 0) / ring.length;
   return Math.abs(signedArea(ring)) * 111320 * 111320 * Math.cos(latitude * Math.PI / 180);
 }
-function waterGeometry(relation, ways, nodes) {
+function waterGeometry(relation, ways, nodes, reportUnsupportedRelations = false) {
+  if (reportUnsupportedRelations && relation.members.some(member => member.type === 'relation')) throw new Error('Nested water relation members are not flattened or invented');
   const selected = role => relation.members.filter(member => member.type === 'way' && (member.role === role || role === 'outer' && member.role === '')).map(member => {
     const way = ways.get(member.ref);
     if (!way) throw new Error(`Missing way/${member.ref} for relation/${relation.id}`);
@@ -121,6 +176,7 @@ function waterGeometry(relation, ways, nodes) {
     return [node.lon, node.lat];
   });
   const outers = joinRings(selected('outer')).map(ids => orient(toRing(ids), true));
+  if (reportUnsupportedRelations && !outers.length) throw new Error('No closed original outer water ring');
   const inners = joinRings(selected('inner')).map(ids => orient(toRing(ids), false));
   const polygons = outers.map(outer => [outer]);
   for (const inner of inners) {
@@ -153,7 +209,22 @@ for (const [cityId, bounds] of Object.entries(extents)) {
       if (!byId.has(key) || (byId.get(key).version || 0) < (element.version || 0)) byId.set(key, element);
     }
   };
-  merge(await downloadCity(cityId, bounds));
+  const api = endpoint ?? (legacyCities.has(cityId) ? legacyApi : defaultApi);
+  const splitBounds = ([west, south, east, north]) => {
+    const middleLng = (west + east) / 2, middleLat = (south + north) / 2;
+    return [[west, south, middleLng, middleLat], [middleLng, south, east, middleLat], [west, middleLat, middleLng, north], [middleLng, middleLat, east, north]]
+      .map(box => box.map(value => Math.round(value * 1e7) / 1e7));
+  };
+  const collectPartition = async (key, box, depth = 0) => {
+    try { merge(await downloadCity(key, box, api)); }
+    catch (error) {
+      if (!error.partitionRetry || depth >= 2) throw error;
+      console.log(`${key}: query-size timeout; retry smaller full-coverage partitions`);
+      for (const [index, child] of splitBounds(box).entries()) await collectPartition(`${key}-${index}`, child, depth + 1);
+    }
+  };
+  if (legacyCities.has(cityId)) merge(await downloadCity(cityId, bounds, api));
+  else for (const [index, box] of splitBounds(bounds).entries()) await collectPartition(`${cityId}-part-${index}`, box);
   const waterRelations = [...byId.values()].filter(element => element.type === 'relation' && isWater(element) && element.tags.type === 'multipolygon');
   const elements = [...byId.values()];
   const nodes = new Map(elements.filter(element => element.type === 'node').map(node => [node.id, node]));
@@ -174,7 +245,7 @@ for (const [cityId, bounds] of Object.entries(extents)) {
   for (const candidate of waterRelations) {
     const relation = byId.get(`relation/${candidate.id}`);
     try {
-      const geometry = waterGeometry(relation, ways, nodes);
+      const geometry = waterGeometry(relation, ways, nodes, !legacyCities.has(cityId));
       if (geometry.coordinates.length) features.push(feature(relation, 'water', geometry));
     } catch (error) {
       // A broken source shore must not be filled or repaired by invention.
@@ -188,7 +259,8 @@ for (const [cityId, bounds] of Object.entries(extents)) {
       name: 'OpenStreetMap contributors', url: 'https://www.openstreetmap.org/copyright',
       license: 'ODbL-1.0', licenseUrl: 'https://opendatacommons.org/licenses/odbl/1-0/',
       downloadedAt: requests.slice(requestStart).reduce((latest, request) => request.downloadedAt > latest ? request.downloadedAt : latest, ''),
-      method: 'Overpass bounded complete-city arterial and water query with original node recursion',
+      method: legacyCities.has(cityId) ? 'Overpass bounded complete-city arterial and water query with original node recursion'
+        : 'Sequential bounded Overpass partitions cover the complete city extent; original arterial and water nodes are merged by OSM identity without simplification',
       roadClasses: [...roadClasses], minimumWaterAreaSquareMetres: 6000,
       geometry: 'Original node coordinates; no simplification, snapping, invented junctions, or route construction.',
       requests: requests.slice(requestStart),
@@ -196,8 +268,14 @@ for (const [cityId, bounds] of Object.entries(extents)) {
     },
     features,
   };
-  const file = join(output, `${cityId}.json`);
-  await writeFile(file, `${JSON.stringify(collection)}\n`);
+  const serialized = `${JSON.stringify(collection)}\n`;
+  const compressed = !legacyCities.has(cityId);
+  const file = join(output, `${cityId}.json${compressed ? '.gz' : ''}`);
+  const contents = compressed ? gzipSync(serialized, { level: 9 }) : serialized;
+  await writeFile(file, contents);
+  // The new-city source is stored exactly once, losslessly compressed. Original
+  // Nanjing/Xian assets are intentionally left in their historical JSON format.
+  if (compressed) await rm(join(output, `${cityId}.json`), { force: true });
   const stats = Object.fromEntries(['road', 'water', 'waterLine'].map(kind => [kind, features.filter(item => item.properties.kind === kind).length]));
-  console.log(`${cityId}: saved ${features.length} original OSM features; ${JSON.stringify(stats)}; ${Buffer.byteLength(JSON.stringify(collection))} bytes`);
+  console.log(`${cityId}: saved ${features.length} original OSM features; ${JSON.stringify(stats)}; ${Buffer.byteLength(serialized)} JSON bytes; ${Buffer.byteLength(contents)} asset bytes`);
 }

@@ -1,5 +1,9 @@
 import nanjingUrl from './nanjing.json?url';
 import xianUrl from './xian.json?url';
+import beijingUrl from './beijing.json.gz?url';
+import shanghaiUrl from './shanghai.json.gz?url';
+import hangzhouUrl from './hangzhou.json.gz?url';
+import chengduUrl from './chengdu.json.gz?url';
 
 export type SkeletonCoordinate = [lng: number, lat: number];
 export type SkeletonBounds = [west: number, south: number, east: number, north: number];
@@ -48,7 +52,8 @@ export interface SkeletonSource {
   roadClasses: SkeletonHighway[];
   minimumWaterAreaSquareMetres: number;
   geometry: string;
-  requests: { url: string; downloadedAt: string; sha256: string }[];
+  requests: { url: string; downloadedAt: string; sha256: string; query?: string }[];
+  omittedFeatures?: { id: string; reason: string }[];
 }
 
 export interface MapSkeleton {
@@ -141,14 +146,23 @@ export function normalizeSkeleton(collection: SkeletonFeatureCollection): MapSke
 }
 
 /** Large source geometries are assets; they are not parsed inside the main JS bundle. */
-const cityAssets: Record<string, { url: string; bounds: SkeletonBounds }> = {
+const cityAssets: Record<string, { url: string; bounds: SkeletonBounds; gzip?: boolean }> = {
   nanjing: { url: nanjingUrl, bounds: [118.3345, 31.2267, 119.2396, 32.6158] },
   xian: { url: xianUrl, bounds: [107.6584, 33.6961, 109.8239, 34.7438] },
+  beijing: { url: beijingUrl, bounds: [115.4168, 39.1707, 117.7372, 41.0593], gzip: true },
+  shanghai: { url: shanghaiUrl, bounds: [120.8508, 30.6693, 123.2258, 31.8721], gzip: true },
+  hangzhou: { url: hangzhouUrl, bounds: [118.3396, 29.1888, 120.7255, 30.5649], gzip: true },
+  chengdu: { url: chengduUrl, bounds: [102.9896, 30.0916, 104.8949, 31.4371], gzip: true },
 };
 const citySkeletons = new Map<string, MapSkeleton>();
 const pendingLoads = new Map<string, Promise<MapSkeleton | null>>();
 export const MAP_LOAD_TIMEOUT_MS = 30_000;
 const permittedRoadClasses = new Set(['motorway', 'motorway_link', 'trunk', 'trunk_link', 'primary', 'primary_link', 'secondary', 'secondary_link']);
+const supportedOverpassSources = new Set([
+  'https://overpass-api.de/api/interpreter',
+  'https://overpass.private.coffee/api/interpreter',
+  'https://maps.mail.ru/osm/tools/overpass/api/interpreter',
+]);
 
 function isObject(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -180,7 +194,7 @@ export function validateSkeletonCollection(value: unknown, cityId: string): asse
     || !validDate(value.source.downloadedAt) || !Array.isArray(value.source.requests)
     || !value.source.requests.length || !Array.isArray(value.features) || !value.features.length) return fail();
   for (const request of value.source.requests) {
-    if (!isObject(request) || typeof request.url !== 'string' || !(request.url.startsWith('https://api.openstreetmap.org/api/0.6/') || request.url === 'https://overpass-api.de/api/interpreter')
+    if (!isObject(request) || typeof request.url !== 'string' || !(request.url.startsWith('https://api.openstreetmap.org/api/0.6/') || supportedOverpassSources.has(request.url))
       || typeof request.sha256 !== 'string' || !/^[a-f0-9]{64}$/.test(request.sha256) || !validDate(request.downloadedAt)) return fail();
   }
   let hasRoad = false;
@@ -231,7 +245,19 @@ export function loadCitySkeleton(cityId: string): Promise<MapSkeleton | null> {
   });
   const request = fetch(cityAssets[cityId].url, { signal: controller.signal }).then(async response => {
     if (!response.ok) throw new Error('城市主干道未能加载，请重试。');
-    const collection: unknown = await response.json();
+    let collection: unknown;
+    if (cityAssets[cityId].gzip) {
+      const buffer = await response.arrayBuffer();
+      const bytes = new Uint8Array(buffer);
+      if (!bytes.length) throw new Error('城市地图数据为空，请重新加载。');
+      // Node local/Vite preview send a raw gzip asset. Some static hosts instead
+      // set Content-Encoding and fetch transparently decodes it. Inspect the actual
+      // bytes so either host gets exactly one decode, regardless of response headers.
+      if (bytes[0] === 0x1f && bytes[1] === 0x8b) {
+        if (typeof DecompressionStream === 'undefined') throw new Error('当前浏览器不支持城市地图解压，请更新浏览器后重试。');
+        collection = await new Response(new Blob([buffer]).stream().pipeThrough(new DecompressionStream('gzip'))).json();
+      } else collection = JSON.parse(new TextDecoder().decode(bytes));
+    } else collection = await response.json();
     validateSkeletonCollection(collection, cityId);
     return normalizeSkeleton(collection);
   });

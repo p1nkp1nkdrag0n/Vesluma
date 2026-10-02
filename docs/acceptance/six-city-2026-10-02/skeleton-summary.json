@@ -1,0 +1,226 @@
+[
+  {
+    "cityId": "beijing",
+    "bbox": [
+      115.4168,
+      39.1707,
+      117.7372,
+      41.0593
+    ],
+    "assetBytes": 8323822,
+    "jsonBytes": 38486384,
+    "assetSha256": "844cae276a94deee9e468c6dff23551a2a8677bebc990e60302a841b80b8d096",
+    "jsonSha256": "453238b438804f4e69a1616c344c2569a0af8d8c84e314ff63e202960da70c58",
+    "featureCounts": {
+      "road": 49797,
+      "water": 4119,
+      "waterLine": 1127
+    },
+    "requests": [
+      {
+        "url": "https://maps.mail.ru/osm/tools/overpass/api/interpreter",
+        "query": "[out:json][timeout:150];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](39.1707,115.4168,40.114999999999995,116.577);way[waterway~\"^(river|canal)$\"][name](39.1707,115.4168,40.114999999999995,116.577);way[natural=water](39.1707,115.4168,40.114999999999995,116.577);relation[natural=water][type=multipolygon](39.1707,115.4168,40.114999999999995,116.577););(._;>;);out meta;",
+        "downloadedAt": "2026-10-02T08:04:40.746Z",
+        "sha256": "09a151ddb9e063b720de38aea4aec141b6052292404e85384825be65f872d582"
+      },
+      {
+        "url": "https://maps.mail.ru/osm/tools/overpass/api/interpreter",
+        "query": "[out:json][timeout:150];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](39.1707,116.577,40.115,117.7372);way[waterway~\"^(river|canal)$\"][name](39.1707,116.577,40.115,117.7372);way[natural=water](39.1707,116.577,40.115,117.7372);relation[natural=water][type=multipolygon](39.1707,116.577,40.115,117.7372););(._;>;);out meta;",
+        "downloadedAt": "2026-10-02T08:07:08.481Z",
+        "sha256": "7e545627b9546323b248c3838835c1db9a95afbbcb26bfc29c223ee844072d99"
+      },
+      {
+        "url": "https://overpass-api.de/api/interpreter",
+        "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](40.115,115.4168,41.0593,116.577);way[waterway~\"^(river|canal)$\"][name](40.115,115.4168,41.0593,116.577);way[natural=water](40.115,115.4168,41.0593,116.577);relation[natural=water][type=multipolygon](40.115,115.4168,41.0593,116.577););(._;>;);out meta;",
+        "downloadedAt": "2026-10-02T08:19:09.887Z",
+        "sha256": "b73741d5eaaf5227c1eda28b7d3ba5949b087e5f9ad3239c2d402b2ba389b348"
+      },
+      {
+        "url": "https://overpass-api.de/api/interpreter",
+        "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](40.115,116.577,41.0593,117.7372);way[waterway~\"^(river|canal)$\"][name](40.115,116.577,41.0593,117.7372);way[natural=water](40.115,116.577,41.0593,117.7372);relation[natural=water][type=multipolygon](40.115,116.577,41.0593,117.7372););(._;>;);out meta;",
+        "downloadedAt": "2026-10-02T08:19:39.937Z",
+        "sha256": "3cf30ec1f582f6c6d272fdfdb0ab4bd47b256215004483517dae2227ba004a59"
+      }
+    ],
+    "omittedFeatures": [
+      {
+        "id": "relation/13372029",
+        "reason": "Unassigned water island hole for relation/13372029"
+      },
+      {
+        "id": "relation/13470807",
+        "reason": "Unassigned water island hole for relation/13470807"
+      },
+      {
+        "id": "relation/19229870",
+        "reason": "No closed original outer water ring"
+      },
+      {
+        "id": "relation/20072063",
+        "reason": "No closed original outer water ring"
+      }
+    ]
+  },
+  {
+    "cityId": "shanghai",
+    "bbox": [
+      120.8508,
+      30.6693,
+      123.2258,
+      31.8721
+    ],
+    "assetBytes": 7123287,
+    "jsonBytes": 38032209,
+    "assetSha256": "9c365b95a5a683b6f1ea3213fae0d1b861ea2d734a274b96447fc72302427dc0",
+    "jsonSha256": "6b96b4356985a084722a4fcb081c472f04a9deacc5f0b499c17837b392c24033",
+    "featureCounts": {
+      "road": 62148,
+      "water": 3633,
+      "waterLine": 2623
+    },
+    "requests": [
+      {
+        "url": "https://overpass-api.de/api/interpreter",
+        "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](30.6693,120.8508,31.2707,122.0383);way[waterway~\"^(river|canal)$\"][name](30.6693,120.8508,31.2707,122.0383);way[natural=water](30.6693,120.8508,31.2707,122.0383);relation[natural=water][type=multipolygon](30.6693,120.8508,31.2707,122.0383););(._;>;);out meta;",
+        "downloadedAt": "2026-10-02T08:20:43.956Z",
+        "sha256": "cfcdbbd071b1ba7ce66a7130e28bf87820ec959fdf6ff9757084d887dba52b83"
+      },
+      {
+        "url": "https://overpass-api.de/api/interpreter",
+        "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](30.6693,122.0383,31.2707,123.2258);way[waterway~\"^(river|canal)$\"][name](30.6693,122.0383,31.2707,123.2258);way[natural=water](30.6693,122.0383,31.2707,123.2258);relation[natural=water][type=multipolygon](30.6693,122.0383,31.2707,123.2258););(._;>;);out meta;",
+        "downloadedAt": "2026-10-02T08:20:55.013Z",
+        "sha256": "05a3aee563b420eed6c9d5db62b986269be5e1b206b5697b4ef79081cce72ba1"
+      },
+      {
+        "url": "https://overpass-api.de/api/interpreter",
+        "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](31.2707,120.8508,31.8721,122.0383);way[waterway~\"^(river|canal)$\"][name](31.2707,120.8508,31.8721,122.0383);way[natural=water](31.2707,120.8508,31.8721,122.0383);relation[natural=water][type=multipolygon](31.2707,120.8508,31.8721,122.0383););(._;>;);out meta;",
+        "downloadedAt": "2026-10-02T08:21:12.066Z",
+        "sha256": "8a5d7e860e0e8546399425609f3a90f91492af08840c8978b1865cde42d07a63"
+      },
+      {
+        "url": "https://overpass-api.de/api/interpreter",
+        "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](31.2707,122.0383,31.8721,123.2258);way[waterway~\"^(river|canal)$\"][name](31.2707,122.0383,31.8721,123.2258);way[natural=water](31.2707,122.0383,31.8721,123.2258);relation[natural=water][type=multipolygon](31.2707,122.0383,31.8721,123.2258););(._;>;);out meta;",
+        "downloadedAt": "2026-10-02T08:21:22.900Z",
+        "sha256": "0c4ae9deea50d6d87e4724f0ee429ba59c757a724ef684d92fc38a74dc1205d1"
+      }
+    ],
+    "omittedFeatures": [
+      {
+        "id": "relation/18371201",
+        "reason": "Unassigned water island hole for relation/18371201"
+      }
+    ]
+  },
+  {
+    "cityId": "hangzhou",
+    "bbox": [
+      118.3396,
+      29.1888,
+      120.7255,
+      30.5649
+    ],
+    "assetBytes": 9918942,
+    "jsonBytes": 44343929,
+    "assetSha256": "b198075d747cd5b9f7de62299d79e708f3f639862cb900b4807ab295d865cfde",
+    "jsonSha256": "5c97480864c9fb75013e96af2ed91338e8490b02e486df5901bd62647c4f6dd5",
+    "featureCounts": {
+      "road": 46024,
+      "water": 4787,
+      "waterLine": 1236
+    },
+    "requests": [
+      {
+        "url": "https://overpass-api.de/api/interpreter",
+        "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](29.1888,118.3396,29.87685,119.53255);way[waterway~\"^(river|canal)$\"][name](29.1888,118.3396,29.87685,119.53255);way[natural=water](29.1888,118.3396,29.87685,119.53255);relation[natural=water][type=multipolygon](29.1888,118.3396,29.87685,119.53255););(._;>;);out meta;",
+        "downloadedAt": "2026-10-02T08:25:00.199Z",
+        "sha256": "fe5907164dfad606ced23b3f0894bf56b60d19ba3e15c0cf2c6e7d5453790888"
+      },
+      {
+        "url": "https://overpass-api.de/api/interpreter",
+        "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](29.1888,119.53255,29.87685,120.7255);way[waterway~\"^(river|canal)$\"][name](29.1888,119.53255,29.87685,120.7255);way[natural=water](29.1888,119.53255,29.87685,120.7255);relation[natural=water][type=multipolygon](29.1888,119.53255,29.87685,120.7255););(._;>;);out meta;",
+        "downloadedAt": "2026-10-02T08:25:14.601Z",
+        "sha256": "9551667ee70b56a48a46a2799e079275e6a8bf484ef9e0e6924728796ad2c28a"
+      },
+      {
+        "url": "https://overpass-api.de/api/interpreter",
+        "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](29.87685,118.3396,30.5649,119.53255);way[waterway~\"^(river|canal)$\"][name](29.87685,118.3396,30.5649,119.53255);way[natural=water](29.87685,118.3396,30.5649,119.53255);relation[natural=water][type=multipolygon](29.87685,118.3396,30.5649,119.53255););(._;>;);out meta;",
+        "downloadedAt": "2026-10-02T08:25:27.555Z",
+        "sha256": "eb3c162025c8e63c0edc82d6c2cf79588b5c78ad7ae2c267b1cbdb177634c861"
+      },
+      {
+        "url": "https://overpass-api.de/api/interpreter",
+        "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](29.87685,119.53255,30.5649,120.7255);way[waterway~\"^(river|canal)$\"][name](29.87685,119.53255,30.5649,120.7255);way[natural=water](29.87685,119.53255,30.5649,120.7255);relation[natural=water][type=multipolygon](29.87685,119.53255,30.5649,120.7255););(._;>;);out meta;",
+        "downloadedAt": "2026-10-02T08:25:58.870Z",
+        "sha256": "f46a3c71d432e901ca9e869ff7890c4fcb6489a431cefbe6ca09ff6afd7db9e9"
+      }
+    ],
+    "omittedFeatures": [
+      {
+        "id": "relation/17918299",
+        "reason": "Unassigned water island hole for relation/17918299"
+      }
+    ]
+  },
+  {
+    "cityId": "chengdu",
+    "bbox": [
+      102.9896,
+      30.0916,
+      104.8949,
+      31.4371
+    ],
+    "assetBytes": 5671046,
+    "jsonBytes": 25239918,
+    "assetSha256": "203045bc3e77aed12ad3fefc70ffac4365b15c67cbbb4cf9c660b882eca08e26",
+    "jsonSha256": "3db21789ab34df6a288ba82638bbe6a16b79c72482c3d1aba8c3348c78a8125c",
+    "featureCounts": {
+      "road": 28540,
+      "water": 2141,
+      "waterLine": 1392
+    },
+    "requests": [
+      {
+        "url": "https://overpass-api.de/api/interpreter",
+        "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](30.0916,102.9896,30.76435,103.94225);way[waterway~\"^(river|canal)$\"][name](30.0916,102.9896,30.76435,103.94225);way[natural=water](30.0916,102.9896,30.76435,103.94225);relation[natural=water][type=multipolygon](30.0916,102.9896,30.76435,103.94225););(._;>;);out meta;",
+        "downloadedAt": "2026-10-02T08:26:48.280Z",
+        "sha256": "fdcbbd293a0e46cde38c1a521dc275310298d386663fcc36797e3164573f1c9a"
+      },
+      {
+        "url": "https://overpass-api.de/api/interpreter",
+        "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](30.0916,103.94225,30.76435,104.8949);way[waterway~\"^(river|canal)$\"][name](30.0916,103.94225,30.76435,104.8949);way[natural=water](30.0916,103.94225,30.76435,104.8949);relation[natural=water][type=multipolygon](30.0916,103.94225,30.76435,104.8949););(._;>;);out meta;",
+        "downloadedAt": "2026-10-02T08:27:21.168Z",
+        "sha256": "7d667945a8451d6bc084d16e4e0e221bafac47e945e34209a43414acb5a07df9"
+      },
+      {
+        "url": "https://overpass-api.de/api/interpreter",
+        "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](30.76435,102.9896,31.4371,103.94225);way[waterway~\"^(river|canal)$\"][name](30.76435,102.9896,31.4371,103.94225);way[natural=water](30.76435,102.9896,31.4371,103.94225);relation[natural=water][type=multipolygon](30.76435,102.9896,31.4371,103.94225););(._;>;);out meta;",
+        "downloadedAt": "2026-10-02T08:27:33.572Z",
+        "sha256": "1a55a82f4ae6fea1c6bd6b06d985d84212d2a61f3ced4d7b07b362371f5c503f"
+      },
+      {
+        "url": "https://overpass-api.de/api/interpreter",
+        "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](30.76435,103.94225,31.4371,104.8949);way[waterway~\"^(river|canal)$\"][name](30.76435,103.94225,31.4371,104.8949);way[natural=water](30.76435,103.94225,31.4371,104.8949);relation[natural=water][type=multipolygon](30.76435,103.94225,31.4371,104.8949););(._;>;);out meta;",
+        "downloadedAt": "2026-10-02T08:27:47.206Z",
+        "sha256": "b6ae89bd08bee6e5ce2c7af04a288ab867c198d6af9a6f05da99e355be4a0003"
+      }
+    ],
+    "omittedFeatures": [
+      {
+        "id": "relation/19693109",
+        "reason": "Unassigned water island hole for relation/19693109"
+      },
+      {
+        "id": "relation/19693117",
+        "reason": "No closed original outer water ring"
+      },
+      {
+        "id": "relation/19693118",
+        "reason": "Unassigned water island hole for relation/19693118"
+      },
+      {
+        "id": "relation/19693219",
+        "reason": "Unassigned water island hole for relation/19693219"
+      }
+    ]
+  }
+]

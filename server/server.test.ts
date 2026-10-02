@@ -32,6 +32,30 @@ function payload(data = snapshot(), requestId = 'request-1', sequence = 1, clien
   return { requestId, clientId, sequence, snapshot: data }
 }
 
+function sixCitySnapshot(): SyncSnapshot {
+  assert.deepEqual(cities.map(city => city.id).sort(), ['beijing', 'chengdu', 'hangzhou', 'nanjing', 'shanghai', 'xian'])
+  let state = createInitialState(1_000_000)
+  for (const [index, city] of cities.entries()) {
+    const at = 1_000_000 + index * 10_000
+    state = reducer(state, { type: 'set-city', cityId: city.id })
+    state = reducer(state, { type: 'start-trip', id: `six-trip-${city.id}`, at })
+    const secondary = city.landmarks.find(landmark => landmark.tier === 2)!
+    const anchorId = city.regions.find(region => region.id === secondary.regionId)!.anchorLandmarkId
+    const primary = city.landmarks.find(landmark => landmark.id === anchorId)!
+    for (const [offset, landmark] of [secondary, primary].entries()) {
+      const time = at + offset * 1000
+      const id = `six-visit-${landmark.id}`
+      state = reducer(state, { type: 'set-position', position: { lat: landmark.lat, lng: landmark.lng, at: time, accuracy: 5, source: 'demo' } })
+      // Real BLOB references exercise the same path for every newly added city.
+      state = reducer(state, { type: 'check-in', id, landmarkId: landmark.id, at: time, photoId: `original-${id}` })
+    }
+    state = reducer(state, { type: 'end-trip', at: at + 2000 })
+  }
+  assert.equal(state.visits.length, 12)
+  assert.equal(state.unlocks.length, 6)
+  return projectSyncState(state)
+}
+
 async function fixture(t: TestContext, staticFiles = false) {
   const dir = await mkdtemp(join(tmpdir(), 'vesluma-db-test-'))
   const dbPath = join(dir, 'database', 'test.sqlite')
@@ -88,6 +112,85 @@ test('initializes SQLite schema version 1 and reopens it without losing data', a
   assert.equal(connection.prepare('PRAGMA user_version').get()?.user_version, 1)
   assert.equal(connection.prepare('SELECT COUNT(*) AS count FROM receipts').get()?.count, 1)
   connection.close()
+})
+
+test('extends an existing two-city database to all six cities and preserves photos and authority after restart', async t => {
+  const f = await fixture(t)
+  // A restarted listener must receive fresh TCP connections. The process-wide
+  // Node fetch pool may still hold an idle socket from the closed listener.
+  const fresh = { Connection: 'close' }
+  const read = (space = 'local-a') => fetch(`${f.url}/api/sync`, { headers: { ...headers, ...fresh, 'X-Vesluma-Space': space } })
+  const complete = sixCitySnapshot()
+  const original: SyncSnapshot = {
+    ...complete,
+    trips: complete.trips.filter(trip => trip.cityId === 'nanjing' || trip.cityId === 'xian'),
+    visits: complete.visits.filter(visit => visit.cityId === 'nanjing' || visit.cityId === 'xian'),
+    unlocks: complete.unlocks.filter(unlock => unlock.cityId === 'nanjing' || unlock.cityId === 'xian'),
+  }
+  assert.ok(original.visits.every(visit => visit.contentVersion === 'citywide-2026-10-02'))
+  for (const visit of original.visits) {
+    const upload = await f.put(visit.photoId, png, fresh)
+    assert.equal(upload.status, 200)
+    await upload.arrayBuffer()
+  }
+  const seed = await f.post(payload(original, 'old-two-cities'), fresh)
+  assert.equal(seed.status, 200)
+  const seeded = await seed.json()
+  await f.restart()
+  assert.deepEqual((await (await read()).json()).snapshot, seeded.snapshot)
+
+  for (const visit of complete.visits) {
+    const upload = await f.put(visit.photoId, png, fresh)
+    assert.equal(upload.status, 200)
+    await upload.arrayBuffer()
+  }
+  const request = payload(complete, 'six-cities', 2)
+  const response = await f.post(request, fresh)
+  assert.equal(response.status, 200)
+  const committed = await response.json()
+  assert.equal(committed.snapshot.trips.length, 6)
+  assert.equal(committed.snapshot.visits.length, 12)
+  assert.equal(committed.snapshot.unlocks.length, 6)
+  for (const city of cities) {
+    const records = committed.snapshot.visits.filter((visit: { cityId: string }) => visit.cityId === city.id)
+    assert.equal(records.length, 2)
+    const secondaryId = city.landmarks.find(landmark => landmark.tier === 2)!.id
+    assert.deepEqual(records.find((visit: { landmarkId: string }) => visit.landmarkId === secondaryId).unlockedRegionIds, [])
+    assert.equal(committed.snapshot.unlocks.filter((unlock: { cityId: string }) => unlock.cityId === city.id).length, 1)
+  }
+  await f.restart()
+  assert.deepEqual(await (await read()).json(), { revision: committed.revision, snapshot: committed.snapshot })
+  const replay = await (await f.post(request, fresh)).json()
+  assert.equal(replay.replayed, true)
+  assert.equal(replay.revision, committed.revision)
+  const stale = await (await f.post(payload(original, 'old-device-reconnect', 0), fresh)).json()
+  assert.deepEqual(stale.snapshot, committed.snapshot)
+  assert.equal(stale.revision, committed.revision)
+  for (const visit of complete.visits) {
+    const photo = await fetch(`${f.url}/api/photos/${visit.photoId}`, { headers: { ...headers, ...fresh } })
+    assert.equal(photo.status, 200)
+    assert.deepEqual(Buffer.from(await photo.arrayBuffer()), png)
+  }
+  assert.deepEqual((await (await read('local-b')).json()).snapshot, emptySyncSnapshot())
+})
+
+test('rejects cross-city landmark and region authority in each of the six cities without partial writes', async t => {
+  const f = await fixture(t)
+  const complete = sixCitySnapshot()
+  for (const [index, city] of cities.entries()) {
+    const foreign = cities[(index + 1) % cities.length]
+    const foreignPrimary = foreign.landmarks.find(landmark => landmark.tier === 1)!
+    for (const kind of ['landmark', 'region'] as const) {
+      const invalid = structuredClone(complete)
+      const visit = invalid.visits.find(item => item.cityId === city.id)!
+      if (kind === 'landmark') visit.landmarkId = foreignPrimary.id
+      else visit.unlockedRegionIds = [foreignPrimary.regionId]
+      const response = await f.post(payload(invalid, `invalid-${city.id}-${kind}`))
+      assert.equal(response.status, 422, `${city.id} rejects foreign ${kind}`)
+      assert.equal((await response.json()).code, 'INVALID_SNAPSHOT')
+    }
+  }
+  assert.deepEqual(await (await f.get()).json(), { revision: 0, snapshot: emptySyncSnapshot() })
 })
 
 test('refuses a future database schema without overwriting it', async t => {

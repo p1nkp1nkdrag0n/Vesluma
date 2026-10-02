@@ -27,20 +27,27 @@ const cities = cityPlans.map(config => {
   const snapshot = JSON.parse(readFileSync(`src/data/map/boundaries/${config.id}.json`, 'utf8'));
   const boundary = multi(snapshot.features.find(f => f.properties.role === 'municipality').geometry);
   const districts = snapshot.features.filter(f => f.properties.role === 'district');
-  const coordinates = boundary.flat(2);
-  const bounds = [[Math.min(...coordinates.map(p => p[1])), Math.min(...coordinates.map(p => p[0]))],
-    [Math.max(...coordinates.map(p => p[1])), Math.max(...coordinates.map(p => p[0]))]];
+  const bounds = [[Infinity, Infinity], [-Infinity, -Infinity]];
+  for (const polygon of boundary) for (const ring of polygon) for (const [lng, lat] of ring) {
+    bounds[0][0] = Math.min(bounds[0][0], lat); bounds[0][1] = Math.min(bounds[0][1], lng);
+    bounds[1][0] = Math.max(bounds[1][0], lat); bounds[1][1] = Math.max(bounds[1][1], lng);
+  }
+  // Preserve the original two cities byte-for-byte while allowing Beijing's
+  // northern districts beyond 40N. New clips span the full WGS84 world.
+  const clipExtent = ['nanjing', 'xian'].includes(config.id) ? [100, 20, 125, 40] : [-180, -90, 180, 90];
   const regions = config.zones.map(zone => {
     const selected = zone.districts.map(name => {
       const district = districts.find(d => d.properties.name === name);
       if (!district) throw new Error(`Missing district: ${name}`);
       const clip = zone.districtClips?.[name];
       return clip ? pc.intersection(multi(district.geometry), clip.keep === 'north'
-        ? box(100, clip.latitude, 125, 40) : box(100, 20, 125, clip.latitude)) : multi(district.geometry);
+        ? box(clipExtent[0], clip.latitude, clipExtent[2], clipExtent[3])
+        : box(clipExtent[0], clipExtent[1], clipExtent[2], clip.latitude)) : multi(district.geometry);
     });
     let polygons = pc.intersection(pc.union(...selected), boundary);
     if (zone.slice) polygons = pc.intersection(polygons, zone.slice.side === 'west'
-      ? box(100, 20, zone.slice.longitude, 40) : box(zone.slice.longitude, 20, 125, 40));
+      ? box(clipExtent[0], clipExtent[1], zone.slice.longitude, clipExtent[3])
+      : box(zone.slice.longitude, clipExtent[1], clipExtent[2], clipExtent[3]));
     const anchor = config.landmarks.find(l => l.id === zone.anchorLandmarkId);
     if (!anchor || anchor.tier !== 1 || !inside([anchor.lng, anchor.lat], polygons)) throw new Error(`Anchor outside its region: ${zone.anchorLandmarkId}`);
     return { id: `${config.prefix}-zone-${zone.key}`, cityId: config.id, name: zone.name,
@@ -51,9 +58,12 @@ const cities = cityPlans.map(config => {
     };
   });
   const union = pc.union(...regions.map(r => r.geometry.coordinates));
-  const missing = area(pc.difference(boundary, union)), outside = area(pc.difference(union, boundary));
-  const overlap = regions.reduce((s, region, i) => s + regions.slice(i + 1).reduce((s, other) => s + area(pc.intersection(region.geometry.coordinates, other.geometry.coordinates)), 0), 0);
-  if (missing > 1e-6 || outside > 1e-6 || overlap > 1e-6) throw new Error(`Invalid partition: ${JSON.stringify({ missing, outside, overlap })}`);
+  const missingGeometry = pc.difference(boundary, union), outsideGeometry = pc.difference(union, boundary);
+  const intersections = regions.flatMap((region, i) => regions.slice(i + 1).flatMap(other => pc.intersection(region.geometry.coordinates, other.geometry.coordinates)));
+  const missing = area(missingGeometry), outside = area(outsideGeometry), overlap = area(intersections);
+  // Empty Boolean geometry proves full coverage; area rounding or sampled
+  // points cannot demonstrate the absence of narrow gaps or accidental holes.
+  if (missingGeometry.length || outsideGeometry.length || intersections.length) throw new Error(`Invalid partition: ${JSON.stringify({ city: config.id, missing, outside, overlap })}`);
   const landmarks = config.landmarks.map(({ region, ...l }) => {
     const regionId = `${config.prefix}-zone-${region}`;
     const owner = regions.find(r => r.id === regionId);

@@ -1,0 +1,17 @@
+{
+  "title": "new-city-two-context-sqlite-restore-retains-progress-and-photo",
+  "status": "passed",
+  "browser": "151.0.7922.34",
+  "url": "http://127.0.0.1:55921/",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "environment": "Desktop Chromium browser/context/position simulations, not physical phones or field verification. Temporary local SQLite spaces are not production authentication.",
+  "externalResources": "OSM raster tiles and Google Fonts are stubbed for deterministic flows; independent real-network smoke runs in the baseline suite.",
+  "pageErrors": [],
+  "consoleMessages": [
+    "warning: Service Worker registration blocked by Playwright"
+  ],
+  "unexpectedConsole": []
+}

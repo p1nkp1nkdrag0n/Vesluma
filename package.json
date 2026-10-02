@@ -16,6 +16,7 @@
     "test:e2e": "playwright test",
     "test:server": "node scripts/build-server.mjs --test",
     "test:e2e:sync": "playwright test -c playwright.sync.config.ts",
+    "test:e2e:cities": "playwright test -c playwright.cities.config.ts",
     "maps:boundaries": "node scripts/import-city-boundaries.mjs",
     "maps:plan": "node scripts/build-city-plans.mjs",
     "maps:skeleton": "node scripts/import-map-skeleton.mjs",

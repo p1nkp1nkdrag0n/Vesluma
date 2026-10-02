@@ -1,4 +1,5 @@
 import { createInitialState, isAppState, normalizeAppState, type AppState } from './model'
+import { getCity } from '../data/cities'
 
 export const STATE_STORAGE_KEY = 'vesluma:state:v1'
 const DATABASE_NAME = 'vesluma-local-v1'
@@ -158,7 +159,8 @@ export async function importBackup(file: Blob): Promise<AppState> {
     throw new Error('备份格式不匹配，当前记录未被替换。')
   }
   const state = normalizeAppState(backup.state)
-  if (state.visits.some((visit) => visit.photoUrl && (!visit.demo || !/^\/images\/(?:nanjing|xian)\.png$/.test(visit.photoUrl)))) {
+  if (state.visits.some((visit) => visit.photoUrl && (!visit.demo || !/^\/images\/[a-z0-9-]+\.png$/.test(visit.photoUrl)
+    || !getCity(visit.cityId).landmarks.some(landmark => landmark.cover === visit.photoUrl)))) {
     throw new Error('备份含不支持的外部照片地址。')
   }
   const requiredPhotoIds = [...new Set(state.visits.filter((visit) => !visit.photoUrl).map((visit) => visit.photoId))]

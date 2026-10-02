@@ -1,7 +1,7 @@
 import plan from './map/city-plans.json'
 import legacy from './map/legacy-regions.json'
 
-export type CityId = 'nanjing' | 'xian'
+export type CityId = 'nanjing' | 'xian' | 'beijing' | 'shanghai' | 'hangzhou' | 'chengdu'
 export type Coordinate = [number, number] // GeoJSON: [longitude, latitude], WGS84
 export interface CityGeometry { type: 'MultiPolygon'; coordinates: Coordinate[][][] }
 export type LandmarkTier = 1 | 2 | 3

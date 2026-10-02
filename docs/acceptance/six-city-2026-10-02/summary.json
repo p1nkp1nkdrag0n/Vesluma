@@ -1,0 +1,476 @@
+{
+  "generatedAt": "2026-10-02T08:48:21.600Z",
+  "status": "passed",
+  "uniqueScenarios": {
+    "total": 49,
+    "passed": 49,
+    "failed": 0,
+    "skipped": 0,
+    "notRun": 0
+  },
+  "runs": [
+    {
+      "suite": "six-city",
+      "passed": 13,
+      "duration": "1.4m",
+      "execSession": 40320
+    },
+    {
+      "suite": "local-sync",
+      "passed": 10,
+      "duration": "46.4s",
+      "execSession": 28870
+    },
+    {
+      "suite": "baseline deterministic + offline",
+      "passed": 25,
+      "duration": "2.1m",
+      "execSession": 59189
+    },
+    {
+      "suite": "baseline real external smoke",
+      "passed": 1,
+      "duration": "5.6s",
+      "execSession": 7253
+    }
+  ],
+  "scenarioStatusBasis": "The final frozen production build completed each execution above with exit code 0 and every listed case passed. Test discovery supplies only the exact case names; its list-only skipped statuses are not execution results.",
+  "scenarios": [
+    {
+      "suite": "six-city",
+      "title": "nanjing-entry-cover-all-regions-and-ready-map",
+      "source": "tests/cities-e2e/cities.spec.ts:7",
+      "status": "passed"
+    },
+    {
+      "suite": "six-city",
+      "title": "xian-entry-cover-all-regions-and-ready-map",
+      "source": "tests/cities-e2e/cities.spec.ts:7",
+      "status": "passed"
+    },
+    {
+      "suite": "six-city",
+      "title": "beijing-entry-cover-all-regions-and-ready-map",
+      "source": "tests/cities-e2e/cities.spec.ts:7",
+      "status": "passed"
+    },
+    {
+      "suite": "six-city",
+      "title": "shanghai-entry-cover-all-regions-and-ready-map",
+      "source": "tests/cities-e2e/cities.spec.ts:7",
+      "status": "passed"
+    },
+    {
+      "suite": "six-city",
+      "title": "hangzhou-entry-cover-all-regions-and-ready-map",
+      "source": "tests/cities-e2e/cities.spec.ts:7",
+      "status": "passed"
+    },
+    {
+      "suite": "six-city",
+      "title": "chengdu-entry-cover-all-regions-and-ready-map",
+      "source": "tests/cities-e2e/cities.spec.ts:7",
+      "status": "passed"
+    },
+    {
+      "suite": "six-city",
+      "title": "beijing-ordinary-visit-anchor-unlock-back-and-refresh",
+      "source": "tests/cities-e2e/cities.spec.ts:53",
+      "status": "passed"
+    },
+    {
+      "suite": "six-city",
+      "title": "shanghai-ordinary-visit-anchor-unlock-back-and-refresh",
+      "source": "tests/cities-e2e/cities.spec.ts:53",
+      "status": "passed"
+    },
+    {
+      "suite": "six-city",
+      "title": "hangzhou-ordinary-visit-anchor-unlock-back-and-refresh",
+      "source": "tests/cities-e2e/cities.spec.ts:53",
+      "status": "passed"
+    },
+    {
+      "suite": "six-city",
+      "title": "chengdu-ordinary-visit-anchor-unlock-back-and-refresh",
+      "source": "tests/cities-e2e/cities.spec.ts:53",
+      "status": "passed"
+    },
+    {
+      "suite": "six-city",
+      "title": "six-city-progress-stays-independent-after-return-and-refresh",
+      "source": "tests/cities-e2e/cities.spec.ts:85",
+      "status": "passed"
+    },
+    {
+      "suite": "six-city",
+      "title": "new-city-two-context-sqlite-restore-retains-progress-and-photo",
+      "source": "tests/cities-e2e/cities.spec.ts:118",
+      "status": "passed"
+    },
+    {
+      "suite": "six-city",
+      "title": "offline-first-switch-to-all-six-cities-with-cached-map-and-cover",
+      "source": "tests/cities-e2e/offline.spec.ts:8",
+      "status": "passed"
+    },
+    {
+      "suite": "local-sync",
+      "title": "protocol-request-id-is-idempotent-and-rejects-a-different-payload",
+      "source": "tests/sync-e2e/protocol.spec.ts:85",
+      "status": "passed"
+    },
+    {
+      "suite": "local-sync",
+      "title": "protocol-new-request-cannot-overwrite-existing-visit-evidence",
+      "source": "tests/sync-e2e/protocol.spec.ts:109",
+      "status": "passed"
+    },
+    {
+      "suite": "local-sync",
+      "title": "protocol-out-of-order-union-missing-photo-retry-and-space-isolation",
+      "source": "tests/sync-e2e/protocol.spec.ts:125",
+      "status": "passed"
+    },
+    {
+      "suite": "local-sync",
+      "title": "pre-sync-records-and-photos-migrate-without-clearing-local-data",
+      "source": "tests/sync-e2e/sync-local.spec.ts:3",
+      "status": "passed"
+    },
+    {
+      "suite": "local-sync",
+      "title": "two-offline-device-contexts-merge-visits-and-deduplicate-region",
+      "source": "tests/sync-e2e/sync-local.spec.ts:40",
+      "status": "passed"
+    },
+    {
+      "suite": "local-sync",
+      "title": "lost-post-response-retries-the-durable-request-after-refresh",
+      "source": "tests/sync-e2e/sync-local.spec.ts:66",
+      "status": "passed"
+    },
+    {
+      "suite": "local-sync",
+      "title": "a-local-checkin-during-sync-survives-an-older-response",
+      "source": "tests/sync-e2e/sync-local.spec.ts:96",
+      "status": "passed"
+    },
+    {
+      "suite": "local-sync",
+      "title": "sqlite-restart-preserves-progress-and-retries-an-offline-outbox",
+      "source": "tests/sync-e2e/sync-local.spec.ts:122",
+      "status": "passed"
+    },
+    {
+      "suite": "local-sync",
+      "title": "failed-photo-download-remains-retryable-without-false-success",
+      "source": "tests/sync-e2e/sync-local.spec.ts:143",
+      "status": "passed"
+    },
+    {
+      "suite": "local-sync",
+      "title": "local-a-and-local-b-remain-isolated-and-binding-is-fixed",
+      "source": "tests/sync-e2e/sync-local.spec.ts:161",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "identity-and-layout-320",
+      "source": "tests/e2e/local-trial.spec.ts:109",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "identity-and-layout-390",
+      "source": "tests/e2e/local-trial.spec.ts:109",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "identity-and-layout-1280",
+      "source": "tests/e2e/local-trial.spec.ts:109",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "anchor-duplicate-revisit-city-refresh",
+      "source": "tests/e2e/local-trial.spec.ts:137",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "secondary-landmark-records-without-unlock",
+      "source": "tests/e2e/local-trial.spec.ts:179",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "geolocation-error-1-retry-keeps-photo",
+      "source": "tests/e2e/local-trial.spec.ts:196",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "geolocation-error-2-retry-keeps-photo",
+      "source": "tests/e2e/local-trial.spec.ts:196",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "geolocation-error-3-retry-keeps-photo",
+      "source": "tests/e2e/local-trial.spec.ts:196",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "geolocation-accuracy-staleness-and-250m-boundary",
+      "source": "tests/e2e/local-trial.spec.ts:221",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "failed-example-photo-local-photo-recovery",
+      "source": "tests/e2e/local-trial.spec.ts:254",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "slow-city-map-and-resource-failure-retry",
+      "source": "tests/e2e/local-trial.spec.ts:269",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "draft-browser-back-cancel-then-discard",
+      "source": "tests/e2e/local-trial.spec.ts:291",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "save-in-flight-navigation-cancels-late-record",
+      "source": "tests/e2e/local-trial.spec.ts:311",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "failed-record-storage-retry-is-single-save",
+      "source": "tests/e2e/local-trial.spec.ts:346",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "320-map-tile-failure-retry-hit-targets",
+      "source": "tests/e2e/local-trial.spec.ts:372",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "map-request-total-timeout-and-retry",
+      "source": "tests/e2e/local-trial.spec.ts:398",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "real-external-network-map-smoke",
+      "source": "tests/e2e/local-trial.spec.ts:415",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "geolocation-no-callback-deadline-and-loss-invalidates-old-fix",
+      "source": "tests/e2e/local-trial.spec.ts:438",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "pending-example-can-be-replaced-by-local-photo",
+      "source": "tests/e2e/local-trial.spec.ts:457",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "private-photo-remains-isolated-after-profile-switch-and-browser-history",
+      "source": "tests/e2e/navigation-regression.spec.ts:64",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "joining-a-squad-from-another-city-retains-the-squad-city",
+      "source": "tests/e2e/navigation-regression.spec.ts:91",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "explicit-current-trip-actions-override-an-archived-trip-selection",
+      "source": "tests/e2e/navigation-regression.spec.ts:116",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "offline-first-city-switch-and-refresh-use-bundled-maps",
+      "source": "tests/e2e/offline.spec.ts:92",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "stall-navigation-returns-cache-after-four-seconds",
+      "source": "tests/e2e/offline.spec.ts:146",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "stall-body-navigation-returns-cache-after-four-seconds",
+      "source": "tests/e2e/offline.spec.ts:146",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "http500-navigation-returns-cache-and-can-retry",
+      "source": "tests/e2e/offline.spec.ts:166",
+      "status": "passed"
+    }
+  ],
+  "additionalChecksNotIncludedIn49": {
+    "vitePreviewSixCityMapSmoke": {
+      "status": "passed",
+      "cities": [
+        {
+          "cityId": "nanjing",
+          "status": "passed",
+          "skeleton": "ready"
+        },
+        {
+          "cityId": "xian",
+          "status": "passed",
+          "skeleton": "ready"
+        },
+        {
+          "cityId": "beijing",
+          "status": "passed",
+          "skeleton": "ready"
+        },
+        {
+          "cityId": "shanghai",
+          "status": "passed",
+          "skeleton": "ready"
+        },
+        {
+          "cityId": "hangzhou",
+          "status": "passed",
+          "skeleton": "ready"
+        },
+        {
+          "cityId": "chengdu",
+          "status": "passed",
+          "skeleton": "ready"
+        }
+      ],
+      "url": "http://127.0.0.1:4173",
+      "pageErrors": []
+    }
+  },
+  "production": {
+    "entry": "assets/index-D4muoB0T.js",
+    "serviceWorker": "vesluma-shell-v7",
+    "sha256": {
+      "dist/assets/index-D4muoB0T.js": "2b8f0a94d12ae7235a38fc6f9d37208fa94690fab08c8887d0fec6c09b146234",
+      "dist/sw.js": "826c1f0d5d3184e41788f4999221a5f4051d4ca8c37402870124c26fc5fe68d2",
+      ".local-build/local-server.mjs": "b0bbef3f28dd563f7f53527f0f7eb7f7492b401446ba839b4b20c4fbb49b28cd"
+    }
+  },
+  "environment": {
+    "browser": "Chromium 151.0.7922.34, installed headless shell revision 1234",
+    "primaryHost": "Temporary SQLite factory on loopback; each sync/city case receives an explicit temporary DB path",
+    "baselineHost": "http://127.0.0.1:4175",
+    "previewHost": "http://127.0.0.1:4173",
+    "testedWidths": [
+      320,
+      390,
+      1280
+    ],
+    "evidenceDirectory": "C:/Users/A/AppData/Local/Temp/vesluma-six-city-qa",
+    "noDefaultDatabaseOpened": true
+  },
+  "errors": {
+    "uncaughtApplicationPageErrors": 0,
+    "checkedStandaloneLogFiles": 48,
+    "navigationCases": "All three also assert zero uncaught page errors in their Playwright teardown.",
+    "note": "Intentional network-failure cases retain their expected resource errors; blocked Service Worker warnings are expected when serviceWorkers=block."
+  },
+  "realNetwork": {
+    "map": "after save success and return to explore",
+    "responses": [
+      {
+        "host": "tile.openstreetmap.org",
+        "status": 200
+      },
+      {
+        "host": "tile.openstreetmap.org",
+        "status": 200
+      },
+      {
+        "host": "tile.openstreetmap.org",
+        "status": 200
+      },
+      {
+        "host": "tile.openstreetmap.org",
+        "status": 200
+      },
+      {
+        "host": "tile.openstreetmap.org",
+        "status": 200
+      },
+      {
+        "host": "tile.openstreetmap.org",
+        "status": 200
+      },
+      {
+        "host": "tile.openstreetmap.org",
+        "status": 200
+      },
+      {
+        "host": "tile.openstreetmap.org",
+        "status": 200
+      }
+    ],
+    "decodedTileImages": 8
+  },
+  "offline": {
+    "cacheEvidence": "six-city-offline-cache-evidence.json",
+    "allSixCitiesReady": true,
+    "firstOnlineCityOnly": "nanjing",
+    "requiredAllSixMapResponsesFromServiceWorker": true,
+    "coversCachedAndDecodedWhileOffline": true
+  },
+  "archivedScreenshots": [
+    "beijing-320-explore-ready.png",
+    "shanghai-first-offline-map.png",
+    "chengdu-restored-after-sqlite-restart.png"
+  ],
+  "reviewedScreenshots": [
+    "beijing-explore-ready.png",
+    "shanghai-explore-ready.png",
+    "offline-first-hangzhou-ready.png",
+    "chengdu-second-context-after-sqlite-restart.png",
+    "public-smoke/real-external-map.png"
+  ],
+  "harnessCorrections": [
+    "Before final execution, the offline matcher was updated to Vite actual id.json-HASH.gz filenames; six actual built resources match exactly once.",
+    "The additional Vite preview script initially could not read large responses evicted from Chromium inspector cache. It now separately records HTTP response bytes while asserting actual browser map ready.",
+    "A preview-script rerun exposed an omitted external raster stub under restricted network access. The deterministic host-compatibility smoke now stubs both tiles and fonts; its final run passed. A separate authorized real-network baseline smoke remained unstubbed and passed."
+  ],
+  "limitations": [
+    "Browser viewports, geolocation, offline behavior and separate contexts simulate devices; no physical phone, real GPS arrival, field boundary/photo-point or camera verification.",
+    "Local SQLite spaces local-a/local-b are test namespaces, not production authentication or cloud services.",
+    "Most flows stub external raster tiles and Google Fonts; real external availability is supported only by the separate timestamped smoke, not guaranteed offline or globally.",
+    "SW offline scenarios start after complete successful installation; first installation without a connection, physical-device memory/performance and cold slow-network completion remain unverified.",
+    "No deployment, production credentials, cloud provisioning or main-branch merge performed by browser QA."
+  ],
+  "cleanup": {
+    "temporaryRegressionServerStopped": true,
+    "port": 4175,
+    "temporaryDatabasesRetainedOutsideRepository": true,
+    "defaultLocalDataUntouched": true
+  }
+}
