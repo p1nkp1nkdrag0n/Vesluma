@@ -1,4 +1,4 @@
-// Additional host-compatibility smoke; deliberately separate from the 13
+// Additional host-compatibility smoke; deliberately separate from the counted
 // SQLite-backed cases. Build and start Vite preview before running this file.
 import { chromium, expect } from '@playwright/test';
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
@@ -6,9 +6,9 @@ import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 
 const url = process.env.VESLUMA_CITIES_PREVIEW_URL ?? 'http://127.0.0.1:4173';
-const evidenceDir = join(process.env.VESLUMA_CITIES_QA_DIR ?? join(tmpdir(), 'vesluma-six-city-qa'), 'vite-preview');
+const evidenceDir = join(process.env.VESLUMA_CITIES_QA_DIR ?? join(tmpdir(), 'vesluma-gba-qa'), process.env.VESLUMA_CITIES_HOST_LABEL ?? 'vite-preview');
 const plan = JSON.parse(await readFile(new URL('../../src/data/map/city-plans.json', import.meta.url), 'utf8'));
-const cityIds = ['nanjing', 'xian', 'beijing', 'shanghai', 'hangzhou', 'chengdu'];
+const cityIds = ['nanjing', 'xian', 'beijing', 'shanghai', 'hangzhou', 'chengdu', 'guangzhou', 'shenzhen', 'hongkong', 'macau'];
 const mapPattern = id => new RegExp(`^/assets/${id}(?:-[^/]+\\.json(?:\\.gz)?|\\.json-[^/]+\\.gz)$`);
 await mkdir(evidenceDir, { recursive: true });
 const browser = await chromium.launch({ executablePath: process.env.VESLUMA_QA_BROWSER });
@@ -57,7 +57,8 @@ try {
   expect(consoleMessages.filter(message => !message.includes('Service Worker registration blocked by Playwright'))).toEqual([]);
   status = 'passed';
 } finally {
-  await writeFile(join(evidenceDir, 'summary.json'), JSON.stringify({ status, url, browser: browser.version(), environment: 'Desktop Chromium browser simulation; Vite preview host compatibility only, no physical device/field verification. OSM raster tiles and Google Fonts stubbed; bundled geographic snapshots served as real local assets.', outcomes, responses, rawHttpResponses, pageErrors, consoleMessages }, null, 2));
+  const entry = await page.locator('script[type=module]').first().getAttribute('src').catch(() => null);
+  await writeFile(join(evidenceDir, 'summary.json'), JSON.stringify({ status, url, entry, hostLabel: process.env.VESLUMA_CITIES_HOST_LABEL ?? 'vite-preview', browser: browser.version(), environment: 'Desktop Chromium browser simulation; local host compatibility only, no physical device/field verification. OSM raster tiles and Google Fonts stubbed; bundled geographic snapshots served as real local assets.', outcomes, responses, rawHttpResponses, pageErrors, consoleMessages }, null, 2));
   await context.close();
   await browser.close();
 }

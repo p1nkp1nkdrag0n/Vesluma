@@ -75,7 +75,7 @@ describe('bundled real city skeleton', () => {
       expect(new Set(collection.features.map(feature => feature.id)).size).toBe(collection.features.length);
       expect(collection.features.every(feature => ['road', 'water', 'waterLine'].includes(feature.properties.kind))).toBe(true);
     }
-  }, 30_000); // This deliberately scans every original road/node in all six complete extents.
+  }, 30_000); // This deliberately scans every original road/node in all registered complete extents.
 
   it('preserves real shore polygons and the islands inside Xuanwu Lake', () => {
     for (const city of cities) {

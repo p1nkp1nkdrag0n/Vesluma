@@ -1,0 +1,1908 @@
+{
+  "checkedAt": "2026-10-02T09:41:20.106Z",
+  "method": "Nearest polygon edge by local tangent projection; 300m screening buffer around a 250m app rule. Not a surveyed boundary, exact geodesic verdict, legal jurisdiction or public-access validation.",
+  "testedLandmarks": 61,
+  "alerts": [
+    {
+      "city": "macau",
+      "id": "mo-ama",
+      "tier": 2,
+      "point": [
+        113.5312671,
+        22.1861086
+      ],
+      "ownBoundaryDistanceMetres": 205.7200463673766,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 42874.440672813624
+        },
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 23197.420841386178
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 29631.685342128883
+        }
+      ]
+    }
+  ],
+  "minimumPrimaryOwnBoundaryMetres": 319.1170009748352,
+  "points": [
+    {
+      "city": "guangzhou",
+      "id": "gz-chen",
+      "tier": 1,
+      "point": [
+        113.2401325,
+        23.1298279
+      ],
+      "ownBoundaryDistanceMetres": 3428.164939958345,
+      "otherCities": [
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 64219.00715456649
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 100063.16670715493
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 106167.22685486227
+        }
+      ],
+      "regionId": "gz-zone-oldtown",
+      "sourceUrl": "https://www.openstreetmap.org/way/520935699",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "guangzhou",
+      "id": "gz-tower",
+      "tier": 1,
+      "point": [
+        113.3191477,
+        23.1090145
+      ],
+      "ownBoundaryDistanceMetres": 9810.043439330744,
+      "otherCities": [
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 57057.144958259276
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 92739.96931622092
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 101831.86202645316
+        }
+      ],
+      "regionId": "gz-zone-axis",
+      "sourceUrl": "https://www.openstreetmap.org/way/584204634",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "guangzhou",
+      "id": "gz-baiyun",
+      "tier": 1,
+      "point": [
+        113.2880415,
+        23.1596277
+      ],
+      "ownBoundaryDistanceMetres": 8334.491988408383,
+      "otherCities": [
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 63407.70833641529
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 99007.97837428996
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 108046.54158025884
+        }
+      ],
+      "regionId": "gz-zone-baiyun",
+      "sourceUrl": "https://www.openstreetmap.org/relation/12122143",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "guangzhou",
+      "id": "gz-nanhai",
+      "tier": 1,
+      "point": [
+        113.4923283,
+        23.0836586
+      ],
+      "ownBoundaryDistanceMetres": 4867.390609096511,
+      "otherCities": [
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 44640.169317263455
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 79266.24740201575
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 96520.25559078739
+        }
+      ],
+      "regionId": "gz-zone-huangpu",
+      "sourceUrl": "https://www.openstreetmap.org/way/604389577",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "guangzhou",
+      "id": "gz-chimelong",
+      "tier": 1,
+      "point": [
+        113.3256854,
+        23.0025583
+      ],
+      "ownBoundaryDistanceMetres": 7036.9452701309665,
+      "otherCities": [
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 48162.35592101348
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 84078.02063212884
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 90177.14753600278
+        }
+      ],
+      "regionId": "gz-zone-panyu-west",
+      "sourceUrl": "https://www.openstreetmap.org/way/292110019",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "guangzhou",
+      "id": "gz-lianhua",
+      "tier": 1,
+      "point": [
+        113.4978286,
+        22.9931549
+      ],
+      "ownBoundaryDistanceMetres": 2223.3881677284603,
+      "otherCities": [
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 35850.203543292184
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 70978.69727935195
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 86441.15241006592
+        }
+      ],
+      "regionId": "gz-zone-panyu-east",
+      "sourceUrl": "https://www.openstreetmap.org/way/980873135",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "guangzhou",
+      "id": "gz-hongxiuquan",
+      "tier": 1,
+      "point": [
+        113.1672302,
+        23.4192526
+      ],
+      "ownBoundaryDistanceMetres": 10248.031461367671,
+      "otherCities": [
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 93924.12298844871
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 128952.17816056819
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 139117.4935951192
+        }
+      ],
+      "regionId": "gz-zone-huadu",
+      "sourceUrl": "https://www.openstreetmap.org/way/620108305",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "guangzhou",
+      "id": "gz-liuxihe",
+      "tier": 1,
+      "point": [
+        113.7796425,
+        23.7464098
+      ],
+      "ownBoundaryDistanceMetres": 9609.166737492804,
+      "otherCities": [
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 98672.167994049
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 137316.94511686644
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 171645.8286423837
+        }
+      ],
+      "regionId": "gz-zone-conghua",
+      "sourceUrl": "https://www.openstreetmap.org/node/13252778879",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "guangzhou",
+      "id": "gz-baishuizhai",
+      "tier": 1,
+      "point": [
+        113.7565445,
+        23.5816693
+      ],
+      "ownBoundaryDistanceMetres": 7531.620056238249,
+      "otherCities": [
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 80842.89831969512
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 120658.61671817277
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 153181.60311840463
+        }
+      ],
+      "regionId": "gz-zone-zengcheng-north",
+      "sourceUrl": "https://www.openstreetmap.org/node/14069809239",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "guangzhou",
+      "id": "gz-zengcheng-museum",
+      "tier": 1,
+      "point": [
+        113.8082925,
+        23.2885078
+      ],
+      "ownBoundaryDistanceMetres": 6852.932181017831,
+      "otherCities": [
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 47824.28550854801
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 88331.17689672933
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 122009.41798849749
+        }
+      ],
+      "regionId": "gz-zone-zengcheng-south",
+      "sourceUrl": "https://www.openstreetmap.org/way/751243163",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "guangzhou",
+      "id": "gz-tianhou",
+      "tier": 1,
+      "point": [
+        113.6162214,
+        22.7600173
+      ],
+      "ownBoundaryDistanceMetres": 2401.8450502414526,
+      "otherCities": [
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 8074.9075695953
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 43988.40323331085
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 60747.80815340828
+        }
+      ],
+      "regionId": "gz-zone-nansha",
+      "sourceUrl": "https://www.openstreetmap.org/way/583389941",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "guangzhou",
+      "id": "gz-yongqing",
+      "tier": 2,
+      "point": [
+        113.2329007,
+        23.1175027
+      ],
+      "ownBoundaryDistanceMetres": 2798.564964048555,
+      "otherCities": [
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 63780.86884676562
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 99657.20496967663
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 105080.30318055241
+        }
+      ],
+      "regionId": "gz-zone-oldtown",
+      "sourceUrl": "https://www.openstreetmap.org/way/1164896995",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "guangzhou",
+      "id": "gz-shamian",
+      "tier": 2,
+      "point": [
+        113.2395608,
+        23.1083501
+      ],
+      "ownBoundaryDistanceMetres": 2963.685129447846,
+      "otherCities": [
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 62586.08759328029
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 98467.93029048554
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 103905.20218035909
+        }
+      ],
+      "regionId": "gz-zone-oldtown",
+      "sourceUrl": "https://www.openstreetmap.org/way/352610332",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "guangzhou",
+      "id": "gz-zhenhai",
+      "tier": 2,
+      "point": [
+        113.2602757,
+        23.1406034
+      ],
+      "ownBoundaryDistanceMetres": 5321.968829029241,
+      "otherCities": [
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 63668.39994887418
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 99439.41770976558
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 106733.85621211656
+        }
+      ],
+      "regionId": "gz-zone-oldtown",
+      "sourceUrl": "https://www.openstreetmap.org/way/146688561",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "guangzhou",
+      "id": "gz-museum",
+      "tier": 2,
+      "point": [
+        113.3214163,
+        23.1174004
+      ],
+      "ownBoundaryDistanceMetres": 10638.210141992007,
+      "otherCities": [
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 57621.102842947614
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 93257.72852327174
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 102688.30289182252
+        }
+      ],
+      "regionId": "gz-zone-axis",
+      "sourceUrl": "https://www.openstreetmap.org/way/240896442",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "guangzhou",
+      "id": "gz-shawan",
+      "tier": 2,
+      "point": [
+        113.3321082,
+        22.904568
+      ],
+      "ownBoundaryDistanceMetres": 4671.318317881926,
+      "otherCities": [
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 41273.79423468818
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 76315.87568384853
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 79490.08391431696
+        }
+      ],
+      "regionId": "gz-zone-panyu-west",
+      "sourceUrl": "https://www.openstreetmap.org/way/499814088",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "guangzhou",
+      "id": "gz-academy",
+      "tier": 2,
+      "point": [
+        113.4194552,
+        23.0886919
+      ],
+      "ownBoundaryDistanceMetres": 11379.318808580405,
+      "otherCities": [
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 49105.326796630005
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 84252.30991263654
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 97771.4060150934
+        }
+      ],
+      "regionId": "gz-zone-huangpu",
+      "sourceUrl": "https://www.openstreetmap.org/way/422551795",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "guangzhou",
+      "id": "gz-yuyin",
+      "tier": 2,
+      "point": [
+        113.3900627,
+        23.0140303
+      ],
+      "ownBoundaryDistanceMetres": 12823.382318007929,
+      "otherCities": [
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 44346.26850298798
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 80138.9527361691
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 90026.830343951
+        }
+      ],
+      "regionId": "gz-zone-panyu-east",
+      "sourceUrl": "https://www.openstreetmap.org/way/1523898842",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "guangzhou",
+      "id": "gz-south-station",
+      "tier": 3,
+      "point": [
+        113.2644624,
+        22.9917961
+      ],
+      "ownBoundaryDistanceMetres": 1373.6889791882072,
+      "otherCities": [
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 52345.58322056849
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 88032.48890527016
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 90797.44889417726
+        }
+      ],
+      "regionId": "gz-zone-panyu-west",
+      "sourceUrl": "https://www.openstreetmap.org/way/506168739",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "guangzhou",
+      "id": "gz-east-station",
+      "tier": 3,
+      "point": [
+        113.3194386,
+        23.1525447
+      ],
+      "ownBoundaryDistanceMetres": 11399.197528910292,
+      "otherCities": [
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 60800.33673654365
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 96276.32447402723
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 106544.35400646267
+        }
+      ],
+      "regionId": "gz-zone-axis",
+      "sourceUrl": "https://www.openstreetmap.org/way/266991496",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "shenzhen",
+      "id": "sz-civic",
+      "tier": 1,
+      "point": [
+        114.0545223,
+        22.5463725
+      ],
+      "ownBoundaryDistanceMetres": 2734.973051013479,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 32118.502057370053
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 2734.973051013479
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 59809.44002667151
+        }
+      ],
+      "regionId": "sz-zone-center",
+      "sourceUrl": "https://www.openstreetmap.org/relation/10837975",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "shenzhen",
+      "id": "sz-window",
+      "tier": 1,
+      "point": [
+        113.9686115,
+        22.5375058
+      ],
+      "ownBoundaryDistanceMetres": 4084.5391844730284,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 23750.576283485996
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 4084.5391844730284
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 52602.07525132452
+        }
+      ],
+      "regionId": "sz-zone-oct",
+      "sourceUrl": "https://www.openstreetmap.org/way/236402460",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "shenzhen",
+      "id": "sz-minghua",
+      "tier": 1,
+      "point": [
+        113.9119691,
+        22.4863889
+      ],
+      "ownBoundaryDistanceMetres": 2946.5782972265474,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 20686.412274618116
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 2946.5782972265474
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 44477.470807865604
+        }
+      ],
+      "regionId": "sz-zone-shekou",
+      "sourceUrl": "https://www.openstreetmap.org/way/105683429",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "shenzhen",
+      "id": "sz-harbour",
+      "tier": 1,
+      "point": [
+        113.881011,
+        22.5463106
+      ],
+      "ownBoundaryDistanceMetres": 7936.57367130232,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 14929.069069303376
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 7936.57367130232
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 47432.84512281248
+        }
+      ],
+      "regionId": "sz-zone-baoan",
+      "sourceUrl": "https://www.openstreetmap.org/way/771513760",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "shenzhen",
+      "id": "sz-gankeng",
+      "tier": 1,
+      "point": [
+        114.0995854,
+        22.6589693
+      ],
+      "ownBoundaryDistanceMetres": 5028.941118490995,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 36835.029121127314
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 12505.240421395023
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 71632.06822524675
+        }
+      ],
+      "regionId": "sz-zone-longgang",
+      "sourceUrl": "https://www.openstreetmap.org/way/1039077937",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "shenzhen",
+      "id": "sz-guanlan",
+      "tier": 1,
+      "point": [
+        114.0805356,
+        22.7389209
+      ],
+      "ownBoundaryDistanceMetres": 1082.2196156740374,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 37651.289472315286
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 21350.036042951597
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 76891.00101851417
+        }
+      ],
+      "regionId": "sz-zone-longhua",
+      "sourceUrl": "https://www.openstreetmap.org/way/1306415964",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "shenzhen",
+      "id": "sz-hongqiao",
+      "tier": 1,
+      "point": [
+        113.9532991,
+        22.7482039
+      ],
+      "ownBoundaryDistanceMetres": 4665.492234364795,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 25687.871522052566
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 26815.858976278192
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 70243.45622434703
+        }
+      ],
+      "regionId": "sz-zone-guangming",
+      "sourceUrl": "https://www.openstreetmap.org/relation/17497367",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "shenzhen",
+      "id": "sz-dawan",
+      "tier": 1,
+      "point": [
+        114.33789,
+        22.6837721
+      ],
+      "ownBoundaryDistanceMetres": 7507.301057463648,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 61392.65092993812
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 12846.13835517665
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 92165.08674399306
+        }
+      ],
+      "regionId": "sz-zone-pingshan",
+      "sourceUrl": "https://www.openstreetmap.org/way/784652604",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "shenzhen",
+      "id": "sz-dameisha",
+      "tier": 1,
+      "point": [
+        114.3046577,
+        22.598131
+      ],
+      "ownBoundaryDistanceMetres": 3513.477648999689,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 57270.891274235066
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 3513.477648999689
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 84111.70473661092
+        }
+      ],
+      "regionId": "sz-zone-yantian",
+      "sourceUrl": "https://www.openstreetmap.org/way/995114198",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "shenzhen",
+      "id": "sz-dapeng",
+      "tier": 1,
+      "point": [
+        114.507692,
+        22.5978742
+      ],
+      "ownBoundaryDistanceMetres": 7115.171459604928,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 78114.08858941853
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 7981.799289144409
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 102106.91034643052
+        }
+      ],
+      "regionId": "sz-zone-dapeng-north",
+      "sourceUrl": "https://www.openstreetmap.org/way/404249608",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "shenzhen",
+      "id": "sz-xichong",
+      "tier": 1,
+      "point": [
+        114.5246573,
+        22.4804412
+      ],
+      "ownBoundaryDistanceMetres": 5775.104417352022,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 80982.86067434454
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 7107.973889035613
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 98347.98162255174
+        }
+      ],
+      "regionId": "sz-zone-dapeng-south",
+      "sourceUrl": "https://www.openstreetmap.org/node/6726139335",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "shenzhen",
+      "id": "sz-baian",
+      "tier": 1,
+      "point": [
+        115.1721195,
+        22.7878255
+      ],
+      "ownBoundaryDistanceMetres": 2674.524594084558,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 133933.2622489819
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 78305.43739202
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 172554.03483871307
+        }
+      ],
+      "regionId": "sz-zone-shenshan",
+      "sourceUrl": "https://www.openstreetmap.org/node/2065860243",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "shenzhen",
+      "id": "sz-dongmen",
+      "tier": 2,
+      "point": [
+        114.1158592,
+        22.5470489
+      ],
+      "ownBoundaryDistanceMetres": 1210.827142015743,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 38321.85009151108
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 1210.827142015743
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 64836.816874359
+        }
+      ],
+      "regionId": "sz-zone-center",
+      "sourceUrl": "https://www.openstreetmap.org/way/673047309",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "shenzhen",
+      "id": "sz-nantou",
+      "tier": 2,
+      "point": [
+        113.9156824,
+        22.5448527
+      ],
+      "ownBoundaryDistanceMetres": 5360.805084094268,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 18319.80605430636
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 5360.805084094268
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 49517.02079805258
+        }
+      ],
+      "regionId": "sz-zone-oct",
+      "sourceUrl": "https://www.openstreetmap.org/way/1183877518",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "shenzhen",
+      "id": "sz-hehu",
+      "tier": 2,
+      "point": [
+        114.2610725,
+        22.730885
+      ],
+      "ownBoundaryDistanceMetres": 5209.294786435003,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 54780.67560668862
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 18453.8495396777
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 89190.3959683186
+        }
+      ],
+      "regionId": "sz-zone-longgang",
+      "sourceUrl": "https://www.openstreetmap.org/way/1088961704",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "shenzhen",
+      "id": "sz-jiaochangwei",
+      "tier": 2,
+      "point": [
+        114.5061164,
+        22.5922831
+      ],
+      "ownBoundaryDistanceMetres": 7420.545785929713,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 77957.96106368407
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 7420.545785929712
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 101675.88938296135
+        }
+      ],
+      "regionId": "sz-zone-dapeng-north",
+      "sourceUrl": "https://www.openstreetmap.org/node/5094066074",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "shenzhen",
+      "id": "sz-north-station",
+      "tier": 3,
+      "point": [
+        114.0252465,
+        22.6131465
+      ],
+      "ownBoundaryDistanceMetres": 10730.205675335175,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 28634.598818137183
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 10730.205675335175
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 62667.82127309697
+        }
+      ],
+      "regionId": "sz-zone-longhua",
+      "sourceUrl": "https://www.openstreetmap.org/way/370233869",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "shenzhen",
+      "id": "sz-futian-station",
+      "tier": 3,
+      "point": [
+        114.049646,
+        22.5422861
+      ],
+      "ownBoundaryDistanceMetres": 2646.87163716407,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 31712.15323401009
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 2646.87163716407
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 59135.04258655928
+        }
+      ],
+      "regionId": "sz-zone-center",
+      "sourceUrl": "https://www.openstreetmap.org/way/800275814",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "hongkong",
+      "id": "hk-statue",
+      "tier": 1,
+      "point": [
+        114.1601175,
+        22.2817753
+      ],
+      "ownBoundaryDistanceMetres": 14822.648899878564,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 54281.3483468743
+        },
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 26926.705452751623
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 56038.90235293729
+        }
+      ],
+      "regionId": "hk-zone-island-north",
+      "sourceUrl": "https://www.openstreetmap.org/relation/6970394",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "hongkong",
+      "id": "hk-murray",
+      "tier": 1,
+      "point": [
+        114.2097443,
+        22.2179337
+      ],
+      "ownBoundaryDistanceMetres": 7723.777065641455,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 62614.25409130128
+        },
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 30130.28440691882
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 59946.75206675883
+        }
+      ],
+      "regionId": "hk-zone-island-south",
+      "sourceUrl": "https://www.openstreetmap.org/way/96843417",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "hongkong",
+      "id": "hk-space",
+      "tier": 1,
+      "point": [
+        114.1718689,
+        22.2941686
+      ],
+      "ownBoundaryDistanceMetres": 16200.72288773674,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 54512.869788323165
+        },
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 26205.71467913716
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 57538.07538684608
+        }
+      ],
+      "regionId": "hk-zone-kowloon-west",
+      "sourceUrl": "https://www.openstreetmap.org/way/184731574",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "hongkong",
+      "id": "hk-nanlian",
+      "tier": 1,
+      "point": [
+        114.2048532,
+        22.3393548
+      ],
+      "ownBoundaryDistanceMetres": 21225.206022185186,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 54949.057117153505
+        },
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 22826.07883728391
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 62185.38838424239
+        }
+      ],
+      "regionId": "hk-zone-kowloon-east",
+      "sourceUrl": "https://www.openstreetmap.org/way/86041251",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "hongkong",
+      "id": "hk-railway",
+      "tier": 1,
+      "point": [
+        114.1637371,
+        22.4483331
+      ],
+      "ownBoundaryDistanceMetres": 10450.922731054148,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 45962.81622766412
+        },
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 10450.922731054148
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 63208.03420774746
+        }
+      ],
+      "regionId": "hk-zone-northeast",
+      "sourceUrl": "https://www.openstreetmap.org/way/111509060",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "hongkong",
+      "id": "hk-samtung",
+      "tier": 1,
+      "point": [
+        114.1202262,
+        22.3720347
+      ],
+      "ownBoundaryDistanceMetres": 16089.778917321932,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 45535.87820493832
+        },
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 16089.778917321932
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 55373.4635392003
+        }
+      ],
+      "regionId": "hk-zone-newterritories-west",
+      "sourceUrl": "https://www.openstreetmap.org/way/29703210",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "hongkong",
+      "id": "hk-tsuising",
+      "tier": 1,
+      "point": [
+        114.0061192,
+        22.448806
+      ],
+      "ownBoundaryDistanceMetres": 5795.076643812911,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 31219.446232460305
+        },
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 5795.076643812911
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 49371.084668499374
+        }
+      ],
+      "regionId": "hk-zone-northwest",
+      "sourceUrl": "https://www.openstreetmap.org/way/114393168",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "hongkong",
+      "id": "hk-saikung",
+      "tier": 1,
+      "point": [
+        114.2708071,
+        22.3810296
+      ],
+      "ownBoundaryDistanceMetres": 18483.824497042267,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 59028.22991999496
+        },
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 18483.824497042267
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 70091.75903950876
+        }
+      ],
+      "regionId": "hk-zone-saikung",
+      "sourceUrl": "https://www.openstreetmap.org/way/404352757",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "hongkong",
+      "id": "hk-buddha",
+      "tier": 1,
+      "point": [
+        113.905012,
+        22.2539595
+      ],
+      "ownBoundaryDistanceMetres": 6300.9257938542205,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 38714.79671601912
+        },
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 6300.9257938542205
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 29944.192349778532
+        }
+      ],
+      "regionId": "hk-zone-lantau",
+      "sourceUrl": "https://www.openstreetmap.org/way/45659816",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "hongkong",
+      "id": "hk-paktai",
+      "tier": 1,
+      "point": [
+        114.0278615,
+        22.2123543
+      ],
+      "ownBoundaryDistanceMetres": 7103.375234986654,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 49587.82830681497
+        },
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 19768.649528791473
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 41271.03986404739
+        }
+      ],
+      "regionId": "hk-zone-outer-islands",
+      "sourceUrl": "https://www.openstreetmap.org/way/204534877",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "hongkong",
+      "id": "hk-taikwun",
+      "tier": 2,
+      "point": [
+        114.154009,
+        22.2811562
+      ],
+      "ownBoundaryDistanceMetres": 14753.808025706208,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 53806.73201534285
+        },
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 26739.58814715618
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 55411.724431531315
+        }
+      ],
+      "regionId": "hk-zone-island-north",
+      "sourceUrl": "https://www.openstreetmap.org/way/591035975",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "hongkong",
+      "id": "hk-stars",
+      "tier": 2,
+      "point": [
+        114.1751331,
+        22.293425
+      ],
+      "ownBoundaryDistanceMetres": 16118.038226075101,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 54839.98168449933
+        },
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 26434.755406826385
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 57843.36369288337
+        }
+      ],
+      "regionId": "hk-zone-kowloon-west",
+      "sourceUrl": "https://www.openstreetmap.org/way/667356811",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "hongkong",
+      "id": "hk-walled",
+      "tier": 2,
+      "point": [
+        114.1902445,
+        22.3321294
+      ],
+      "ownBoundaryDistanceMetres": 20421.777089465886,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 53985.99646066052
+        },
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 23374.10238243554
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 60511.21721535205
+        }
+      ],
+      "regionId": "hk-zone-kowloon-east",
+      "sourceUrl": "https://www.openstreetmap.org/relation/1650915",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "hongkong",
+      "id": "hk-lungyeuk",
+      "tier": 2,
+      "point": [
+        114.1527329,
+        22.4974683
+      ],
+      "ownBoundaryDistanceMetres": 4917.074676450588,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 43172.7942580983
+        },
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 4917.074676450588
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 65013.522470965756
+        }
+      ],
+      "regionId": "hk-zone-northwest",
+      "sourceUrl": "https://www.openstreetmap.org/way/146933497",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "hongkong",
+      "id": "hk-westkowloon",
+      "tier": 3,
+      "point": [
+        114.1662735,
+        22.3062124
+      ],
+      "ownBoundaryDistanceMetres": 17539.934195053444,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 53304.29362981421
+        },
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 24751.486362084455
+        },
+        {
+          "city": "macau",
+          "boundaryDistanceMetres": 57326.6094476282
+        }
+      ],
+      "regionId": "hk-zone-kowloon-west",
+      "sourceUrl": "https://www.openstreetmap.org/node/3912037749",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "macau",
+      "id": "mo-stpaul",
+      "tier": 1,
+      "point": [
+        113.5412582,
+        22.1975219
+      ],
+      "ownBoundaryDistanceMetres": 686.8851645996801,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 41404.18608509987
+        },
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 21598.481043393254
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 28483.11741147517
+        }
+      ],
+      "regionId": "mo-zone-peninsula",
+      "sourceUrl": "https://www.openstreetmap.org/way/1001795464",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "macau",
+      "id": "mo-taipa",
+      "tier": 1,
+      "point": [
+        113.5597339,
+        22.1539406
+      ],
+      "ownBoundaryDistanceMetres": 1409.7266482941789,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 45808.00376201777
+        },
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 23660.093761057647
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 27419.601514710586
+        }
+      ],
+      "regionId": "mo-zone-taipa-cotai",
+      "sourceUrl": "https://www.openstreetmap.org/node/4664838891",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "macau",
+      "id": "mo-francis",
+      "tier": 1,
+      "point": [
+        113.5514616,
+        22.1169176
+      ],
+      "ownBoundaryDistanceMetres": 319.1170009748352,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 50008.18363079098
+        },
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 27446.628993092607
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 29544.00844566947
+        }
+      ],
+      "regionId": "mo-zone-coloane",
+      "sourceUrl": "https://www.openstreetmap.org/way/229184934",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "macau",
+      "id": "mo-ama",
+      "tier": 2,
+      "point": [
+        113.5312671,
+        22.1861086
+      ],
+      "ownBoundaryDistanceMetres": 205.7200463673766,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 42874.440672813624
+        },
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 23197.420841386178
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 29631.685342128883
+        }
+      ],
+      "regionId": "mo-zone-peninsula",
+      "sourceUrl": "https://www.openstreetmap.org/way/192187333",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "macau",
+      "id": "mo-senado",
+      "tier": 2,
+      "point": [
+        113.5399903,
+        22.1938271
+      ],
+      "ownBoundaryDistanceMetres": 656.067118996226,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 41833.73246506501
+        },
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 21958.1182884226
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 28648.13872657804
+        }
+      ],
+      "regionId": "mo-zone-peninsula",
+      "sourceUrl": "https://www.openstreetmap.org/way/192573684",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "macau",
+      "id": "mo-tower",
+      "tier": 2,
+      "point": [
+        113.5367944,
+        22.1798132
+      ],
+      "ownBoundaryDistanceMetres": 802.3898547433488,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 43426.42683591382
+        },
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 23219.825663692784
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 29158.9475592537
+        }
+      ],
+      "regionId": "mo-zone-peninsula",
+      "sourceUrl": "https://www.openstreetmap.org/node/7914304898",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "macau",
+      "id": "mo-cunha",
+      "tier": 2,
+      "point": [
+        113.5569741,
+        22.1535855
+      ],
+      "ownBoundaryDistanceMetres": 1157.4347036627837,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 45892.42289009579
+        },
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 23871.662087412064
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 27704.548067926786
+        }
+      ],
+      "regionId": "mo-zone-taipa-cotai",
+      "sourceUrl": "https://www.openstreetmap.org/way/183607324",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    },
+    {
+      "city": "macau",
+      "id": "mo-ferry",
+      "tier": 3,
+      "point": [
+        113.5574995,
+        22.1974091
+      ],
+      "ownBoundaryDistanceMetres": 1577.8165791236745,
+      "otherCities": [
+        {
+          "city": "guangzhou",
+          "boundaryDistanceMetres": 41081.91937364393
+        },
+        {
+          "city": "shenzhen",
+          "boundaryDistanceMetres": 20325.15829826205
+        },
+        {
+          "city": "hongkong",
+          "boundaryDistanceMetres": 26817.22178455739
+        }
+      ],
+      "regionId": "mo-zone-peninsula",
+      "sourceUrl": "https://www.openstreetmap.org/node/5949397451",
+      "insideOwnCity": true,
+      "insideAssignedRegion": true,
+      "insideOtherCities": []
+    }
+  ],
+  "archivedAndRecheckedAt": "2026-10-02T09:56:47.398Z",
+  "sourceEvidence": {
+    "basename": "selected-points-boundary-audit.json",
+    "sha256": "8079d4e30fca758471e5676751f4591588f512c1734a3d37991d7a3377008f0a",
+    "initialCheckedAt": "2026-10-02T09:41:20.106Z"
+  },
+  "planFile": {
+    "path": "src/data/map/city-plans.json",
+    "sha256": "710fcc5fe0c19450ec18d5e1cc677863f5e37a961054a1ae8e38d011bbbe8d93",
+    "version": "citywide-2026-10-02"
+  },
+  "configFiles": [
+    {
+      "path": "scripts/city-plan.guangzhou-shenzhen.mjs",
+      "sha256": "cb4f9d49c671f4ba8f51c55d31809f3db60fd7eeed3b878db45e2a67db12b48e"
+    },
+    {
+      "path": "scripts/city-plan.hongkong-macau.mjs",
+      "sha256": "297f51b7c96b6c0d280eb5bb9cdfa76a2cb2227af9c1747e28955c7411225571"
+    }
+  ],
+  "snapshotFiles": [
+    {
+      "cityId": "guangzhou",
+      "path": "src/data/map/boundaries/guangzhou.json",
+      "sha256": "0bbca31353492b81d79d6db8d61c3f1b220af8e39776ffad02649008f65a64a5",
+      "sourceUrl": "https://www.openstreetmap.org/relation/3287346"
+    },
+    {
+      "cityId": "shenzhen",
+      "path": "src/data/map/boundaries/shenzhen.json",
+      "sha256": "b04f2ac0bb801e39de858dceb7611debe84ac5bd6699478b8f56d0c663f0b161",
+      "sourceUrl": "https://www.openstreetmap.org/relation/3464353"
+    },
+    {
+      "cityId": "hongkong",
+      "path": "src/data/map/boundaries/hongkong.json",
+      "sha256": "73f8d19d3c03c4c806459fa7251a1116b9350334755b061e872dd89a037be972",
+      "sourceUrl": "https://www.openstreetmap.org/relation/913110"
+    },
+    {
+      "cityId": "macau",
+      "path": "src/data/map/boundaries/macau.json",
+      "sha256": "af1f3633955ea882807cab0e080a6a2d2297334012f4ea47ce74f021ee371fcf",
+      "sourceUrl": "https://www.openstreetmap.org/relation/1867188"
+    }
+  ],
+  "verification": {
+    "all61InsideOwnCity": true,
+    "all61InsideAssignedRegion": true,
+    "all61OutsideOtherThreeCities": true,
+    "exactCoordinateMatchWithPriorAudit": true,
+    "eachRegionHasExactlyOneTier1": true
+  },
+  "cityRelations": [
+    {
+      "cities": [
+        "guangzhou",
+        "shenzhen"
+      ],
+      "intersectionPolygons": 0
+    },
+    {
+      "cities": [
+        "guangzhou",
+        "hongkong"
+      ],
+      "intersectionPolygons": 0
+    },
+    {
+      "cities": [
+        "guangzhou",
+        "macau"
+      ],
+      "intersectionPolygons": 0
+    },
+    {
+      "cities": [
+        "shenzhen",
+        "hongkong"
+      ],
+      "intersectionPolygons": 0
+    },
+    {
+      "cities": [
+        "shenzhen",
+        "macau"
+      ],
+      "intersectionPolygons": 0
+    },
+    {
+      "cities": [
+        "hongkong",
+        "macau"
+      ],
+      "intersectionPolygons": 0
+    }
+  ],
+  "limitations": [
+    "Topology checks use the full fixed OSM source geometry, including seas, holes and external small faces. They do not establish formal administrative or legal jurisdiction.",
+    "The 250 m rule is a candidate distance check, not a safe route or public-access proof. Macau A-Ma Temple is about 205.7 m from the source boundary and remains an ordinary non-unlocking point.",
+    "All physical photo positions, GPS performance, opening hours, ferry availability and accessible routes still require current local or field validation.",
+    "Displayed area is the complete source display area, including water and external faces; it is not official land area.",
+    "Macau latitude bands 22.173 and 22.13 are editorial game masks, not parish boundaries, and do not include all Hengqin."
+  ]
+}

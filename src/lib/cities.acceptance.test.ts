@@ -20,7 +20,7 @@ function checkIn(state: AppState, landmark: Landmark, id: string, time = at): Ap
 }
 afterEach(() => vi.unstubAllGlobals())
 
-describe('six-city progress acceptance', () => {
+describe('ten-city progress acceptance', () => {
   it.each(cities)('$name records a secondary first, unlocks only its representative, and keeps retries idempotent', city => {
     const secondary = city.landmarks.find(landmark => landmark.tier === 2)!
     expect(secondary, `${city.id} must include an ordinary scenic point`).toBeDefined()
@@ -52,14 +52,14 @@ describe('six-city progress acceptance', () => {
     expect(validateCheckIn(arrive(state, representative, at, 250.001), representative.id, at).ok).toBe(false)
   })
 
-  it('keeps each city progress and archive intact through six-city switching, storage reload and sync projection', () => {
+  it('keeps each city progress and archive intact through ten-city switching, storage reload and sync projection', () => {
     const saved = new Map<string, string>()
     vi.stubGlobal('localStorage', {
       getItem: (key: string) => saved.get(key) ?? null,
       setItem: (key: string, value: string) => saved.set(key, value),
       removeItem: (key: string) => saved.delete(key),
     })
-    expect(cities).toHaveLength(6)
+    expect(cities).toHaveLength(10)
     let state = createInitialState(at)
     const expected = new Map<string, string>()
     for (const [index, city] of cities.entries()) {
@@ -88,8 +88,8 @@ describe('six-city progress acceptance', () => {
     expect(saved.has(`${STATE_STORAGE_KEY}:recovery`)).toBe(false)
     const remote = applySyncSnapshot(createInitialState(at), projectSyncState(state))
     expect(isAppState(remote)).toBe(true)
-    expect(remote.visits).toHaveLength(6)
-    expect(remote.trips).toHaveLength(6)
+    expect(remote.visits).toHaveLength(10)
+    expect(remote.trips).toHaveLength(10)
     for (const city of cities) expect(getCityProgress(remote, city.id).regionIds).toEqual([expected.get(city.id)])
   })
 })

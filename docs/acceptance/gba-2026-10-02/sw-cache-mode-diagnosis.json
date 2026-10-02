@@ -1,0 +1,36 @@
+{
+  "date": "2026-10-02",
+  "status": "executed",
+  "scope": "Minimal service-worker protocol reproduction, not the full application acceptance run.",
+  "method": "Real installed Chrome + temporary loopback server serving current service worker source. Diagnostic-only response header exposed the incoming Request.cache. Product dist was not changed. Page reload happened after context.setOffline(true).",
+  "beforeFix": [
+    {
+      "routing": false,
+      "requestCacheMode": "default",
+      "status": 200,
+      "cache": "hit"
+    },
+    {
+      "routing": true,
+      "requestCacheMode": "reload",
+      "status": 503,
+      "cache": "miss"
+    }
+  ],
+  "afterFix": [
+    {
+      "routing": false,
+      "requestCacheMode": "default",
+      "status": 200,
+      "cache": "hit"
+    },
+    {
+      "routing": true,
+      "requestCacheMode": "reload",
+      "status": 200,
+      "cache": "hit"
+    }
+  ],
+  "fix": "Only X-Vesluma-Map-Retry: 1 bypasses validated CacheStorage entries. HTTP cache modes reload/no-store alone do not disable the offline map. Explicit app retries still use cache: reload to refresh HTTP cache.",
+  "limitation": "This isolates service-worker cache semantics. Full application acceptance uses the final rebuilt bundle and is reported separately."
+}

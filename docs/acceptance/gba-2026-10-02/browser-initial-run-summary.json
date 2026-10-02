@@ -1,0 +1,37 @@
+{
+  "status": "initial-run-before-cache-compatibility-fix",
+  "productionEntry": "assets/index-B-RFe16N.js",
+  "citySuite": {
+    "passed": 21,
+    "failed": 4,
+    "total": 25
+  },
+  "syncSuite": {
+    "passed": 10,
+    "failed": 0
+  },
+  "baselineDeterministicAndOffline": {
+    "passed": 25,
+    "failed": 0
+  },
+  "realNetworkSmoke": {
+    "notRun": 1,
+    "reason": "Reserved for final rebuilt code"
+  },
+  "additional": {
+    "vitePreviewTenCity": "passed",
+    "nodeLocalTenCity": "passed"
+  },
+  "failedCases": [
+    "bad-http200-map-not-cached-retry-and-offline-recovery",
+    "on-demand-install-offline-unvisited-recovery-lru-and-api-exclusion",
+    "offline-each-of-ten-cities-after-visit-with-six-city-cache-limit",
+    "offline-upgrade-v7-retains-six-valid-maps-and-removes-stale-api-cache"
+  ],
+  "diagnosis": {
+    "threeOfflineReloadCases": "Valid maps existed in CacheStorage. No-route control passed; an external request route caused reload to miss. Root authorized explicit application retry header to distinguish retry from browser cache behavior.",
+    "upgradeCase": "controllerchange can arrive before activation migration finishes; fixture now polls for old-cache cleanup before final assertions."
+  },
+  "retainedEvidence": "initial-offline-failures/test-results",
+  "productCodeChangedByQa": false
+}

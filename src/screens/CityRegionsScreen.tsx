@@ -35,6 +35,7 @@ export function CityRegionsScreen({ state, onBack, onCity, onLandmark, initialCo
       <h2>全市分区</h2><button className="text-button" onClick={onCity}>{city.name}<ChevronDown size={14} /></button></header>
     <div className="regions-intro"><span className="eyebrow">一处代表，展开一片城市</span><h1>{city.name}，分 {city.regions.length} 次展开</h1>
       <p>密集景点合并成组团，只有一级地标负责开图。<br />市域内的城区、郊野与水域都纳入分区。</p>
+      {city.coverageNote ? <p>{city.coverageNote}</p> : null}
       <div className="regions-metrics"><span><b>{city.regions.length}</b>开图地标</span><span><b>{city.landmarks.length - city.regions.length}</b>游览与记录点</span><span><b>{Math.round(city.areaKm2).toLocaleString()}</b>约 km² 覆盖</span></div>
     </div>
     <div className="region-plan-map"><ExploreMap city={mapCity} mapTheme={state.mapTheme} unlockedRegionIds={progress.allRegionIds}

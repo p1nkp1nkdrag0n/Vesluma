@@ -5,7 +5,9 @@ import { join } from 'node:path';
 import { test as syncTest, expect, evidenceDir, saved, png } from '../sync-e2e/fixtures';
 
 export { expect, evidenceDir, saved, png };
-export const cityIds = ['nanjing', 'xian', 'beijing', 'shanghai', 'hangzhou', 'chengdu'] as const;
+export const originalCityIds = ['nanjing', 'xian', 'beijing', 'shanghai', 'hangzhou', 'chengdu'] as const;
+export const gbaCityIds = ['guangzhou', 'shenzhen', 'hongkong', 'macau'] as const;
+export const cityIds = [...originalCityIds, ...gbaCityIds];
 export const newCityIds = cityIds.slice(2);
 export const mapAssetPattern = (id: string) => new RegExp(`^/assets/${id}(?:-[^/]+\\.json(?:\\.gz)?|\\.json-[^/]+\\.gz)$`);
 export interface Landmark { id: string; name: string; tier: number; cover: string; regionIds: string[] }
@@ -13,7 +15,7 @@ export interface City { id: string; name: string; landmarks: Landmark[]; regions
 const plan = JSON.parse(readFileSync(new URL('../../src/data/map/city-plans.json', import.meta.url), 'utf8')) as { cities: City[] };
 export function cityData(id: string): City {
   const city = plan.cities.find(item => item.id === id);
-  if (!city) throw new Error(`Six-city acceptance requires configured city: ${id}`);
+  if (!city) throw new Error(`Ten-city acceptance requires configured city: ${id}`);
   return city;
 }
 
@@ -29,10 +31,15 @@ export const test = syncTest.extend<{ cityAudit: void }>({
     await mkdir(evidenceDir, { recursive: true });
     const name = testInfo.title.replace(/[^a-zA-Z0-9-]/g, '-');
     const intentionalOffline = testInfo.title.includes('offline');
+    const expectedCacheMiss = testInfo.title === 'on-demand-install-offline-unvisited-recovery-lru-and-api-exclusion';
     const unexpectedConsole = consoleMessages.filter(message => !message.includes('Service Worker registration blocked by Playwright')
-      && !(intentionalOffline && /Failed to load resource: net::ERR_(INTERNET_DISCONNECTED|FAILED)/.test(message)));
+      && !(intentionalOffline && /Failed to load resource: net::ERR_(INTERNET_DISCONNECTED|FAILED)/.test(message))
+      && !(expectedCacheMiss && /Failed to load resource: the server responded with a status of 503/.test(message)));
     if (!page.isClosed() && page.url() !== 'about:blank') await page.screenshot({ path: join(evidenceDir, `${name}.png`) });
-    await writeFile(join(evidenceDir, `${name}.json`), JSON.stringify({
+    // Device-fixture cases have their own multi-context evidence under name.json.
+    // Preserve it when this automatically created audit page stayed unused.
+    const auditName = page.url() === 'about:blank' ? `${name}-page-audit` : name;
+    await writeFile(join(evidenceDir, `${auditName}.json`), JSON.stringify({
       title: testInfo.title, status: testInfo.status, browser: browser.version(), url: page.url(), viewport: page.viewportSize(),
       environment: 'Desktop Chromium browser/context/position simulations, not physical phones or field verification. Temporary local SQLite spaces are not production authentication.',
       externalResources: 'OSM raster tiles and Google Fonts are stubbed for deterministic flows; independent real-network smoke runs in the baseline suite.',
@@ -45,7 +52,7 @@ export const test = syncTest.extend<{ cityAudit: void }>({
 
 export async function stubExternal(page: Page) {
   await page.context().route('https://tile.openstreetmap.org/**', route => route.fulfill({ status: 200, contentType: 'image/png', body: png }));
-  await page.context().route('https://fonts.googleapis.com/**', route => route.fulfill({ status: 200, contentType: 'text/css', body: '/* Six-city acceptance uses system fonts. */' }));
+  await page.context().route('https://fonts.googleapis.com/**', route => route.fulfill({ status: 200, contentType: 'text/css', body: '/* City acceptance uses system fonts. */' }));
 }
 
 export async function openApp(page: Page, url: string) {
@@ -61,13 +68,13 @@ export async function mapReady(page: Page) {
   await expect(page.locator('.map-loading')).toHaveCount(0);
 }
 
-export async function switchCity(page: Page, city: City) {
+export async function switchCity(page: Page, city: City, waitForMap = true) {
   await page.getByRole('navigation', { name: '主导航' }).getByRole('button', { name: '探索', exact: true }).click();
   await page.locator('.city-title').click();
   await page.getByRole('dialog').locator('.city-option').filter({ has: page.locator('b', { hasText: new RegExp(`^${city.name}$`) }) }).click();
   await expect(page.locator('.city-title')).toHaveText(city.name);
   await expect.poll(async () => (await saved(page)).cityId).toBe(city.id);
-  await mapReady(page);
+  if (waitForMap) await mapReady(page);
 }
 
 export async function decodedCover(image: Locator, path: string) {

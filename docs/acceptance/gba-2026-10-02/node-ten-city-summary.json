@@ -1,0 +1,258 @@
+{
+  "status": "passed",
+  "url": "http://127.0.0.1:4175",
+  "entry": "/assets/index-CGmM-jbQ.js",
+  "hostLabel": "node-local",
+  "browser": "151.0.7922.34",
+  "environment": "Desktop Chromium browser simulation; local host compatibility only, no physical device/field verification. OSM raster tiles and Google Fonts stubbed; bundled geographic snapshots served as real local assets.",
+  "outcomes": [
+    {
+      "cityId": "nanjing",
+      "status": "passed",
+      "skeleton": "ready"
+    },
+    {
+      "cityId": "xian",
+      "status": "passed",
+      "skeleton": "ready"
+    },
+    {
+      "cityId": "beijing",
+      "status": "passed",
+      "skeleton": "ready"
+    },
+    {
+      "cityId": "shanghai",
+      "status": "passed",
+      "skeleton": "ready"
+    },
+    {
+      "cityId": "hangzhou",
+      "status": "passed",
+      "skeleton": "ready"
+    },
+    {
+      "cityId": "chengdu",
+      "status": "passed",
+      "skeleton": "ready"
+    },
+    {
+      "cityId": "guangzhou",
+      "status": "passed",
+      "skeleton": "ready"
+    },
+    {
+      "cityId": "shenzhen",
+      "status": "passed",
+      "skeleton": "ready"
+    },
+    {
+      "cityId": "hongkong",
+      "status": "passed",
+      "skeleton": "ready"
+    },
+    {
+      "cityId": "macau",
+      "status": "passed",
+      "skeleton": "ready"
+    }
+  ],
+  "responses": [
+    {
+      "cityId": "nanjing",
+      "path": "/assets/nanjing-CySEN2L4.json",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8",
+      "contentEncoding": null
+    },
+    {
+      "cityId": "xian",
+      "path": "/assets/xian-DuXZFYl-.json",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8",
+      "contentEncoding": null
+    },
+    {
+      "cityId": "beijing",
+      "path": "/assets/beijing.json-zKQGpKMN.gz",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "contentEncoding": null
+    },
+    {
+      "cityId": "shanghai",
+      "path": "/assets/shanghai.json-C-fEtP8b.gz",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "contentEncoding": null
+    },
+    {
+      "cityId": "hangzhou",
+      "path": "/assets/hangzhou.json-nj-uVRVO.gz",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "contentEncoding": null
+    },
+    {
+      "cityId": "chengdu",
+      "path": "/assets/chengdu.json-h_Z5-iVh.gz",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "contentEncoding": null
+    },
+    {
+      "cityId": "guangzhou",
+      "path": "/assets/guangzhou.json-Bw1FS0Ny.gz",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "contentEncoding": null
+    },
+    {
+      "cityId": "shenzhen",
+      "path": "/assets/shenzhen.json-CvRdRs0v.gz",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "contentEncoding": null
+    },
+    {
+      "cityId": "hongkong",
+      "path": "/assets/hongkong.json-Dru4gV7c.gz",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "contentEncoding": null
+    },
+    {
+      "cityId": "macau",
+      "path": "/assets/macau.json-XFqT9wNJ.gz",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "contentEncoding": null
+    }
+  ],
+  "rawHttpResponses": [
+    {
+      "cityId": "nanjing",
+      "path": "/assets/nanjing-CySEN2L4.json",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8",
+      "contentEncoding": null,
+      "bytes": 19282046,
+      "firstTwoBytes": [
+        123,
+        34
+      ]
+    },
+    {
+      "cityId": "xian",
+      "path": "/assets/xian-DuXZFYl-.json",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8",
+      "contentEncoding": null,
+      "bytes": 13227236,
+      "firstTwoBytes": [
+        123,
+        34
+      ]
+    },
+    {
+      "cityId": "beijing",
+      "path": "/assets/beijing.json-zKQGpKMN.gz",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "contentEncoding": null,
+      "bytes": 8323822,
+      "firstTwoBytes": [
+        31,
+        139
+      ]
+    },
+    {
+      "cityId": "shanghai",
+      "path": "/assets/shanghai.json-C-fEtP8b.gz",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "contentEncoding": null,
+      "bytes": 7123287,
+      "firstTwoBytes": [
+        31,
+        139
+      ]
+    },
+    {
+      "cityId": "hangzhou",
+      "path": "/assets/hangzhou.json-nj-uVRVO.gz",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "contentEncoding": null,
+      "bytes": 9918942,
+      "firstTwoBytes": [
+        31,
+        139
+      ]
+    },
+    {
+      "cityId": "chengdu",
+      "path": "/assets/chengdu.json-h_Z5-iVh.gz",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "contentEncoding": null,
+      "bytes": 5671046,
+      "firstTwoBytes": [
+        31,
+        139
+      ]
+    },
+    {
+      "cityId": "guangzhou",
+      "path": "/assets/guangzhou.json-Bw1FS0Ny.gz",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "contentEncoding": null,
+      "bytes": 11105281,
+      "firstTwoBytes": [
+        31,
+        139
+      ]
+    },
+    {
+      "cityId": "shenzhen",
+      "path": "/assets/shenzhen.json-CvRdRs0v.gz",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "contentEncoding": null,
+      "bytes": 7876802,
+      "firstTwoBytes": [
+        31,
+        139
+      ]
+    },
+    {
+      "cityId": "hongkong",
+      "path": "/assets/hongkong.json-Dru4gV7c.gz",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "contentEncoding": null,
+      "bytes": 3276295,
+      "firstTwoBytes": [
+        31,
+        139
+      ]
+    },
+    {
+      "cityId": "macau",
+      "path": "/assets/macau.json-XFqT9wNJ.gz",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "contentEncoding": null,
+      "bytes": 330631,
+      "firstTwoBytes": [
+        31,
+        139
+      ]
+    }
+  ],
+  "pageErrors": [],
+  "consoleMessages": [
+    "warning: Service Worker registration blocked by Playwright"
+  ]
+}

@@ -1,0 +1,226 @@
+{
+  "status": "passed",
+  "faultMethod": "Real loopback HTTP 200 response with structurally invalid map JSON; no business API injection",
+  "faults": [
+    {
+      "path": "/assets/guangzhou.json-Bw1FS0Ny.gz",
+      "status": 200,
+      "requestCacheControl": "no-cache",
+      "responseCacheControl": "public, max-age=600"
+    },
+    {
+      "path": "/assets/guangzhou.json-Bw1FS0Ny.gz",
+      "status": 200,
+      "requestCacheControl": "no-cache",
+      "responseCacheControl": "public, max-age=600"
+    }
+  ],
+  "rejectedCache": {
+    "names": [
+      "vesluma-shell-v8",
+      "vesluma-maps-v1"
+    ],
+    "stores": [
+      {
+        "name": "vesluma-shell-v8",
+        "paths": [
+          "/index.html",
+          "/",
+          "/.vite/manifest.json",
+          "/manifest.webmanifest",
+          "/icon.svg",
+          "/images/nanjing.png",
+          "/images/xian.png",
+          "/images/beijing.png",
+          "/images/shanghai.png",
+          "/images/hangzhou.png",
+          "/images/chengdu.png",
+          "/images/guangzhou.png",
+          "/images/shenzhen.png",
+          "/images/hongkong.png",
+          "/images/macau.png",
+          "/images/map-paper-texture.webp",
+          "/images/map-treasure-texture.webp",
+          "/assets/map-engine-BZOsmtGx.js",
+          "/assets/map-engine-CIGW-MKW.css",
+          "/assets/react-runtime-BZIfiq8F.js",
+          "/assets/index-CGmM-jbQ.js",
+          "/assets/index-i-NuwVLl.css",
+          "/assets/web-C3fe3YnL.js"
+        ]
+      },
+      {
+        "name": "vesluma-maps-v1",
+        "paths": [
+          "/assets/nanjing-CySEN2L4.json",
+          "/__vesluma_map_lru__"
+        ]
+      }
+    ],
+    "paths": [
+      "/index.html",
+      "/",
+      "/.vite/manifest.json",
+      "/manifest.webmanifest",
+      "/icon.svg",
+      "/images/nanjing.png",
+      "/images/xian.png",
+      "/images/beijing.png",
+      "/images/shanghai.png",
+      "/images/hangzhou.png",
+      "/images/chengdu.png",
+      "/images/guangzhou.png",
+      "/images/shenzhen.png",
+      "/images/hongkong.png",
+      "/images/macau.png",
+      "/images/map-paper-texture.webp",
+      "/images/map-treasure-texture.webp",
+      "/assets/map-engine-BZOsmtGx.js",
+      "/assets/map-engine-CIGW-MKW.css",
+      "/assets/react-runtime-BZIfiq8F.js",
+      "/assets/index-CGmM-jbQ.js",
+      "/assets/index-i-NuwVLl.css",
+      "/assets/web-C3fe3YnL.js",
+      "/assets/nanjing-CySEN2L4.json",
+      "/__vesluma_map_lru__"
+    ],
+    "mapPaths": [
+      "/assets/nanjing-CySEN2L4.json"
+    ],
+    "shellPaths": [
+      "/index.html",
+      "/",
+      "/.vite/manifest.json",
+      "/manifest.webmanifest",
+      "/icon.svg",
+      "/images/nanjing.png",
+      "/images/xian.png",
+      "/images/beijing.png",
+      "/images/shanghai.png",
+      "/images/hangzhou.png",
+      "/images/chengdu.png",
+      "/images/guangzhou.png",
+      "/images/shenzhen.png",
+      "/images/hongkong.png",
+      "/images/macau.png",
+      "/images/map-paper-texture.webp",
+      "/images/map-treasure-texture.webp",
+      "/assets/map-engine-BZOsmtGx.js",
+      "/assets/map-engine-CIGW-MKW.css",
+      "/assets/react-runtime-BZIfiq8F.js",
+      "/assets/index-CGmM-jbQ.js",
+      "/assets/index-i-NuwVLl.css",
+      "/assets/web-C3fe3YnL.js"
+    ],
+    "lru": [
+      "/assets/nanjing-CySEN2L4.json"
+    ]
+  },
+  "recoveredCache": {
+    "names": [
+      "vesluma-shell-v8",
+      "vesluma-maps-v1"
+    ],
+    "stores": [
+      {
+        "name": "vesluma-shell-v8",
+        "paths": [
+          "/index.html",
+          "/",
+          "/.vite/manifest.json",
+          "/manifest.webmanifest",
+          "/icon.svg",
+          "/images/nanjing.png",
+          "/images/xian.png",
+          "/images/beijing.png",
+          "/images/shanghai.png",
+          "/images/hangzhou.png",
+          "/images/chengdu.png",
+          "/images/guangzhou.png",
+          "/images/shenzhen.png",
+          "/images/hongkong.png",
+          "/images/macau.png",
+          "/images/map-paper-texture.webp",
+          "/images/map-treasure-texture.webp",
+          "/assets/map-engine-BZOsmtGx.js",
+          "/assets/map-engine-CIGW-MKW.css",
+          "/assets/react-runtime-BZIfiq8F.js",
+          "/assets/index-CGmM-jbQ.js",
+          "/assets/index-i-NuwVLl.css",
+          "/assets/web-C3fe3YnL.js"
+        ]
+      },
+      {
+        "name": "vesluma-maps-v1",
+        "paths": [
+          "/assets/nanjing-CySEN2L4.json",
+          "/assets/guangzhou.json-Bw1FS0Ny.gz",
+          "/__vesluma_map_lru__"
+        ]
+      }
+    ],
+    "paths": [
+      "/index.html",
+      "/",
+      "/.vite/manifest.json",
+      "/manifest.webmanifest",
+      "/icon.svg",
+      "/images/nanjing.png",
+      "/images/xian.png",
+      "/images/beijing.png",
+      "/images/shanghai.png",
+      "/images/hangzhou.png",
+      "/images/chengdu.png",
+      "/images/guangzhou.png",
+      "/images/shenzhen.png",
+      "/images/hongkong.png",
+      "/images/macau.png",
+      "/images/map-paper-texture.webp",
+      "/images/map-treasure-texture.webp",
+      "/assets/map-engine-BZOsmtGx.js",
+      "/assets/map-engine-CIGW-MKW.css",
+      "/assets/react-runtime-BZIfiq8F.js",
+      "/assets/index-CGmM-jbQ.js",
+      "/assets/index-i-NuwVLl.css",
+      "/assets/web-C3fe3YnL.js",
+      "/assets/nanjing-CySEN2L4.json",
+      "/assets/guangzhou.json-Bw1FS0Ny.gz",
+      "/__vesluma_map_lru__"
+    ],
+    "mapPaths": [
+      "/assets/nanjing-CySEN2L4.json",
+      "/assets/guangzhou.json-Bw1FS0Ny.gz"
+    ],
+    "shellPaths": [
+      "/index.html",
+      "/",
+      "/.vite/manifest.json",
+      "/manifest.webmanifest",
+      "/icon.svg",
+      "/images/nanjing.png",
+      "/images/xian.png",
+      "/images/beijing.png",
+      "/images/shanghai.png",
+      "/images/hangzhou.png",
+      "/images/chengdu.png",
+      "/images/guangzhou.png",
+      "/images/shenzhen.png",
+      "/images/hongkong.png",
+      "/images/macau.png",
+      "/images/map-paper-texture.webp",
+      "/images/map-treasure-texture.webp",
+      "/assets/map-engine-BZOsmtGx.js",
+      "/assets/map-engine-CIGW-MKW.css",
+      "/assets/react-runtime-BZIfiq8F.js",
+      "/assets/index-CGmM-jbQ.js",
+      "/assets/index-i-NuwVLl.css",
+      "/assets/web-C3fe3YnL.js"
+    ],
+    "lru": [
+      "/assets/nanjing-CySEN2L4.json",
+      "/assets/guangzhou.json-Bw1FS0Ny.gz"
+    ]
+  },
+  "validRetryWorksOffline": true,
+  "metadataClarification": "Request/response cache headers labelled separately after the passing run; assertions and product behavior unchanged."
+}

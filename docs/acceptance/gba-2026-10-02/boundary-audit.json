@@ -1,0 +1,1024 @@
+{
+  "checkedAt": "2026-10-02T09:47:58.375Z",
+  "command": "node scripts/audit-gba-boundaries.mjs [--research-dir <original-research-directory>] [--write <report.json>]",
+  "method": {
+    "topology": "Complete polygon-clipping Boolean intersection/difference. Empty means an empty geometry array, not rounded area or point sampling. Adjacent shared lines are not area overlap.",
+    "area": "Descriptive spherical ring area using Earth radius 6371008.8 m, subtracting holes. These values include all source faces and are not official land or maritime areas.",
+    "bboxOrder": "[west, south, east, north], WGS84 longitude/latitude degrees",
+    "optionalResearch": "The four-town raw Nominatim response is research evidence, not a required runtime or main audit input. Without --research-dir it is explicitly not rerun."
+  },
+  "limits": [
+    "OSM source polygons are project map coverage; neither their relation names nor their geometry establish legal administrative attribution.",
+    "Tourism game groups partition this source. A representative unlocks its whole group, including indirectly covered water, islands or source-marked jurisdiction faces; this is not access permission.",
+    "Two-dimensional OSM geometry does not establish legal port boundaries, vertical jurisdiction, public access, official land area, or surveyed accuracy.",
+    "This audit does not validate physical arrival, photographs, 250-metre field accuracy, or real-device behavior."
+  ],
+  "officialContext": [
+    {
+      "title": "深圳市、区、街道三级行政区划代码汇总表",
+      "url": "https://mzj.sz.gov.cn/szmz/pc/bmxx/cyfwzy/content/post_10275241.html",
+      "publishedAt": "2022-11-25 17:41",
+      "separatelyDisplayedUpdatedAt": null,
+      "shortQuote": "行政区划隶属于海丰县",
+      "limit": "Dated official administrative-code table, not an independently verified 2026 change register."
+    },
+    {
+      "title": "《广东省深汕特别合作区条例》全文",
+      "url": "https://www.szss.gov.cn/gkmlpt/content/10/10863/mpost_10863191.html",
+      "adoptedAt": "2023-09-27",
+      "publishedAt": "2023-09-28",
+      "effectiveAt": "2023-11-01",
+      "displayedStatus": "现行有效",
+      "paraphrase": "Article 2 identifies the four streets in Shanwei Haifeng County. Article 4 assigns Shenzhen development, construction, management and service responsibilities at the standard of its economic functional zones.",
+      "limit": "Official legal context, not proof that the OSM coastlines or faces match the statutory territory."
+    },
+    {
+      "title": "香港地政总署 Coordinates Transformation API",
+      "url": "https://data.gov.hk/en-data/dataset/hk-landsd-openmap-coordinates-transformation-api",
+      "paraphrase": "HK1980 grid northing/easting and WGS84 latitude/longitude are distinct systems; converting coordinates does not improve their original accuracy."
+    },
+    {
+      "title": "澳门测绘常见问题",
+      "url": "https://geomatics.dsscu.gov.mo/zh-hans/question_and_answer.html",
+      "paraphrase": "Macao grid coordinates and WGS84 geographic coordinates are separately provided coordinate products."
+    },
+    {
+      "title": "香港保安局皇岗口岸简介",
+      "url": "https://www.sb.gov.hk/chi/hg/introduction.html",
+      "eventDate": "2026-07-31",
+      "paraphrase": "The official page states that the Hong Kong Port Area was established and Hong Kong law applied from this date.",
+      "limit": "This does not certify an OSM face or grant a visitor permission to enter it."
+    },
+    {
+      "title": "全国人大常委会授权澳门对横琴口岸澳方口岸区及相关延伸区实施管辖",
+      "url": "https://www.gov.mo/zh-hans/news/267884/",
+      "publishedAt": "2019-10-26",
+      "paraphrase": "Specified port and extension areas have separate jurisdiction arrangements; this is not a statement that all Hengqin is Macao.",
+      "limit": "No legal boundary equivalence is inferred for the source faces."
+    }
+  ],
+  "cities": {
+    "guangzhou": {
+      "sourceFile": "src/data/map/boundaries/guangzhou.json",
+      "sourceFileSha256": "0bbca31353492b81d79d6db8d61c3f1b220af8e39776ffad02649008f65a64a5",
+      "sourceUrl": "https://www.openstreetmap.org/relation/3287346",
+      "originalLookupReceipt": {
+        "url": "https://nominatim.openstreetmap.org/lookup?osm_ids=R3287346&format=jsonv2&polygon_geojson=1&extratags=1",
+        "downloadedAt": "2026-10-02T09:15:28.198Z",
+        "sha256": "828668e06f19c10cfe3f09bd6dd60b1854e2b8886a03ed10ca3983551cbcffff"
+      },
+      "sourceScope": "Complete OSM municipality and its eleven level-6 districts.",
+      "empty": false,
+      "componentCount": 2,
+      "bbox": [
+        112.9523727,
+        22.5607978,
+        114.055299,
+        23.9356989
+      ],
+      "areaKm2": 7390.374318859253,
+      "components": [
+        {
+          "index": 0,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            112.9523727,
+            22.5607978,
+            114.055299,
+            23.9356989
+          ],
+          "areaKm2": 7389.660590677222,
+          "holes": 0,
+          "outerVertices": 5021
+        },
+        {
+          "index": 1,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            113.0597823,
+            23.2336638,
+            113.0766624,
+            23.2431366
+          ],
+          "areaKm2": 0.7137281820311517,
+          "holes": 2,
+          "outerVertices": 57
+        }
+      ],
+      "originalLookupChecked": {
+        "sha256MatchesReceipt": true,
+        "geometryExactlyMatchesCommittedSnapshot": true
+      }
+    },
+    "shenzhen": {
+      "sourceFile": "src/data/map/boundaries/shenzhen.json",
+      "sourceFileSha256": "b04f2ac0bb801e39de858dceb7611debe84ac5bd6699478b8f56d0c663f0b161",
+      "sourceUrl": "https://www.openstreetmap.org/relation/3464353",
+      "originalLookupReceipt": {
+        "url": "https://nominatim.openstreetmap.org/lookup?osm_ids=R3464353&format=jsonv2&polygon_geojson=1&extratags=1",
+        "downloadedAt": "2026-10-02T09:15:30.984Z",
+        "sha256": "88996a7e6787a729af14b3bd09a18c90eefc6a8ab09f705cd702c0c2218d8842"
+      },
+      "sourceScope": "Complete OSM source relation, with nine district-named subareas plus the subarea named Shenshan Special Cooperation Zone and disconnected polygons. Dapeng is within the source Longgang polygon. Source geometry and game coverage do not establish formal administrative status.",
+      "empty": false,
+      "componentCount": 24,
+      "bbox": [
+        113.6805151,
+        21.8213642,
+        115.3890648,
+        23.016534
+      ],
+      "areaKm2": 5948.339032079907,
+      "components": [
+        {
+          "index": 0,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.0668035,
+            22.5236956,
+            114.0670323,
+            22.5238255
+          ],
+          "areaKm2": 0.00015468043877550608,
+          "holes": 0,
+          "outerVertices": 13
+        },
+        {
+          "index": 1,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.067011,
+            22.523697,
+            114.0670385,
+            22.5237153
+          ],
+          "areaKm2": 0.0000033103798562465373,
+          "holes": 0,
+          "outerVertices": 5
+        },
+        {
+          "index": 2,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            113.6805151,
+            21.8213642,
+            114.7966548,
+            22.8644043
+          ],
+          "areaKm2": 4013.194579839765,
+          "holes": 14,
+          "outerVertices": 3779
+        },
+        {
+          "index": 3,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.0664873,
+            22.5228302,
+            114.0665529,
+            22.5228979
+          ],
+          "areaKm2": 0.000027806926551079118,
+          "holes": 0,
+          "outerVertices": 7
+        },
+        {
+          "index": 4,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.0665314,
+            22.5232244,
+            114.0665574,
+            22.5232652
+          ],
+          "areaKm2": 0.000006020252720423003,
+          "holes": 0,
+          "outerVertices": 5
+        },
+        {
+          "index": 5,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.066563,
+            22.522756,
+            114.0666919,
+            22.5228201
+          ],
+          "areaKm2": 0.000059516135782929047,
+          "holes": 0,
+          "outerVertices": 11
+        },
+        {
+          "index": 6,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.0666117,
+            22.5231931,
+            114.0666893,
+            22.523256
+          ],
+          "areaKm2": 0.000029532489289108583,
+          "holes": 0,
+          "outerVertices": 7
+        },
+        {
+          "index": 7,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.0666761,
+            22.5237757,
+            114.0667085,
+            22.5238066
+          ],
+          "areaKm2": 0.000007169315889085408,
+          "holes": 0,
+          "outerVertices": 5
+        },
+        {
+          "index": 8,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.0666994,
+            22.5231425,
+            114.0668263,
+            22.523206
+          ],
+          "areaKm2": 0.00004833153804173526,
+          "holes": 0,
+          "outerVertices": 7
+        },
+        {
+          "index": 9,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.0669059,
+            22.5240687,
+            114.0671693,
+            22.5242403
+          ],
+          "areaKm2": 0.00025772242348152014,
+          "holes": 0,
+          "outerVertices": 21
+        },
+        {
+          "index": 10,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.0669212,
+            22.5240758,
+            114.0669579,
+            22.5241119
+          ],
+          "areaKm2": 0.000009467012235760456,
+          "holes": 0,
+          "outerVertices": 5
+        },
+        {
+          "index": 11,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.0670081,
+            22.5226817,
+            114.0671184,
+            22.522811
+          ],
+          "areaKm2": 0.00005982692555082258,
+          "holes": 0,
+          "outerVertices": 9
+        },
+        {
+          "index": 12,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.0671673,
+            22.5227601,
+            114.0672013,
+            22.5227781
+          ],
+          "areaKm2": 0.000003351518935594902,
+          "holes": 0,
+          "outerVertices": 5
+        },
+        {
+          "index": 13,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.0672149,
+            22.5226434,
+            114.0672579,
+            22.5226765
+          ],
+          "areaKm2": 0.00000991425414404044,
+          "holes": 0,
+          "outerVertices": 5
+        },
+        {
+          "index": 14,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.0672314,
+            22.5226846,
+            114.0672859,
+            22.5227548
+          ],
+          "areaKm2": 0.00002523259678665371,
+          "holes": 0,
+          "outerVertices": 5
+        },
+        {
+          "index": 15,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.0672952,
+            22.5229528,
+            114.0674344,
+            22.5230054
+          ],
+          "areaKm2": 0.000019093675188391052,
+          "holes": 0,
+          "outerVertices": 5
+        },
+        {
+          "index": 16,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.0673013,
+            22.5230139,
+            114.0674308,
+            22.5230774
+          ],
+          "areaKm2": 0.000053061870063989963,
+          "holes": 0,
+          "outerVertices": 7
+        },
+        {
+          "index": 17,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.0674344,
+            22.5238731,
+            114.0675569,
+            22.5240512
+          ],
+          "areaKm2": 0.00012413899410816334,
+          "holes": 0,
+          "outerVertices": 9
+        },
+        {
+          "index": 18,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.067446,
+            22.5229347,
+            114.0675081,
+            22.523004
+          ],
+          "areaKm2": 0.000028673722170007722,
+          "holes": 0,
+          "outerVertices": 7
+        },
+        {
+          "index": 19,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.0674908,
+            22.523475,
+            114.0677103,
+            22.5236184
+          ],
+          "areaKm2": 0.0001492644457608041,
+          "holes": 0,
+          "outerVertices": 13
+        },
+        {
+          "index": 20,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.0675541,
+            22.5238217,
+            114.0676964,
+            22.524013
+          ],
+          "areaKm2": 0.00013661171638082854,
+          "holes": 0,
+          "outerVertices": 15
+        },
+        {
+          "index": 21,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.0676787,
+            22.5239514,
+            114.0677013,
+            22.5239897
+          ],
+          "areaKm2": 0.000004521361822444413,
+          "holes": 0,
+          "outerVertices": 5
+        },
+        {
+          "index": 22,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.0678266,
+            22.5234218,
+            114.0678698,
+            22.5234742
+          ],
+          "areaKm2": 0.0000170590898843663,
+          "holes": 0,
+          "outerVertices": 7
+        },
+        {
+          "index": 23,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.913323,
+            22.1282117,
+            115.3890648,
+            23.016534
+          ],
+          "areaKm2": 1935.1432179330588,
+          "holes": 0,
+          "outerVertices": 1622
+        }
+      ],
+      "originalLookupChecked": {
+        "sha256MatchesReceipt": true,
+        "geometryExactlyMatchesCommittedSnapshot": true
+      }
+    },
+    "hongkong": {
+      "sourceFile": "src/data/map/boundaries/hongkong.json",
+      "sourceFileSha256": "73f8d19d3c03c4c806459fa7251a1116b9350334755b061e872dd89a037be972",
+      "sourceUrl": "https://www.openstreetmap.org/relation/913110",
+      "originalLookupReceipt": {
+        "url": "https://nominatim.openstreetmap.org/lookup?osm_ids=R913110&format=jsonv2&polygon_geojson=1&extratags=1",
+        "downloadedAt": "2026-10-02T09:15:34.697Z",
+        "sha256": "3856788bcd9829f83313be4b3c35cbbd9210ea6509f5e5adb4c98d9c799c5427"
+      },
+      "sourceScope": "Complete OSM source relation, including waters and spatially separate polygons near Shenzhen Bay and Huanggang. The eighteen district polygons do not imply a nineteenth district for Lok Ma Chau Loop. Source geometry and game coverage do not establish formal administrative status, immigration access or unrestricted public land.",
+      "empty": false,
+      "componentCount": 13,
+      "bbox": [
+        113.8171111,
+        22.1367222,
+        114.5024444,
+        22.5683333
+      ],
+      "areaKm2": 2762.668256537358,
+      "components": [
+        {
+          "index": 0,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            113.8171111,
+            22.1367222,
+            114.5024444,
+            22.5683333
+          ],
+          "areaKm2": 2762.2101801890626,
+          "holes": 0,
+          "outerVertices": 1314
+        },
+        {
+          "index": 1,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            113.9402451,
+            22.4905313,
+            113.9463422,
+            22.5038877
+          ],
+          "areaKm2": 0.41924998650986656,
+          "holes": 0,
+          "outerVertices": 51
+        },
+        {
+          "index": 2,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.0659511,
+            22.5222103,
+            114.0682003,
+            22.5245816
+          ],
+          "areaKm2": 0.03655787826149462,
+          "holes": 22,
+          "outerVertices": 70
+        },
+        {
+          "index": 3,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.0678481,
+            22.5224493,
+            114.0678911,
+            22.5224824
+          ],
+          "areaKm2": 0.000009914268072585628,
+          "holes": 0,
+          "outerVertices": 5
+        },
+        {
+          "index": 4,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.0678981,
+            22.52237,
+            114.0679953,
+            22.5225255
+          ],
+          "areaKm2": 0.00007783304109244425,
+          "holes": 0,
+          "outerVertices": 9
+        },
+        {
+          "index": 5,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.067908,
+            22.5225167,
+            114.0679441,
+            22.5225511
+          ],
+          "areaKm2": 0.000008880292512559028,
+          "holes": 0,
+          "outerVertices": 5
+        },
+        {
+          "index": 6,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.0679962,
+            22.5223509,
+            114.068078,
+            22.5224997
+          ],
+          "areaKm2": 0.00004795614700116766,
+          "holes": 0,
+          "outerVertices": 7
+        },
+        {
+          "index": 7,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.068131,
+            22.522095,
+            114.0682044,
+            22.5221354
+          ],
+          "areaKm2": 0.00001850216919740199,
+          "holes": 0,
+          "outerVertices": 7
+        },
+        {
+          "index": 8,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.068414,
+            22.52222,
+            114.0684326,
+            22.5222444
+          ],
+          "areaKm2": 0.00000295355573831762,
+          "holes": 0,
+          "outerVertices": 5
+        },
+        {
+          "index": 9,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.0684355,
+            22.5221575,
+            114.0686465,
+            22.5222903
+          ],
+          "areaKm2": 0.00012340603953559068,
+          "holes": 0,
+          "outerVertices": 17
+        },
+        {
+          "index": 10,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.0686197,
+            22.5225682,
+            114.0687489,
+            22.5226618
+          ],
+          "areaKm2": 0.00005738299275284318,
+          "holes": 0,
+          "outerVertices": 13
+        },
+        {
+          "index": 11,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.0688695,
+            22.5224995,
+            114.0689382,
+            22.5225932
+          ],
+          "areaKm2": 0.00004099505485188926,
+          "holes": 0,
+          "outerVertices": 5
+        },
+        {
+          "index": 12,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            114.0694516,
+            22.5195433,
+            114.0707671,
+            22.5203149
+          ],
+          "areaKm2": 0.0018806599627899164,
+          "holes": 0,
+          "outerVertices": 32
+        }
+      ],
+      "originalLookupChecked": {
+        "sha256MatchesReceipt": true,
+        "geometryExactlyMatchesCommittedSnapshot": true
+      }
+    },
+    "macau": {
+      "sourceFile": "src/data/map/boundaries/macau.json",
+      "sourceFileSha256": "af1f3633955ea882807cab0e080a6a2d2297334012f4ea47ce74f021ee371fcf",
+      "sourceUrl": "https://www.openstreetmap.org/relation/1867188",
+      "originalLookupReceipt": {
+        "url": "https://nominatim.openstreetmap.org/lookup?osm_ids=R1867188&format=jsonv2&polygon_geojson=1&extratags=1",
+        "downloadedAt": "2026-10-02T09:15:37.117Z",
+        "sha256": "91dc38bfd037741b432663c38f647d6ef23f2cc373410b8bffeb1c833ebb1d54"
+      },
+      "sourceScope": "Complete OSM source relation, including waters and spatially separate polygons near Hengqin. The eight direct subareas mix two level-5 island areas and six level-6 parish/reclaimed areas. Source geometry and game coverage do not establish formal administrative status or unrestricted public access.",
+      "empty": false,
+      "componentCount": 4,
+      "bbox": [
+        113.5281667,
+        22.0766667,
+        113.6301389,
+        22.2170361
+      ],
+      "areaKm2": 116.73604025825809,
+      "components": [
+        {
+          "index": 0,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            113.5281667,
+            22.0766667,
+            113.6301389,
+            22.2170361
+          ],
+          "areaKm2": 115.63929019377427,
+          "holes": 0,
+          "outerVertices": 88
+        },
+        {
+          "index": 1,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            113.5401725,
+            22.1205986,
+            113.5474137,
+            22.1361004
+          ],
+          "areaKm2": 1.0463170369941655,
+          "holes": 0,
+          "outerVertices": 29
+        },
+        {
+          "index": 2,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            113.544205,
+            22.1374942,
+            113.5467666,
+            22.143496
+          ],
+          "areaKm2": 0.05032332866715577,
+          "holes": 0,
+          "outerVertices": 202
+        },
+        {
+          "index": 3,
+          "empty": false,
+          "componentCount": 1,
+          "bbox": [
+            113.5469561,
+            22.1380162,
+            113.5470325,
+            22.1381991
+          ],
+          "areaKm2": 0.00010969882247919977,
+          "holes": 0,
+          "outerVertices": 17
+        }
+      ],
+      "originalLookupChecked": {
+        "sha256MatchesReceipt": true,
+        "geometryExactlyMatchesCommittedSnapshot": true
+      }
+    }
+  },
+  "intersections": [
+    {
+      "cities": [
+        "guangzhou",
+        "shenzhen"
+      ],
+      "empty": true,
+      "componentCount": 0,
+      "bbox": null,
+      "areaKm2": 0,
+      "components": []
+    },
+    {
+      "cities": [
+        "guangzhou",
+        "hongkong"
+      ],
+      "empty": true,
+      "componentCount": 0,
+      "bbox": null,
+      "areaKm2": 0,
+      "components": []
+    },
+    {
+      "cities": [
+        "guangzhou",
+        "macau"
+      ],
+      "empty": true,
+      "componentCount": 0,
+      "bbox": null,
+      "areaKm2": 0,
+      "components": []
+    },
+    {
+      "cities": [
+        "shenzhen",
+        "hongkong"
+      ],
+      "empty": true,
+      "componentCount": 0,
+      "bbox": null,
+      "areaKm2": 0,
+      "components": []
+    },
+    {
+      "cities": [
+        "shenzhen",
+        "macau"
+      ],
+      "empty": true,
+      "componentCount": 0,
+      "bbox": null,
+      "areaKm2": 0,
+      "components": []
+    },
+    {
+      "cities": [
+        "hongkong",
+        "macau"
+      ],
+      "empty": true,
+      "componentCount": 0,
+      "bbox": null,
+      "areaKm2": 0,
+      "components": []
+    }
+  ],
+  "shenshan": {
+    "sourceFeatureName": "深汕特别合作区",
+    "empty": false,
+    "componentCount": 1,
+    "bbox": [
+      114.913323,
+      22.1282117,
+      115.3890648,
+      23.016534
+    ],
+    "areaKm2": 1935.1432179330588,
+    "components": [
+      {
+        "index": 0,
+        "empty": false,
+        "componentCount": 1,
+        "bbox": [
+          114.913323,
+          22.1282117,
+          115.3890648,
+          23.016534
+        ],
+        "areaKm2": 1935.1432179330588,
+        "holes": 0,
+        "outerVertices": 1622
+      }
+    ],
+    "outsideShenzhen": {
+      "empty": true,
+      "componentCount": 0,
+      "bbox": null,
+      "areaKm2": 0
+    }
+  },
+  "optionalTownAudit": {
+    "status": "run",
+    "rawFile": "shenshan-towns.json (optional research file, not committed)",
+    "rawSha256": "70701663eb1440bc205429aec0ed9954354231a5174b3dc73d506e501d95db66",
+    "receipt": {
+      "url": "https://nominatim.openstreetmap.org/lookup?osm_ids=R19451184,R19451185,R19451183,R19451186&format=jsonv2&polygon_geojson=1&extratags=1",
+      "downloadedAt": "2026-10-02T09:29:07.174Z",
+      "sha256": "70701663eb1440bc205429aec0ed9954354231a5174b3dc73d506e501d95db66"
+    },
+    "expectedRelationIds": [
+      19451183,
+      19451184,
+      19451185,
+      19451186
+    ],
+    "actualRelationIds": [
+      19451183,
+      19451184,
+      19451185,
+      19451186
+    ],
+    "towns": [
+      {
+        "osmId": 19451184,
+        "sourceName": "小漠街道",
+        "empty": false,
+        "componentCount": 1,
+        "bbox": [
+          114.989758,
+          22.7053952,
+          115.052379,
+          22.817248
+        ],
+        "areaKm2": 36.68884911486263,
+        "outsideShenzhen": {
+          "empty": true,
+          "componentCount": 0,
+          "bbox": null,
+          "areaKm2": 0
+        },
+        "outsideShenshan": {
+          "empty": true,
+          "componentCount": 0,
+          "bbox": null,
+          "areaKm2": 0
+        }
+      },
+      {
+        "osmId": 19451185,
+        "sourceName": "赤石街道",
+        "empty": false,
+        "componentCount": 1,
+        "bbox": [
+          114.913323,
+          22.79802,
+          115.162944,
+          23.016534
+        ],
+        "areaKm2": 305.794147161131,
+        "outsideShenzhen": {
+          "empty": true,
+          "componentCount": 0,
+          "bbox": null,
+          "areaKm2": 0
+        },
+        "outsideShenshan": {
+          "empty": true,
+          "componentCount": 0,
+          "bbox": null,
+          "areaKm2": 0
+        }
+      },
+      {
+        "osmId": 19451183,
+        "sourceName": "鲘门街道",
+        "empty": false,
+        "componentCount": 17,
+        "bbox": [
+          115.0458042,
+          22.7378395,
+          115.1917027,
+          22.838956
+        ],
+        "areaKm2": 34.71454778915876,
+        "outsideShenzhen": {
+          "empty": true,
+          "componentCount": 0,
+          "bbox": null,
+          "areaKm2": 0
+        },
+        "outsideShenshan": {
+          "empty": true,
+          "componentCount": 0,
+          "bbox": null,
+          "areaKm2": 0
+        }
+      },
+      {
+        "osmId": 19451186,
+        "sourceName": "鹅埠街道",
+        "empty": false,
+        "componentCount": 1,
+        "bbox": [
+          114.920556,
+          22.773925,
+          115.029133,
+          22.90378
+        ],
+        "areaKm2": 91.19106961030202,
+        "outsideShenzhen": {
+          "empty": true,
+          "componentCount": 0,
+          "bbox": null,
+          "areaKm2": 0
+        },
+        "outsideShenshan": {
+          "empty": true,
+          "componentCount": 0,
+          "bbox": null,
+          "areaKm2": 0
+        }
+      }
+    ],
+    "union": {
+      "empty": false,
+      "componentCount": 17,
+      "bbox": [
+        114.913323,
+        22.7053952,
+        115.1917027,
+        23.016534
+      ],
+      "areaKm2": 468.3886136748842
+    },
+    "shenshanOutsideTowns": {
+      "empty": false,
+      "componentCount": 1,
+      "bbox": [
+        115.0160462,
+        22.1282117,
+        115.3890648,
+        22.8134776
+      ],
+      "areaKm2": 1466.754604257846
+    },
+    "townsOutsideShenshan": {
+      "empty": true,
+      "componentCount": 0,
+      "bbox": null,
+      "areaKm2": 0
+    },
+    "interpretation": "All four complete source town geometries are checked, not just their centres. The remainder is an OSM geometric difference; no official sea-area measurement or legal scope is inferred."
+  },
+  "passed": true
+}

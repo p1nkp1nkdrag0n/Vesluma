@@ -1,0 +1,26 @@
+{
+  "commands": [
+    {
+      "command": "npx tsc --noEmit --pretty false",
+      "result": "PASS"
+    },
+    {
+      "command": "npx vitest run src/data/map/map.data.test.ts src/data/map/map.loader.test.ts src/data/map/map.import.test.ts",
+      "result": "PASS",
+      "testFiles": 3,
+      "tests": 27
+    }
+  ],
+  "verified": [
+    "Every registered city skeleton passes identity, WGS84, road-class, source-node and water-ring checks.",
+    "Overpass query partitions exactly cover each full bbox, including a successfully empty Shenzhen offshore partition.",
+    "Invalid HTTP 200 JSON/gzip and timeout-late responses are never handed to the offline worker.",
+    "Failed requests retry with cache reload; uncached offline cities receive a specific recovery message.",
+    "Validated raw bytes are handed to an acknowledging worker without a second fetch, including a simulated old-worker/new-controller transition.",
+    "Decoded memory retains only the two most recent cities; failed loads do not evict successful entries or mutate held map objects."
+  ],
+  "limitations": [
+    "Unit and source-data checks only; final rendered-browser acceptance is recorded separately by the root task.",
+    "No real-device, field-positioning or coastline-navigation validation."
+  ]
+}

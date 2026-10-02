@@ -13,12 +13,17 @@ interface BoundarySnapshot {
 const boundaries = Object.fromEntries(Object.values(import.meta.glob<BoundarySnapshot>('./boundaries/*.json', { eager: true, import: 'default' }))
   .map(snapshot => [snapshot.cityId, snapshot]));
 const digest = (value: unknown) => createHash('sha256').update(JSON.stringify(value)).digest('hex');
-// Independent baseline from committed b1536e0, before adding the four cities.
+// Independent baseline from committed b6d1473, before adding Guangzhou,
+// Shenzhen, Hong Kong and Macao. The first two hashes also match b1536e0.
 // This locks old content, geometry, identifiers and versions rather than deriving
 // the expected result from the new generator or the new regions themselves.
 const oldContent = {
   nanjing: { city: 'd746d3d9f2c5bd1ab5d6c8b04348be0a25f20eb0fcb9462ca2a6f016e0f459cb', boundary: '844ad12b0d8b3fd7dbe6ca4324adca2522793c1859d33e268e967ba05cb21999' },
   xian: { city: '550a5a476e80a0713ecc77b769636d926209bc2a60129cfaf5620b63d9c312c7', boundary: '3b958662876501de7f0170cedd8f3850d519120fc08511453401bba69e174d39' },
+  beijing: { city: 'dc69711767bb46997c7226a4930529aad43fa57033333d2f7df34da827e0d6b7', boundary: '92edc93bc4b7c95dbeca442c17fefb21ac1ea3757a5e61539c1b054f3e201ee6' },
+  shanghai: { city: 'f1d7859ce4c9488073298f0f1754cb8d673f06cdcbd4613343fb9292033bc304', boundary: '714234201b2bfbc3f844f4f59558640026289665ecc9de059157d437536ed9d2' },
+  hangzhou: { city: 'be9872513623997c46dbd03c5de7cbdab62ddd91f8fbb3fb6d74b5813b6a2f2f', boundary: '36801cc2d1fd3c01ce2af08970211098b67284e2bf9ae11e2673981a7eccc810' },
+  chengdu: { city: '8fcea6351f9a7092bf5452d5c3be8b658ecbcdb228446d8da8bee005f25f5bf3', boundary: '55acd82da5e0619df29ffba486e930545d23968c343dbe68d77fd9f4e21fa924' },
 };
 const at = 1_000_000;
 function begin(cityId: CityId = 'nanjing', squad = false) {
@@ -30,8 +35,8 @@ function visit(state: AppState, landmarkId: string, time = at) {
     { type: 'check-in', id: `${landmarkId}-${time}`, photoId: 'photo', landmarkId, at: time });
 }
 describe('complete, coarse city partitions', () => {
-  it('registers six complete cities without silently overwriting any lookup identifier', () => {
-    expect(cities.map(city => city.id).sort()).toEqual(['beijing', 'chengdu', 'hangzhou', 'nanjing', 'shanghai', 'xian']);
+  it('registers ten complete cities without silently overwriting any lookup identifier', () => {
+    expect(cities.map(city => city.id).sort()).toEqual(['beijing', 'chengdu', 'guangzhou', 'hangzhou', 'hongkong', 'macau', 'nanjing', 'shanghai', 'shenzhen', 'xian']);
     expect(new Set(cities.map(city => city.id)).size).toBe(cities.length);
     expect(Object.keys(boundaries).sort()).toEqual(cities.map(city => city.id).sort());
     const landmarks = cities.flatMap(city => city.landmarks);
@@ -45,7 +50,7 @@ describe('complete, coarse city partitions', () => {
       expect(city.regions.every(region => region.cityId === city.id)).toBe(true);
     }
   });
-  it('keeps both original cities and all legacy rights byte-for-byte equivalent after parsing', () => {
+  it('keeps all six existing cities and legacy rights byte-for-byte equivalent after parsing', () => {
     for (const [id, expected] of Object.entries(oldContent)) {
       const city = cities.find(candidate => candidate.id === id)!;
       expect(city.contentVersion).toBe('citywide-2026-10-02');
@@ -96,6 +101,27 @@ describe('complete, coarse city partitions', () => {
         if (l.tier !== 1) expect(l.regionIds).toEqual([]);
       }
     }
+  });
+  it('places every new-city candidate inside its declared city and outside every other configured city', () => {
+    const additions = cities.filter(city => !Object.hasOwn(oldContent, city.id));
+    expect(additions).toHaveLength(4);
+    for (const city of additions) for (const landmark of city.landmarks) {
+      const memberships = cities.filter(candidate => containsRegionPoint([landmark.lng, landmark.lat], {
+        id: candidate.id, geometry: candidate.boundary,
+      })).map(candidate => candidate.id);
+      expect(memberships, `${landmark.id} must not grant a different city's footprint`).toEqual([city.id]);
+    }
+  });
+  it('preserves all four coastal source footprints without cross-city area overlap', () => {
+    const ids = ['guangzhou', 'shenzhen', 'hongkong', 'macau'];
+    const originals = ids.map(id => {
+      const source = boundaries[id].features.filter(feature => feature.properties.role === 'municipality');
+      expect(source, `${id} must retain its full independent source`).toHaveLength(1);
+      return (source[0].geometry.type === 'Polygon' ? [source[0].geometry.coordinates] : source[0].geometry.coordinates) as pc.MultiPolygon;
+    });
+    originals.forEach((geometry, index) => originals.slice(index + 1).forEach((other, offset) => {
+      expect(pc.intersection(geometry, other), `${ids[index]} / ${ids[index + offset + 1]} source footprints`).toEqual([]);
+    }));
   });
   it('merges dense groups without duplicate unlock conditions', () => {
     for (const ids of [['nj-confucius', 'nj-laomendong', 'nj-zhonghua'], ['nj-xuanwu', 'nj-jiming', 'nj-hongshan'],

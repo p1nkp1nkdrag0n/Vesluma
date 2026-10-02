@@ -1,18 +1,18 @@
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { test, expect, cityIds, newCityIds, cityData, openApp, switchCity, mapReady, decodedCover, capture, saveVisit, endTrip, saved, png, evidenceDir } from './fixtures';
+import { test, expect, cityIds, newCityIds, gbaCityIds, cityData, openApp, switchCity, mapReady, decodedCover, capture, saveVisit, endTrip, saved, png, evidenceDir } from './fixtures';
 import { enableSync, syncNow, photoBytes, remoteSnapshot } from '../sync-e2e/fixtures';
 
 for (const id of cityIds) {
   test(`${id}-entry-cover-all-regions-and-ready-map`, async ({ page, service }) => {
-    if (id === 'beijing') await page.setViewportSize({ width: 320, height: 568 });
+    if (id === 'beijing' || gbaCityIds.some(candidate => candidate === id)) await page.setViewportSize({ width: 320, height: 568 });
     const city = cityData(id);
     const expectedCover = `/images/${id}.png`;
     expect(city.landmarks[0].cover).toBe(expectedCover);
     await openApp(page, service.url);
     await page.locator('.city-title').click();
     const options = page.getByRole('dialog').locator('.city-option');
-    await expect(options).toHaveCount(6);
+    await expect(options).toHaveCount(cityIds.length);
     for (const candidateId of cityIds) {
       const candidate = cityData(candidateId);
       const option = options.filter({ has: page.locator('b', { hasText: new RegExp(`^${candidate.name}$`) }) });
@@ -38,7 +38,7 @@ for (const id of cityIds) {
     await page.getByRole('button', { name: '返回探索', exact: true }).click();
     await expect(page.locator('.city-title')).toHaveText(city.name);
     await page.getByRole('navigation', { name: '主导航' }).getByRole('button', { name: '我的', exact: true }).click();
-    await expect(page.locator('.profile-city')).toHaveCount(6);
+    await expect(page.locator('.profile-city')).toHaveCount(cityIds.length);
     const profileCity = page.locator('.profile-city').filter({ has: page.locator('b', { hasText: new RegExp(`^${city.name}$`) }) });
     await decodedCover(profileCity.locator('img'), expectedCover);
     await profileCity.click();
@@ -69,6 +69,18 @@ for (const id of newCityIds) {
     expect(state.unlocks.map((unlock: any) => unlock.regionId).sort()).toEqual([...anchor.regionIds].sort());
     expect(anchorVisit.unlockedRegionIds).toEqual(anchor.regionIds);
     expect(state.visits.every((visit: any) => visit.cityId === id && visit.demo)).toBe(true);
+    const expectedVisitIds = [ordinaryVisit.id, anchorVisit.id];
+    if (gbaCityIds.some(candidate => candidate === id)) {
+      const repeat = await saveVisit(page, anchor);
+      expectedVisitIds.push(repeat.id);
+      state = await saved(page);
+      expect(state.visits).toHaveLength(3);
+      expect(new Set(expectedVisitIds).size).toBe(3);
+      expect(state.unlocks).toHaveLength(anchor.regionIds.length);
+      expect(state.unlocks[0].at).toBe(anchorVisit.at);
+      expect(repeat.firstActivation).toBe(false);
+      expect(repeat.unlockedRegionIds).toEqual([]);
+    }
     for (const visit of state.visits) expect(await photoBytes(page, visit.photoId)).toEqual([...png]);
     await expect(page.locator('.progress-pill')).toContainText(`${anchor.regionIds.length} / ${city.regions.length}`);
     await page.locator('.progress-pill').click();
@@ -76,14 +88,14 @@ for (const id of newCityIds) {
     await page.reload();
     await expect(page.locator('.city-title')).toHaveText(city.name);
     await mapReady(page);
-    expect((await saved(page)).visits.map((visit: any) => visit.id)).toEqual([ordinaryVisit.id, anchorVisit.id]);
+    expect((await saved(page)).visits.map((visit: any) => visit.id)).toEqual(expectedVisitIds);
     await expect(page.locator('.progress-pill')).toContainText(`${anchor.regionIds.length} / ${city.regions.length}`);
     await capture(page, `${id}-ordinary-and-anchor-after-refresh`);
   });
 }
 
-test('six-city-progress-stays-independent-after-return-and-refresh', async ({ page, service }) => {
-  test.setTimeout(180_000);
+test('ten-city-progress-stays-independent-after-return-and-refresh', async ({ page, service }) => {
+  test.setTimeout(240_000);
   await openApp(page, service.url);
   const completed: string[] = [];
   for (const id of cityIds) {
@@ -105,14 +117,14 @@ test('six-city-progress-stays-independent-after-return-and-refresh', async ({ pa
     await switchCity(page, city);
     await expect(page.locator('.progress-pill')).toContainText(`1 / ${city.regions.length}`);
   }
-  expect((await saved(page)).visits).toHaveLength(6);
+  expect((await saved(page)).visits).toHaveLength(cityIds.length);
   await page.getByRole('navigation', { name: '主导航' }).getByRole('button', { name: '我的', exact: true }).click();
   for (const id of cityIds) {
     const city = cityData(id);
     const card = page.locator('.profile-city').filter({ has: page.locator('b', { hasText: new RegExp(`^${city.name}$`) }) });
     await expect(card).toContainText(`已展开 1 / ${city.regions.length} 片区域 · 到访 1 个地标`);
   }
-  await capture(page, 'six-city-independent-progress');
+  await capture(page, 'ten-city-independent-progress');
 });
 
 test('new-city-two-context-sqlite-restore-retains-progress-and-photo', async ({ page, browser, service }) => {
@@ -152,5 +164,47 @@ test('new-city-two-context-sqlite-restore-retains-progress-and-photo', async ({ 
   } finally {
     await writeFile(join(evidenceDir, 'chengdu-second-context-console.json'), JSON.stringify({ pageErrors: errors, consoleMessages }, null, 2));
     await second.close();
+  }
+});
+
+test('gba-four-cities-two-context-sqlite-restart-restores-each-private-photo', async ({ devices, service }) => {
+  test.setTimeout(180_000);
+  const { a, b } = devices;
+  const visitIds: string[] = [];
+  for (const id of gbaCityIds) {
+    const city = cityData(id);
+    await switchCity(a.page, city);
+    const visit = await saveVisit(a.page, city.landmarks.find(landmark => landmark.tier === 1)!);
+    visitIds.push(visit.id);
+    await endTrip(a.page);
+  }
+  await enableSync(a.page);
+  const remote = await remoteSnapshot(a.page, service.url);
+  expect(remote.snapshot.visits).toHaveLength(gbaCityIds.length);
+  expect(remote.snapshot.unlocks).toHaveLength(gbaCityIds.length);
+  await service.restart();
+  await enableSync(b.page);
+  const restored = await saved(b.page);
+  expect(restored.activeTripId).toBe(null);
+  expect(restored.visits.map((visit: any) => visit.id).sort()).toEqual([...visitIds].sort());
+  for (const visit of restored.visits) {
+    expect(visit.public).toBe(false);
+    expect(await photoBytes(b.page, visit.photoId)).toEqual([...png]);
+  }
+  for (const id of cityIds) {
+    const expected = gbaCityIds.some(candidate => candidate === id) ? 1 : 0;
+    expect(restored.visits.filter((visit: any) => visit.cityId === id)).toHaveLength(expected);
+    expect(restored.unlocks.filter((unlock: any) => unlock.cityId === id)).toHaveLength(expected);
+  }
+  await syncNow(b.page);
+  for (const id of gbaCityIds) {
+    const city = cityData(id);
+    await switchCity(b.page, city);
+    await expect(b.page.locator('.progress-pill')).toContainText(`1 / ${city.regions.length}`);
+    await b.page.reload();
+    await mapReady(b.page);
+    await expect(b.page.locator('.city-title')).toHaveText(city.name);
+    await expect(b.page.locator('.progress-pill')).toContainText(`1 / ${city.regions.length}`);
+    await capture(b.page, `${id}-second-context-after-sqlite-restart`);
   }
 });

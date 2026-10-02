@@ -1,0 +1,19 @@
+{
+  "checkedOn": "2026-10-02",
+  "branch": "Pink",
+  "baseCommit": "b6d1473db02aaa33a26144d4b4b8907305e82340",
+  "environment": { "platform": "Windows", "node": "24.16.0", "vite": "6.4.3", "vitest": "5.0.2" },
+  "phase": "Final application source after the explicit map-retry header correction",
+  "commands": [
+    { "command": "npm test", "exitCode": 0, "testFiles": 19, "passed": 312, "failed": 0, "durationSeconds": 18.65 },
+    { "command": "npm run typecheck", "exitCode": 0, "scope": "Frontend and server TypeScript" },
+    { "command": "npm run build", "exitCode": 0, "entry": "assets/index-CGmM-jbQ.js" },
+    { "command": "npm run build:server", "exitCode": 0 },
+    { "command": "node scripts/audit-sw-install.mjs", "exitCode": 0, "bootAssetCount": 20, "bootBytes": 14496706, "prefetchedMaps": 0 },
+    { "command": "git diff --check", "exitCode": 0 }
+  ],
+  "independentApiTests": { "command": "npm run test:server", "passed": 24, "failed": 0, "evidence": "independent-review.json", "note": "Executed after ten-city data generation; server source and API scenarios were unchanged by the subsequent browser cache fix." },
+  "warnings": ["Vite reports chunks above 500 kB; the entry contains complete planning geometry and is approximately 2.50 MB gzipped."],
+  "notRun": ["Standalone lint: repository has no lint script/config", "native:sync, APK/IPA build/signing", "Physical-device, field GPS and cross-device cloud acceptance"],
+  "browserEvidence": "Reported separately in browser-qa-summary.json; these command results do not by themselves assert browser or field acceptance."
+}

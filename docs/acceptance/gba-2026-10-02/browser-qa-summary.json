@@ -1,0 +1,648 @@
+{
+  "generatedAt": "2026-10-02T10:17:32.979Z",
+  "status": "passed",
+  "uniqueScenarios": {
+    "total": 61,
+    "passed": 61,
+    "failed": 0,
+    "skipped": 0,
+    "notRun": 0
+  },
+  "scenarios": [
+    {
+      "suite": "ten-city",
+      "title": "nanjing-entry-cover-all-regions-and-ready-map",
+      "source": "tests/cities-e2e/cities.spec.ts:7",
+      "status": "passed"
+    },
+    {
+      "suite": "ten-city",
+      "title": "xian-entry-cover-all-regions-and-ready-map",
+      "source": "tests/cities-e2e/cities.spec.ts:7",
+      "status": "passed"
+    },
+    {
+      "suite": "ten-city",
+      "title": "beijing-entry-cover-all-regions-and-ready-map",
+      "source": "tests/cities-e2e/cities.spec.ts:7",
+      "status": "passed"
+    },
+    {
+      "suite": "ten-city",
+      "title": "shanghai-entry-cover-all-regions-and-ready-map",
+      "source": "tests/cities-e2e/cities.spec.ts:7",
+      "status": "passed"
+    },
+    {
+      "suite": "ten-city",
+      "title": "hangzhou-entry-cover-all-regions-and-ready-map",
+      "source": "tests/cities-e2e/cities.spec.ts:7",
+      "status": "passed"
+    },
+    {
+      "suite": "ten-city",
+      "title": "chengdu-entry-cover-all-regions-and-ready-map",
+      "source": "tests/cities-e2e/cities.spec.ts:7",
+      "status": "passed"
+    },
+    {
+      "suite": "ten-city",
+      "title": "guangzhou-entry-cover-all-regions-and-ready-map",
+      "source": "tests/cities-e2e/cities.spec.ts:7",
+      "status": "passed"
+    },
+    {
+      "suite": "ten-city",
+      "title": "shenzhen-entry-cover-all-regions-and-ready-map",
+      "source": "tests/cities-e2e/cities.spec.ts:7",
+      "status": "passed"
+    },
+    {
+      "suite": "ten-city",
+      "title": "hongkong-entry-cover-all-regions-and-ready-map",
+      "source": "tests/cities-e2e/cities.spec.ts:7",
+      "status": "passed"
+    },
+    {
+      "suite": "ten-city",
+      "title": "macau-entry-cover-all-regions-and-ready-map",
+      "source": "tests/cities-e2e/cities.spec.ts:7",
+      "status": "passed"
+    },
+    {
+      "suite": "ten-city",
+      "title": "beijing-ordinary-visit-anchor-unlock-back-and-refresh",
+      "source": "tests/cities-e2e/cities.spec.ts:53",
+      "status": "passed"
+    },
+    {
+      "suite": "ten-city",
+      "title": "shanghai-ordinary-visit-anchor-unlock-back-and-refresh",
+      "source": "tests/cities-e2e/cities.spec.ts:53",
+      "status": "passed"
+    },
+    {
+      "suite": "ten-city",
+      "title": "hangzhou-ordinary-visit-anchor-unlock-back-and-refresh",
+      "source": "tests/cities-e2e/cities.spec.ts:53",
+      "status": "passed"
+    },
+    {
+      "suite": "ten-city",
+      "title": "chengdu-ordinary-visit-anchor-unlock-back-and-refresh",
+      "source": "tests/cities-e2e/cities.spec.ts:53",
+      "status": "passed"
+    },
+    {
+      "suite": "ten-city",
+      "title": "guangzhou-ordinary-visit-anchor-unlock-back-and-refresh",
+      "source": "tests/cities-e2e/cities.spec.ts:53",
+      "status": "passed"
+    },
+    {
+      "suite": "ten-city",
+      "title": "shenzhen-ordinary-visit-anchor-unlock-back-and-refresh",
+      "source": "tests/cities-e2e/cities.spec.ts:53",
+      "status": "passed"
+    },
+    {
+      "suite": "ten-city",
+      "title": "hongkong-ordinary-visit-anchor-unlock-back-and-refresh",
+      "source": "tests/cities-e2e/cities.spec.ts:53",
+      "status": "passed"
+    },
+    {
+      "suite": "ten-city",
+      "title": "macau-ordinary-visit-anchor-unlock-back-and-refresh",
+      "source": "tests/cities-e2e/cities.spec.ts:53",
+      "status": "passed"
+    },
+    {
+      "suite": "ten-city",
+      "title": "ten-city-progress-stays-independent-after-return-and-refresh",
+      "source": "tests/cities-e2e/cities.spec.ts:97",
+      "status": "passed"
+    },
+    {
+      "suite": "ten-city",
+      "title": "new-city-two-context-sqlite-restore-retains-progress-and-photo",
+      "source": "tests/cities-e2e/cities.spec.ts:130",
+      "status": "passed"
+    },
+    {
+      "suite": "ten-city",
+      "title": "gba-four-cities-two-context-sqlite-restart-restores-each-private-photo",
+      "source": "tests/cities-e2e/cities.spec.ts:170",
+      "status": "passed"
+    },
+    {
+      "suite": "ten-city",
+      "title": "bad-http200-map-not-cached-retry-and-offline-recovery",
+      "source": "tests/cities-e2e/offline.spec.ts:63",
+      "status": "passed"
+    },
+    {
+      "suite": "ten-city",
+      "title": "on-demand-install-offline-unvisited-recovery-lru-and-api-exclusion",
+      "source": "tests/cities-e2e/offline.spec.ts:136",
+      "status": "passed"
+    },
+    {
+      "suite": "ten-city",
+      "title": "offline-each-of-ten-cities-after-visit-with-six-city-cache-limit",
+      "source": "tests/cities-e2e/offline.spec.ts:194",
+      "status": "passed"
+    },
+    {
+      "suite": "ten-city",
+      "title": "offline-upgrade-v7-retains-six-valid-maps-and-removes-stale-api-cache",
+      "source": "tests/cities-e2e/offline.spec.ts:232",
+      "status": "passed"
+    },
+    {
+      "suite": "local-sync",
+      "title": "protocol-request-id-is-idempotent-and-rejects-a-different-payload",
+      "source": "tests/sync-e2e/protocol.spec.ts:85",
+      "status": "passed"
+    },
+    {
+      "suite": "local-sync",
+      "title": "protocol-new-request-cannot-overwrite-existing-visit-evidence",
+      "source": "tests/sync-e2e/protocol.spec.ts:109",
+      "status": "passed"
+    },
+    {
+      "suite": "local-sync",
+      "title": "protocol-out-of-order-union-missing-photo-retry-and-space-isolation",
+      "source": "tests/sync-e2e/protocol.spec.ts:125",
+      "status": "passed"
+    },
+    {
+      "suite": "local-sync",
+      "title": "pre-sync-records-and-photos-migrate-without-clearing-local-data",
+      "source": "tests/sync-e2e/sync-local.spec.ts:3",
+      "status": "passed"
+    },
+    {
+      "suite": "local-sync",
+      "title": "two-offline-device-contexts-merge-visits-and-deduplicate-region",
+      "source": "tests/sync-e2e/sync-local.spec.ts:40",
+      "status": "passed"
+    },
+    {
+      "suite": "local-sync",
+      "title": "lost-post-response-retries-the-durable-request-after-refresh",
+      "source": "tests/sync-e2e/sync-local.spec.ts:66",
+      "status": "passed"
+    },
+    {
+      "suite": "local-sync",
+      "title": "a-local-checkin-during-sync-survives-an-older-response",
+      "source": "tests/sync-e2e/sync-local.spec.ts:96",
+      "status": "passed"
+    },
+    {
+      "suite": "local-sync",
+      "title": "sqlite-restart-preserves-progress-and-retries-an-offline-outbox",
+      "source": "tests/sync-e2e/sync-local.spec.ts:122",
+      "status": "passed"
+    },
+    {
+      "suite": "local-sync",
+      "title": "failed-photo-download-remains-retryable-without-false-success",
+      "source": "tests/sync-e2e/sync-local.spec.ts:143",
+      "status": "passed"
+    },
+    {
+      "suite": "local-sync",
+      "title": "local-a-and-local-b-remain-isolated-and-binding-is-fixed",
+      "source": "tests/sync-e2e/sync-local.spec.ts:161",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "identity-and-layout-320",
+      "source": "tests/e2e/local-trial.spec.ts:109",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "identity-and-layout-390",
+      "source": "tests/e2e/local-trial.spec.ts:109",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "identity-and-layout-1280",
+      "source": "tests/e2e/local-trial.spec.ts:109",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "anchor-duplicate-revisit-city-refresh",
+      "source": "tests/e2e/local-trial.spec.ts:137",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "secondary-landmark-records-without-unlock",
+      "source": "tests/e2e/local-trial.spec.ts:179",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "geolocation-error-1-retry-keeps-photo",
+      "source": "tests/e2e/local-trial.spec.ts:196",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "geolocation-error-2-retry-keeps-photo",
+      "source": "tests/e2e/local-trial.spec.ts:196",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "geolocation-error-3-retry-keeps-photo",
+      "source": "tests/e2e/local-trial.spec.ts:196",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "geolocation-accuracy-staleness-and-250m-boundary",
+      "source": "tests/e2e/local-trial.spec.ts:221",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "failed-example-photo-local-photo-recovery",
+      "source": "tests/e2e/local-trial.spec.ts:254",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "slow-city-map-and-resource-failure-retry",
+      "source": "tests/e2e/local-trial.spec.ts:269",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "draft-browser-back-cancel-then-discard",
+      "source": "tests/e2e/local-trial.spec.ts:291",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "save-in-flight-navigation-cancels-late-record",
+      "source": "tests/e2e/local-trial.spec.ts:311",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "failed-record-storage-retry-is-single-save",
+      "source": "tests/e2e/local-trial.spec.ts:346",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "320-map-tile-failure-retry-hit-targets",
+      "source": "tests/e2e/local-trial.spec.ts:372",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "map-request-total-timeout-and-retry",
+      "source": "tests/e2e/local-trial.spec.ts:398",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "real-external-network-map-smoke",
+      "source": "tests/e2e/local-trial.spec.ts:415",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "geolocation-no-callback-deadline-and-loss-invalidates-old-fix",
+      "source": "tests/e2e/local-trial.spec.ts:438",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "pending-example-can-be-replaced-by-local-photo",
+      "source": "tests/e2e/local-trial.spec.ts:457",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "private-photo-remains-isolated-after-profile-switch-and-browser-history",
+      "source": "tests/e2e/navigation-regression.spec.ts:64",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "joining-a-squad-from-another-city-retains-the-squad-city",
+      "source": "tests/e2e/navigation-regression.spec.ts:91",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "explicit-current-trip-actions-override-an-archived-trip-selection",
+      "source": "tests/e2e/navigation-regression.spec.ts:116",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "offline-visited-city-switch-and-refresh-use-bundled-maps",
+      "source": "tests/e2e/offline.spec.ts:96",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "stall-navigation-returns-cache-after-four-seconds",
+      "source": "tests/e2e/offline.spec.ts:159",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "stall-body-navigation-returns-cache-after-four-seconds",
+      "source": "tests/e2e/offline.spec.ts:159",
+      "status": "passed"
+    },
+    {
+      "suite": "baseline",
+      "title": "http500-navigation-returns-cache-and-can-retry",
+      "source": "tests/e2e/offline.spec.ts:179",
+      "status": "passed"
+    }
+  ],
+  "runBasis": "All final suites were rerun after the cache retry fix and rebuilt entry above. Case discovery supplies exact names only; execution statuses come from completed passing test runs and per-case evidence.",
+  "runs": {
+    "cities": {
+      "total": 25,
+      "duration": "3.7m",
+      "session": 54338
+    },
+    "sync": {
+      "total": 10,
+      "duration": "51.1s",
+      "session": 70299
+    },
+    "baselineWithoutPublic": {
+      "total": 25,
+      "duration": "2.2m",
+      "session": 3250
+    },
+    "public": {
+      "total": 1,
+      "duration": "5.7s",
+      "session": 35428
+    }
+  },
+  "prior49Coverage": "Preserved and expanded. City progress isolation now spans ten cities; offline coverage now visits cities before caching, checks a six-city LRU budget, and explicitly exercises unopened/evicted-city recovery. Twelve additional scenarios bring the total to 61.",
+  "production": {
+    "entry": "assets/index-CGmM-jbQ.js",
+    "shellCache": "vesluma-shell-v8",
+    "mapCache": "vesluma-maps-v1",
+    "maximumCachedCities": 6,
+    "sha256": {
+      "dist/assets/index-CGmM-jbQ.js": "065e612946d56b5389c0457cd4aa81dd5d7d4c5ff996b9533f15b2da9d645dbf",
+      "dist/sw.js": "3968478574b62f4f60f2be1d0b13f96bc8379a06ea1f8fbd32f06ce46f2c385e",
+      ".local-build/local-server.mjs": "9ff60da762ea91df2fd5a78542213aa7911925f7928e2ce4ace5434f4b56f894"
+    }
+  },
+  "additionalChecksNotIncludedIn61": {
+    "vite-preview": {
+      "status": "passed",
+      "entry": "/assets/index-CGmM-jbQ.js",
+      "outcomes": [
+        {
+          "cityId": "nanjing",
+          "status": "passed",
+          "skeleton": "ready"
+        },
+        {
+          "cityId": "xian",
+          "status": "passed",
+          "skeleton": "ready"
+        },
+        {
+          "cityId": "beijing",
+          "status": "passed",
+          "skeleton": "ready"
+        },
+        {
+          "cityId": "shanghai",
+          "status": "passed",
+          "skeleton": "ready"
+        },
+        {
+          "cityId": "hangzhou",
+          "status": "passed",
+          "skeleton": "ready"
+        },
+        {
+          "cityId": "chengdu",
+          "status": "passed",
+          "skeleton": "ready"
+        },
+        {
+          "cityId": "guangzhou",
+          "status": "passed",
+          "skeleton": "ready"
+        },
+        {
+          "cityId": "shenzhen",
+          "status": "passed",
+          "skeleton": "ready"
+        },
+        {
+          "cityId": "hongkong",
+          "status": "passed",
+          "skeleton": "ready"
+        },
+        {
+          "cityId": "macau",
+          "status": "passed",
+          "skeleton": "ready"
+        }
+      ],
+      "pageErrors": []
+    },
+    "node-local": {
+      "status": "passed",
+      "entry": "/assets/index-CGmM-jbQ.js",
+      "outcomes": [
+        {
+          "cityId": "nanjing",
+          "status": "passed",
+          "skeleton": "ready"
+        },
+        {
+          "cityId": "xian",
+          "status": "passed",
+          "skeleton": "ready"
+        },
+        {
+          "cityId": "beijing",
+          "status": "passed",
+          "skeleton": "ready"
+        },
+        {
+          "cityId": "shanghai",
+          "status": "passed",
+          "skeleton": "ready"
+        },
+        {
+          "cityId": "hangzhou",
+          "status": "passed",
+          "skeleton": "ready"
+        },
+        {
+          "cityId": "chengdu",
+          "status": "passed",
+          "skeleton": "ready"
+        },
+        {
+          "cityId": "guangzhou",
+          "status": "passed",
+          "skeleton": "ready"
+        },
+        {
+          "cityId": "shenzhen",
+          "status": "passed",
+          "skeleton": "ready"
+        },
+        {
+          "cityId": "hongkong",
+          "status": "passed",
+          "skeleton": "ready"
+        },
+        {
+          "cityId": "macau",
+          "status": "passed",
+          "skeleton": "ready"
+        }
+      ],
+      "pageErrors": []
+    }
+  },
+  "errors": {
+    "uncaughtApplicationPageErrors": 0,
+    "checkedStandaloneLogFiles": 61,
+    "note": "Intentional network/cache-miss failures retain expected errors; blocked Service Worker warnings are expected in serviceWorkers=block cases. Three navigation cases also assert zero uncaught application errors."
+  },
+  "realNetwork": {
+    "map": "after save success and return to explore",
+    "responses": [
+      {
+        "host": "tile.openstreetmap.org",
+        "status": 200
+      },
+      {
+        "host": "tile.openstreetmap.org",
+        "status": 200
+      },
+      {
+        "host": "tile.openstreetmap.org",
+        "status": 200
+      },
+      {
+        "host": "tile.openstreetmap.org",
+        "status": 200
+      },
+      {
+        "host": "tile.openstreetmap.org",
+        "status": 200
+      },
+      {
+        "host": "tile.openstreetmap.org",
+        "status": 200
+      },
+      {
+        "host": "tile.openstreetmap.org",
+        "status": 200
+      },
+      {
+        "host": "tile.openstreetmap.org",
+        "status": 200
+      }
+    ],
+    "decodedTileImages": 8
+  },
+  "cacheEvidence": [
+    "on-demand-cache-evidence.json",
+    "ten-city-offline-cache-evidence.json",
+    "v7-migration-cache-evidence.json",
+    "bad-http200-map-evidence.json"
+  ],
+  "badHttp200EvidenceScope": "faults.requestCacheControl is the incoming request header (no-cache); faults.responseCacheControl is the proxy response header (public, max-age=600). The browser case proves invalid HTTP 200 data rejection, no bad map CacheStorage entry, valid retry and offline use; it does not prove recovery from a populated browser HTTP cache. Explicit retry bypass is additionally covered by loader/SW unit contracts and cache-mode diagnosis.",
+  "firstRun": {
+    "status": "initial-run-before-cache-compatibility-fix",
+    "productionEntry": "assets/index-B-RFe16N.js",
+    "citySuite": {
+      "passed": 21,
+      "failed": 4,
+      "total": 25
+    },
+    "syncSuite": {
+      "passed": 10,
+      "failed": 0
+    },
+    "baselineDeterministicAndOffline": {
+      "passed": 25,
+      "failed": 0
+    },
+    "realNetworkSmoke": {
+      "notRun": 1,
+      "reason": "Reserved for final rebuilt code"
+    },
+    "additional": {
+      "vitePreviewTenCity": "passed",
+      "nodeLocalTenCity": "passed"
+    },
+    "failedCases": [
+      "bad-http200-map-not-cached-retry-and-offline-recovery",
+      "on-demand-install-offline-unvisited-recovery-lru-and-api-exclusion",
+      "offline-each-of-ten-cities-after-visit-with-six-city-cache-limit",
+      "offline-upgrade-v7-retains-six-valid-maps-and-removes-stale-api-cache"
+    ],
+    "diagnosis": {
+      "threeOfflineReloadCases": "Valid maps existed in CacheStorage. No-route control passed; an external request route caused reload to miss. Root authorized explicit application retry header to distinguish retry from browser cache behavior.",
+      "upgradeCase": "controllerchange can arrive before activation migration finishes; fixture now polls for old-cache cleanup before final assertions."
+    },
+    "retainedEvidence": "initial-offline-failures/test-results",
+    "productCodeChangedByQa": false
+  },
+  "corrections": [
+    "Request interception in the test browser changed incoming Request.cache from default to reload. The old SW bypassed valid map CacheStorage for that mode; no-route control passed. The implementation now uses an explicit same-origin application retry header, retaining validated cached maps during ordinary reload while still bypassing invalid data on deliberate retry. Loader and worker were rebuilt together; all 61 cases rerun.",
+    "The v7 upgrade fixture now waits for old-cache cleanup after controllerchange, because migration can still be running when the controller changes. The final test still requires all six original valid hashes, removal of obsolete/API data, and actual offline map opening.",
+    "The unused automatic page audit is saved separately in multi-context cases, preserving the device fixture API/console evidence."
+  ],
+  "environment": {
+    "browser": "Chromium 151.0.7922.34, installed headless-shell revision 1234",
+    "viewports": [
+      "320x568",
+      "390x844",
+      "1280x900"
+    ],
+    "database": "Only explicit temporary SQLite databases; never default .local-data",
+    "resources": "Deterministic suites stub external OSM raster tiles and Google Fonts. Bundled geographic snapshots are real local assets. Public smoke is separate and unstubbed."
+  },
+  "limitations": [
+    "Browser sizes/locations/network and separate contexts simulate devices; no physical phone, real arrival, camera, boundary or photo-point verification.",
+    "Local spaces are test namespaces, not production authentication or cloud services.",
+    "Recently visited maps are retained up to six cities subject to browser storage; the tests do not claim all ten cities simultaneously offline.",
+    "First installation requires network. Physical-device memory/performance, real slow mobile networks and field calibration remain unverified.",
+    "Screenshots in deterministic tests do not prove external detailed tile rendering. Only the separately recorded public smoke supplies real external tile evidence.",
+    "No deployment, credentials, cloud provisioning or main-branch merge performed by browser QA."
+  ],
+  "cleanup": {
+    "ownedTemporaryServersStopped": [
+      4173,
+      4175
+    ],
+    "defaultLocalDataUntouched": true,
+    "temporaryDatabasesAndInitialTracesRetainedOutsideRepository": true
+  }
+}

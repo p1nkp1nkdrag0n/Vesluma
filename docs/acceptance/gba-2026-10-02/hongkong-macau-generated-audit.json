@@ -1,0 +1,452 @@
+{
+  "checkedAt": "2026-10-02T09:56:47.398Z",
+  "sourceEvidence": {
+    "basename": "hongkong-macau-generated-audit.json",
+    "sha256": "d5041904995ae1ae72f48a2272fa45cc35b698d4f855150b4c3968182b04a5ea",
+    "note": "Compacted from the isolated-builder artifact; rechecked against current generated plan. Duplicate full geometry omitted; hashes identify committed source geometry."
+  },
+  "planFile": {
+    "path": "src/data/map/city-plans.json",
+    "sha256": "710fcc5fe0c19450ec18d5e1cc677863f5e37a961054a1ae8e38d011bbbe8d93",
+    "version": "citywide-2026-10-02"
+  },
+  "configFile": {
+    "path": "scripts/city-plan.hongkong-macau.mjs",
+    "sha256": "297f51b7c96b6c0d280eb5bb9cdfa76a2cb2227af9c1747e28955c7411225571"
+  },
+  "evidencePublicationDate": {
+    "id": "mo-university",
+    "date": "2013-07-19",
+    "url": "https://www.um.edu.mo/news-and-press-releases/campus-news/detail/25381/",
+    "eventDate": "2013-07-20",
+    "note": "Publication date is 19 July; commencement-of-use event is 20 July."
+  },
+  "coverage": [
+    {
+      "cityId": "hongkong",
+      "regions": 10,
+      "landmarks": 15,
+      "missingPolygons": 0,
+      "outsidePolygons": 0,
+      "overlapPairs": 0,
+      "sourceGeometryUnchanged": true,
+      "geometryHash": "db3c3065c7a6f8576db9006eff3b36752b2cdf2498b16399f9cfed638fcbb033"
+    },
+    {
+      "cityId": "macau",
+      "regions": 3,
+      "landmarks": 8,
+      "missingPolygons": 0,
+      "outsidePolygons": 0,
+      "overlapPairs": 0,
+      "sourceGeometryUnchanged": true,
+      "geometryHash": "6a2ffdb02bfa6f457d5087134f064c88fb70486a268465a4bf590e0ed71de846"
+    }
+  ],
+  "islandProof": {
+    "method": "Exact polygon-clipping Boolean difference/intersection against complete independently queried physical island geometry; holes retained.",
+    "lantau": {
+      "osmType": "relation",
+      "osmId": 3676782,
+      "sourceUrl": "https://www.openstreetmap.org/relation/3676782",
+      "receipt": {
+        "url": "https://nominatim.openstreetmap.org/search?q=Lantau+Island+Hong+Kong&format=jsonv2&limit=5&polygon_geojson=1&extratags=1",
+        "downloadedAt": "2026-10-02T09:29:04.032Z",
+        "sha256": "ab8b1ad040e27666f257d9fec1b9c38abfbe12aabce3c99503f8599b606767fc"
+      },
+      "geometryHash": "9d6e5934adb17deb84a2d245dbc78eb1366d5fcd2c9ed262cbd0117a62c97408",
+      "missingFromLantauRegionPolygons": 0
+    },
+    "maWan": {
+      "osmType": "relation",
+      "osmId": 12922927,
+      "sourceUrl": "https://www.openstreetmap.org/relation/12922927",
+      "receipt": {
+        "url": "https://nominatim.openstreetmap.org/search?q=Ma+Wan+Island+Hong+Kong&format=jsonv2&limit=5&polygon_geojson=1&extratags=1",
+        "downloadedAt": "2026-10-02T09:38:49.471Z",
+        "sha256": "e1170f8d5dd7acfc2b98979455e985e360cd6887a170531957bfc0b39082716c"
+      },
+      "geometryHash": "c1cdd913ca21c69d54beb84a4fc107e5ff523c63423b369bf1ceca6f3b8b91d6",
+      "missingFromWestRegionPolygons": 0,
+      "overlapWithLantauRegionPolygons": 0
+    }
+  },
+  "cities": [
+    {
+      "id": "hongkong",
+      "areaKm2": 2762.7,
+      "coverageNote": "地图源几何含海域、离岛及若干主域外小面，本次仅作游戏显示范围，不代表正式区划或通行许可。18 区底图按旅游主题合并，未归入区底图的源几何随西北组显示；禁区、口岸和海上区域无须前往。",
+      "boundarySource": {
+        "name": "OpenStreetMap contributors / Nominatim",
+        "url": "https://www.openstreetmap.org/relation/913110",
+        "license": "ODbL-1.0",
+        "requests": [
+          {
+            "url": "https://api.openstreetmap.org/api/0.6/relation/913110.json",
+            "downloadedAt": "2026-10-02T09:15:23.421Z",
+            "sha256": "b64cae5cfdef30743e7374c9a349a70579ba636c829ccd7c9a9cac6e50b47ffc"
+          },
+          {
+            "url": "https://overpass-api.de/api/interpreter",
+            "query": "[out:json][timeout:30][maxsize:67108864];relation[boundary=administrative][admin_level~\"^[456]$\"](22.1367222,113.8171111,22.5683333,114.5024444);out tags;",
+            "downloadedAt": "2026-10-02T09:18:26.580Z",
+            "sha256": "2a641c066c029eec5343feed2ca3d15771859681ea1a059ca484a0e335af0448"
+          },
+          {
+            "url": "https://api.openstreetmap.org/api/0.6/relations.json?relations=2558879,2558880,2558881,2558883,2670978,2800200,2800201,2800276,2800277,7351646,8189562,8191142,8368100,8477820,8480494,8480823,9159733,9159737",
+            "downloadedAt": "2026-10-02T09:24:04.416Z",
+            "sha256": "ce597323dae26e367558b2fd3d2685fd0c22eba82a78d3a256c2622f08c4d7e7"
+          },
+          {
+            "url": "https://nominatim.openstreetmap.org/lookup?osm_ids=R913110&format=jsonv2&polygon_geojson=1&extratags=1",
+            "downloadedAt": "2026-10-02T09:15:34.697Z",
+            "sha256": "3856788bcd9829f83313be4b3c35cbbd9210ea6509f5e5adb4c98d9c799c5427"
+          },
+          {
+            "url": "https://nominatim.openstreetmap.org/lookup?osm_ids=R2558879,R2558880,R2558881,R2558883,R2670978,R2800200,R2800201,R2800276,R2800277,R7351646,R8189562,R8191142,R8368100,R8477820,R8480494,R8480823,R9159733,R9159737&format=jsonv2&polygon_geojson=1&extratags=1",
+            "downloadedAt": "2026-10-02T09:24:08.198Z",
+            "sha256": "a39095831bd69a1da2ff2a1e0347c321b7aa53d3a9a7d7333c216afa0d85d954"
+          }
+        ],
+        "scope": "Complete OSM source relation, including waters and spatially separate polygons near Shenzhen Bay and Huanggang. The eighteen district polygons do not imply a nineteenth district for Lok Ma Chau Loop. Source geometry and game coverage do not establish formal administrative status, immigration access or unrestricted public land."
+      },
+      "regions": [
+        {
+          "id": "hk-zone-island-north",
+          "name": "中环 · 港岛北岸",
+          "anchorLandmarkId": "hk-statue",
+          "districtNames": [
+            "中西區 Central and Western District",
+            "灣仔區 Wan Chai District",
+            "東區 Eastern District"
+          ],
+          "areaKm2": 58.3,
+          "geometrySha256": "16f767497d4ee53d68ac48252a11816b25b35aa0f14f1929885490ed3e939352",
+          "boundaryNote": "按地图源真实区界合并为游戏组团，保留源海域及孔洞；游戏分组不代表正式行政区划，开图不代表通行许可。"
+        },
+        {
+          "id": "hk-zone-island-south",
+          "name": "赤柱 · 港岛南岸",
+          "anchorLandmarkId": "hk-murray",
+          "districtNames": [
+            "南區 Southern District"
+          ],
+          "areaKm2": 94.3,
+          "geometrySha256": "c0e7287a2219917049ff0394920ad9814f5cfc11d4a0b8d8e7cab428ea69d7e9",
+          "boundaryNote": "按地图源真实区界合并为游戏组团，保留源海域及孔洞；游戏分组不代表正式行政区划，开图不代表通行许可。"
+        },
+        {
+          "id": "hk-zone-kowloon-west",
+          "name": "尖沙咀 · 九龙西",
+          "anchorLandmarkId": "hk-space",
+          "districtNames": [
+            "油尖旺區 Yau Tsim Mong District",
+            "深水埗區 Sham Shui Po District"
+          ],
+          "areaKm2": 22.3,
+          "geometrySha256": "85edc0d3ba99d704fe39dcef5f5c833e627e417941af477051bbd7c823ad265b",
+          "boundaryNote": "按地图源真实区界合并为游戏组团，保留源海域及孔洞；游戏分组不代表正式行政区划，开图不代表通行许可。"
+        },
+        {
+          "id": "hk-zone-kowloon-east",
+          "name": "南莲 · 九龙东",
+          "anchorLandmarkId": "hk-nanlian",
+          "districtNames": [
+            "九龍城區 Kowloon City District",
+            "黃大仙區 Wong Tai Sin District",
+            "觀塘區 Kwun Tong District"
+          ],
+          "areaKm2": 37.8,
+          "geometrySha256": "98a529a651d65a369aff6b792f14c3c41fee189613399d7b1845cda90ffd38b4",
+          "boundaryNote": "按地图源真实区界合并为游戏组团，保留源海域及孔洞；游戏分组不代表正式行政区划，开图不代表通行许可。"
+        },
+        {
+          "id": "hk-zone-northeast",
+          "name": "大埔 · 沙田",
+          "anchorLandmarkId": "hk-railway",
+          "districtNames": [
+            "沙田區 Sha Tin District",
+            "大埔區 Tai Po District"
+          ],
+          "areaKm2": 416.8,
+          "geometrySha256": "74bb09fa8cc43b16e21ecd76cc222e96702d1827ec2b0bf834b577f0bd98cf56",
+          "boundaryNote": "按地图源真实区界合并为游戏组团，保留源海域及孔洞；游戏分组不代表正式行政区划，开图不代表通行许可。"
+        },
+        {
+          "id": "hk-zone-newterritories-west",
+          "name": "荃湾 · 新界西",
+          "anchorLandmarkId": "hk-samtung",
+          "districtNames": [
+            "荃灣區 Tsuen Wan District",
+            "葵青區 Kwai Tsing District",
+            "屯門區 Tuen Mun District"
+          ],
+          "areaKm2": 297.4,
+          "geometrySha256": "657e5c0f5c4ffee81930b889717fd771ef8062178ec97aed22d8a72e7ab07b49",
+          "boundaryNote": "按地图源真实区界合并为游戏组团，保留源海域及孔洞；游戏分组不代表正式行政区划，开图不代表通行许可。大屿东北与马湾之间采用海上互补折线作游戏分组，保留两座岛的完整源几何，不改变原区界。"
+        },
+        {
+          "id": "hk-zone-northwest",
+          "name": "屏山 · 新界西北",
+          "anchorLandmarkId": "hk-tsuising",
+          "districtNames": [
+            "元朗區 Yuen Long District",
+            "北區 North District"
+          ],
+          "areaKm2": 375.3,
+          "geometrySha256": "48be5fd853b7517dcdec07bd06ed22447e1ff30d351d85621fd87da64d60164d",
+          "boundaryNote": "保留元朗、北区及地图源未归入 18 区底图的 27 个余部面与孔洞，包括主域外小面。它们仅作本组游戏显示范围，不据此判定正式行政归属；官方口岸资料另有范围与管制规定。开图无需进入禁区、河套或口岸，亦不授予通行许可。"
+        },
+        {
+          "id": "hk-zone-saikung",
+          "name": "西贡 · 东部山海",
+          "anchorLandmarkId": "hk-saikung",
+          "districtNames": [
+            "西貢區 Sai Kung District"
+          ],
+          "areaKm2": 768.4,
+          "geometrySha256": "8400423d951541ad74f8a037217787ab72a4e9ad386b146361865f3b5c12aec1",
+          "boundaryNote": "按地图源真实区界合并为游戏组团，保留源海域及孔洞；游戏分组不代表正式行政区划，开图不代表通行许可。"
+        },
+        {
+          "id": "hk-zone-lantau",
+          "name": "昂坪 · 大屿山",
+          "anchorLandmarkId": "hk-buddha",
+          "districtNames": [
+            "離島區 Islands District",
+            "荃灣區 Tsuen Wan District"
+          ],
+          "areaKm2": 399,
+          "geometrySha256": "1f611de15806e06814bb9e2a87b4a8922168c39458f416ac25c9b5533dd65adc",
+          "boundaryNote": "从离岛区与荃湾区原始底图用互补海上折线选取大屿组，编辑线不是正式区界或海岸线。源海域、机场及其他非公众区域随组显示；开图只需代表点，无须进入机场限制区或海上区域。"
+        },
+        {
+          "id": "hk-zone-outer-islands",
+          "name": "长洲 · 东部离岛",
+          "anchorLandmarkId": "hk-paktai",
+          "districtNames": [
+            "離島區 Islands District"
+          ],
+          "areaKm2": 293.1,
+          "geometrySha256": "d4cc108b0c55043dcef7ea8b70eb381b4f735c09ef5f2f59518f2314ca37060c",
+          "boundaryNote": "从离岛区源几何取大屿组的互补部分，完整保留相应岛屿和海域。海上折线仅为游戏分组，含非公众可进入的岛屿，开图不等于登岛许可。"
+        }
+      ],
+      "editorialMasks": [
+        {
+          "key": "newterritories-west",
+          "source": "districts",
+          "districtClipBoxes": {
+            "荃灣區 Tsuen Wan District": [
+              [
+                -180,
+                22.3477,
+                114.056,
+                90
+              ],
+              [
+                114.056,
+                22.34,
+                180,
+                90
+              ]
+            ]
+          }
+        },
+        {
+          "key": "lantau",
+          "source": "districts",
+          "districtClipBoxes": {
+            "離島區 Islands District": [
+              [
+                -180,
+                -90,
+                114.016,
+                22.22
+              ],
+              [
+                -180,
+                22.22,
+                114.025,
+                22.25
+              ],
+              [
+                -180,
+                22.25,
+                114.025,
+                22.29
+              ],
+              [
+                -180,
+                22.29,
+                114.031,
+                22.3
+              ],
+              [
+                -180,
+                22.3,
+                180,
+                90
+              ]
+            ],
+            "荃灣區 Tsuen Wan District": [
+              [
+                -180,
+                -90,
+                114.056,
+                22.3477
+              ],
+              [
+                114.056,
+                -90,
+                180,
+                22.34
+              ]
+            ]
+          }
+        },
+        {
+          "key": "outer-islands",
+          "source": "districts",
+          "districtClipBoxes": {
+            "離島區 Islands District": [
+              [
+                114.016,
+                -90,
+                180,
+                22.22
+              ],
+              [
+                114.025,
+                22.22,
+                180,
+                22.25
+              ],
+              [
+                114.025,
+                22.25,
+                180,
+                22.29
+              ],
+              [
+                114.031,
+                22.29,
+                180,
+                22.3
+              ]
+            ]
+          }
+        }
+      ],
+      "remainderZoneKey": "northwest"
+    },
+    {
+      "id": "macau",
+      "areaKm2": 116.7,
+      "coverageNote": "地图源几何含海域及若干主域外小面，仅作游戏显示范围，不代表正式区划或通行许可，也不包含整个横琴。三组采用市域互补编辑线，非堂区划分；海域、口岸与其他限制区域随组显示，无须前往。",
+      "boundarySource": {
+        "name": "OpenStreetMap contributors / Nominatim",
+        "url": "https://www.openstreetmap.org/relation/1867188",
+        "license": "ODbL-1.0",
+        "requests": [
+          {
+            "url": "https://api.openstreetmap.org/api/0.6/relation/1867188.json",
+            "downloadedAt": "2026-10-02T09:15:25.777Z",
+            "sha256": "af80b17bebbca121ffb817ae1c28e3e783d1d71487d34d4e638aff6a4c617a2e"
+          },
+          {
+            "url": "https://api.openstreetmap.org/api/0.6/relations.json?relations=5758868,5758867,5758869,9506168,9506156,12107627,12107628,12107629",
+            "downloadedAt": "2026-10-02T09:18:23.256Z",
+            "sha256": "b3eb47379ff1c7e39b3567b153475a1d9c72a480711b200e3b11ae703589b641"
+          },
+          {
+            "url": "https://nominatim.openstreetmap.org/lookup?osm_ids=R1867188&format=jsonv2&polygon_geojson=1&extratags=1",
+            "downloadedAt": "2026-10-02T09:15:37.117Z",
+            "sha256": "91dc38bfd037741b432663c38f647d6ef23f2cc373410b8bffeb1c833ebb1d54"
+          },
+          {
+            "url": "https://nominatim.openstreetmap.org/lookup?osm_ids=R5758867,R5758868,R5758869,R9506156,R9506168,R12107627,R12107628,R12107629&format=jsonv2&polygon_geojson=1&extratags=1",
+            "downloadedAt": "2026-10-02T09:24:01.937Z",
+            "sha256": "10ba6d26370ac91c39b473bdcae64aba16a23fd2bd89d9230e5f8a5af198e33c"
+          }
+        ],
+        "scope": "Complete OSM source relation, including waters and spatially separate polygons near Hengqin. The eight direct subareas mix two level-5 island areas and six level-6 parish/reclaimed areas. Source geometry and game coverage do not establish formal administrative status or unrestricted public access."
+      },
+      "regions": [
+        {
+          "id": "mo-zone-peninsula",
+          "name": "历史城区 · 澳门半岛",
+          "anchorLandmarkId": "mo-stpaul",
+          "districtNames": [],
+          "areaKm2": 33.8,
+          "geometrySha256": "ce6b2f188e4744eaae8515bbf806d1f5bd8dcefb4b806d8bd3c23a20ba6e7cc1",
+          "boundaryNote": "保留澳门地图源全部几何，以北纬 22.173°、22.13° 两条互补编辑线划分三组；直线不是海岸线、堂区界或正式行政界。海域和主域外小面随相应组团显示，无须前往。"
+        },
+        {
+          "id": "mo-zone-taipa-cotai",
+          "name": "氹仔 · 路氹",
+          "anchorLandmarkId": "mo-taipa",
+          "districtNames": [],
+          "areaKm2": 43.3,
+          "geometrySha256": "dc2abd4e4f300304c76270d5cda983ba06ed6112601d354ff69aa08349cf904d",
+          "boundaryNote": "保留澳门地图源全部几何，以北纬 22.173°、22.13° 两条互补编辑线划分三组；直线不是海岸线、堂区界或正式行政界。海域和主域外小面随相应组团显示，无须前往。本组含地图源部分横琴附近小面，仅按编辑线显示，不据此认定正式行政归属。"
+        },
+        {
+          "id": "mo-zone-coloane",
+          "name": "路环 · 南部海岸",
+          "anchorLandmarkId": "mo-francis",
+          "districtNames": [],
+          "areaKm2": 39.7,
+          "geometrySha256": "d6bbc2a0d3e2fd6eada076db1664335b8f785fedcba50524b93b7def103d9044",
+          "boundaryNote": "保留澳门地图源全部几何，以北纬 22.173°、22.13° 两条互补编辑线划分三组；直线不是海岸线、堂区界或正式行政界。海域和主域外小面随相应组团显示，无须前往。编辑线也穿过地图源部分主域外小面，这只是游戏覆盖，不将该部分称作正式路环辖区。"
+        }
+      ],
+      "editorialMasks": [
+        {
+          "key": "peninsula",
+          "source": "municipality",
+          "clipBoxes": [
+            [
+              -180,
+              22.173,
+              180,
+              90
+            ]
+          ]
+        },
+        {
+          "key": "taipa-cotai",
+          "source": "municipality",
+          "clipBoxes": [
+            [
+              -180,
+              22.13,
+              180,
+              22.173
+            ]
+          ]
+        },
+        {
+          "key": "coloane",
+          "source": "municipality",
+          "clipBoxes": [
+            [
+              -180,
+              -90,
+              180,
+              22.13
+            ]
+          ]
+        }
+      ],
+      "remainderZoneKey": null
+    }
+  ],
+  "limitations": [
+    "Topology checks use the full fixed OSM source geometry, including seas, holes and external small faces. They do not establish formal administrative or legal jurisdiction.",
+    "The 250 m rule is a candidate distance check, not a safe route or public-access proof. Macau A-Ma Temple is about 205.7 m from the source boundary and remains an ordinary non-unlocking point.",
+    "All physical photo positions, GPS performance, opening hours, ferry availability and accessible routes still require current local or field validation.",
+    "Displayed area is the complete source display area, including water and external faces; it is not official land area.",
+    "Macau latitude bands 22.173 and 22.13 are editorial game masks, not parish boundaries, and do not include all Hengqin."
+  ]
+}

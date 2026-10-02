@@ -23,8 +23,12 @@ async function waitForShell(page: Page) {
     if (navigator.serviceWorker.controller) return;
     await new Promise<void>(resolve => navigator.serviceWorker.addEventListener('controllerchange', () => resolve(), { once: true }));
   });
+  await expect.poll(async () => page.evaluate(async () => {
+    const cache = await caches.open('vesluma-maps-v1');
+    return (await cache.keys()).some(request => /^\/assets\/nanjing-[^/]+\.json$/.test(new URL(request.url).pathname));
+  })).toBe(true);
   return page.evaluate(async () => {
-    const names = (await caches.keys()).filter(name => name.startsWith('vesluma-shell-'));
+    const names = (await caches.keys()).filter(name => name.startsWith('vesluma-shell-') || name.startsWith('vesluma-maps-'));
     const keys = (await Promise.all(names.map(async name => (await (await caches.open(name)).keys()).map(request => request.url)))).flat();
     return { names, paths: keys.map(url => new URL(url).pathname), origins: [...new Set(keys.map(url => new URL(url).origin))] };
   });
@@ -89,20 +93,29 @@ test.describe('cached production shell', () => {
     await new Promise<void>(resolve => proxy.close(() => resolve()));
   });
 
-  test('offline-first-city-switch-and-refresh-use-bundled-maps', async ({ page, context }) => {
+  test('offline-visited-city-switch-and-refresh-use-bundled-maps', async ({ page, context }) => {
     const errors: string[] = [];
     const mapResponses: Array<{ path: string; fromServiceWorker: boolean; status: number }> = [];
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(origin);
     const cache = await waitForShell(page);
     expect(cache.paths.some(path => /^\/assets\/nanjing-[^/]+\.json$/.test(path))).toBe(true);
-    expect(cache.paths.some(path => /^\/assets\/xian-[^/]+\.json$/.test(path))).toBe(true);
+    expect(cache.paths.some(path => /^\/assets\/xian-[^/]+\.json$/.test(path))).toBe(false);
     expect(cache.origins).toEqual([origin]);
     expect(cache.paths.every(path => !/\/\d+\/\d+\/\d+\.png$/.test(path))).toBe(true);
     const initialCity = await page.locator('.city-title').innerText();
     const initialState = await page.evaluate(key => JSON.parse(localStorage.getItem(key)!), stateKey);
     expect(initialState.cityId).toBe('nanjing');
-    // Xian has not been opened in this context before the network is disabled.
+    // Maps are now cached on demand. Visit Xian online first, then retain the
+    // original two-city offline/theme/refresh/return assertions below.
+    await page.locator('.city-title').click();
+    await page.locator('.city-option').nth(1).click();
+    await expect(page.locator('.vesluma-map').first()).toHaveAttribute('data-skeleton-status', 'ready');
+    await expect.poll(async () => page.evaluate(async () => (await (await caches.open('vesluma-maps-v1')).keys())
+      .some(request => /^\/assets\/xian-[^/]+\.json$/.test(new URL(request.url).pathname)))).toBe(true);
+    await page.locator('.city-title').click();
+    await page.locator('.city-option').nth(0).click();
+    await expect(page.locator('.city-title')).toHaveText(initialCity);
     page.on('response', response => {
       const path = new URL(response.url()).pathname;
       if (/\/assets\/(nanjing|xian)-[^/]+\.json$/.test(path)) mapResponses.push({ path, fromServiceWorker: response.fromServiceWorker(), status: response.status() });

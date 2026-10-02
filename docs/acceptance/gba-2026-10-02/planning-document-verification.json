@@ -1,0 +1,82 @@
+{
+  "checkedAt": "2026-10-02T10:04:45.892Z",
+  "method": "Offline documentation generated from final city-plans.json and frozen config modules; strict ID/city/sourceUrl/lng/lat matching against archived point metadata. This check is not field verification.",
+  "plan": {
+    "path": "src/data/map/city-plans.json",
+    "sha256": "710fcc5fe0c19450ec18d5e1cc677863f5e37a961054a1ae8e38d011bbbe8d93"
+  },
+  "configModules": [
+    {
+      "path": "scripts/city-plan.guangzhou-shenzhen.mjs",
+      "sha256": "cb4f9d49c671f4ba8f51c55d31809f3db60fd7eeed3b878db45e2a67db12b48e"
+    },
+    {
+      "path": "scripts/city-plan.hongkong-macau.mjs",
+      "sha256": "297f51b7c96b6c0d280eb5bb9cdfa76a2cb2227af9c1747e28955c7411225571"
+    }
+  ],
+  "document": {
+    "path": "docs/gba-expansion-planning.md",
+    "sha256": "ac1b04a7803844ae96de2c3dab5b9541877e330f986c924d75fb275fc7029af9"
+  },
+  "counts": {
+    "cities": 4,
+    "groups": 36,
+    "points": 61,
+    "tier1": 36,
+    "tier2": 19,
+    "tier3": 6
+  },
+  "all61FinalCoordinatesAndOsmObjectsMatchReceipts": true,
+  "all36GroupsHaveExactlyOneCorrectTier1": true,
+  "all19OrdinaryAnd6ArrivalPointsHaveEmptyUnlockRegionIds": true,
+  "all61CandidatePointsUse250MetreRadius": true,
+  "allRegionEvidenceIdsResolve": true,
+  "previousOfficialLinksRetained": true,
+  "networkAccessUsedForThisDocumentationStep": false,
+  "archiveCopies": [
+    {
+      "sourceBasename": "guangzhou-shenzhen-point-receipts.json",
+      "sourceSha256": "cc74b3052749eeaf11fab0e08bbcf7fe648119559ed421c111a5b5c95e06bd7b",
+      "archivedPath": "docs/acceptance/gba-2026-10-02/guangzhou-shenzhen-point-receipts.json",
+      "archivedSha256": "d89f65f6835026ba2eae30ddeb338c448c36d0c98393d54482caa06291b1e338",
+      "jsonStructureAndValuesPreserved": true
+    },
+    {
+      "sourceBasename": "hongkong-macau-research.json",
+      "sourceSha256": "47090937257a957567527c5035cda3dc0e2ab985c5b32b43985cfb824010bb3b",
+      "archivedPath": "docs/acceptance/gba-2026-10-02/hongkong-macau-research.json",
+      "archivedSha256": "ee4fee140c2a7679dc76aa4fe9ab728819e39e8a6d557c6c5ed7729bbacfd711",
+      "jsonStructureAndValuesPreserved": true
+    },
+    {
+      "sourceBasename": "guangzhou-shenzhen-validation.json",
+      "sourceSha256": "9dc29fa81ab5a28b4dbd5f118f13a3720838ccef42e797faf12b27c7599b2695",
+      "archivedPath": "docs/acceptance/gba-2026-10-02/guangzhou-shenzhen-validation.json",
+      "archivedSha256": "2f54f4f5c6ad5e8ed678470810ed286ae0a6149d8785f8c53d3492e88b7a1a42",
+      "jsonStructureAndValuesPreserved": true
+    },
+    {
+      "sourceBasename": "hongkong-macau-research.json",
+      "sourceField": "points",
+      "archivedPath": "docs/acceptance/gba-2026-10-02/hongkong-macau-point-receipts.json",
+      "archivedSha256": "a4c1f781a012611add3423ae58d4764c683d0094410390713f1537644bc5d298",
+      "jsonStructureAndValuesPreserved": true
+    }
+  ],
+  "limitations": [
+    "No field, actual-device, real-time public access or measured photo-position validation performed.",
+    "OSM source geometry, editorial game grouping, and official administrative/management attribution remain separate.",
+    "Raw response filenames in point metadata are source references; original response bodies are not duplicated into this documentation archive."
+  ],
+  "guangzhouShenzhenRawResponsesRechecked": {
+    "count": 38,
+    "originalResponseSha256Matches": true,
+    "selectedResponseCoordinatesMatch": true
+  },
+  "independentWordingReview": {
+    "reviewed": true,
+    "scope": "Three distinct scopes; dated official background; Shenshan, Hong Kong and Macau source remainders/waters; Ma A-Ma Temple approximate 205.7 m warning; field-validation limitations.",
+    "blockingFindings": 0
+  }
+}

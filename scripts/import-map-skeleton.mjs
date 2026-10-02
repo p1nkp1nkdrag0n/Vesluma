@@ -12,6 +12,7 @@ import { mkdir, readFile, writeFile, stat, rm } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { gzipSync } from 'node:zlib';
+import { completeOverpassResponse } from './overpass-response.ts';
 
 const project = dirname(dirname(fileURLToPath(import.meta.url)));
 const cache = join(project, 'node_modules', '.cache', 'vesluma-boundaries');
@@ -27,6 +28,10 @@ const extents = {
   shanghai: [120.8508, 30.6693, 123.2258, 31.8721],
   hangzhou: [118.3396, 29.1888, 120.7255, 30.5649],
   chengdu: [102.9896, 30.0916, 104.8949, 31.4371],
+  guangzhou: [112.9523, 22.5607, 114.0553, 23.9357],
+  shenzhen: [113.6805, 21.8213, 115.3891, 23.0166],
+  hongkong: [113.8171, 22.1367, 114.5025, 22.5684],
+  macau: [113.5281, 22.0766, 113.6302, 22.2171],
 };
 if (requestedCity && !Object.hasOwn(extents, requestedCity)) throw new Error(`Expected one of ${Object.keys(extents).join(', ')}`);
 const roadClasses = new Set([
@@ -92,8 +97,8 @@ async function downloadCity(cityId, [west, south, east, north], api) {
       throw error;
     } finally { lastDownloadAt = Date.now(); }
     const body = JSON.parse(raw);
-    if (body.remark || !body.elements?.length) {
-      const error = new Error(`Incomplete Overpass response: ${body.remark}`);
+    if (!completeOverpassResponse(body)) {
+      const error = new Error(`Incomplete Overpass response: ${body.remark || 'invalid source metadata or elements'}`);
       error.partitionRetry = /query timed out|out of memory/i.test(body.remark ?? '');
       throw error;
     }
@@ -102,7 +107,7 @@ async function downloadCity(cityId, [west, south, east, north], api) {
     await writeFile(receiptFile, `${JSON.stringify(receipt)}\n`);
   }
   const body = JSON.parse(raw);
-  if (body.remark || !body.elements?.length) throw new Error(`Incomplete Overpass response: ${body.remark}`);
+  if (!completeOverpassResponse(body)) throw new Error(`Incomplete Overpass response: ${body.remark || 'invalid source metadata or elements'}`);
   requests.push(receipt);
   return body.elements;
 }

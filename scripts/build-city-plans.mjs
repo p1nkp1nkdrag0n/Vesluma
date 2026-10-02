@@ -4,6 +4,14 @@ import pc from 'polygon-clipping';
 import { cityPlans, evidence, planVersion } from './city-plan.config.mjs';
 const multi = geometry => geometry.type === 'Polygon' ? [geometry.coordinates] : geometry.coordinates;
 const box = (west, south, east, north) => [[[[west, south], [east, south], [east, north], [west, north], [west, south]]]];
+// Optional editorial masks for new coastal / island plans. They select from
+// unmodified source geometry; they never substitute rectangles for coastlines.
+const boxMask = boxes => {
+  if (!Array.isArray(boxes) || !boxes.length || boxes.some(bounds => !Array.isArray(bounds) || bounds.length !== 4
+    || !bounds.every(Number.isFinite) || bounds[0] < -180 || bounds[2] > 180 || bounds[1] < -90 || bounds[3] > 90
+    || bounds[0] >= bounds[2] || bounds[1] >= bounds[3])) throw new Error('Invalid editorial clip boxes');
+  return pc.union(...boxes.map(bounds => box(...bounds)));
+};
 // Spherical ring area, sufficient for descriptive km²; topology uses exact clipping.
 const ringArea = ring => {
   let sum = 0;
@@ -27,6 +35,14 @@ const cities = cityPlans.map(config => {
   const snapshot = JSON.parse(readFileSync(`src/data/map/boundaries/${config.id}.json`, 'utf8'));
   const boundary = multi(snapshot.features.find(f => f.properties.role === 'municipality').geometry);
   const districts = snapshot.features.filter(f => f.properties.role === 'district');
+  if (config.remainderZoneKey && !config.zones.some(zone => zone.key === config.remainderZoneKey)) {
+    throw new Error(`Unknown municipality remainder recipient: ${config.remainderZoneKey}`);
+  }
+  // Some SAR source faces (e.g. port jurisdiction and the boundary river) are
+  // not assigned to the formal district scaffold. Preserve them explicitly in
+  // one declared tourism group instead of discarding them or inventing a district.
+  const municipalityRemainder = config.remainderZoneKey
+    ? pc.difference(boundary, pc.union(...districts.map(district => multi(district.geometry)))) : [];
   const bounds = [[Infinity, Infinity], [-Infinity, -Infinity]];
   for (const polygon of boundary) for (const ring of polygon) for (const [lng, lat] of ring) {
     bounds[0][0] = Math.min(bounds[0][0], lat); bounds[0][1] = Math.min(bounds[0][1], lng);
@@ -36,25 +52,31 @@ const cities = cityPlans.map(config => {
   // northern districts beyond 40N. New clips span the full WGS84 world.
   const clipExtent = ['nanjing', 'xian'].includes(config.id) ? [100, 20, 125, 40] : [-180, -90, 180, 90];
   const regions = config.zones.map(zone => {
-    const selected = zone.districts.map(name => {
+    if (zone.source && zone.source !== 'municipality') throw new Error(`Unknown region source: ${zone.source}`);
+    const selected = zone.source === 'municipality' ? [] : zone.districts.map(name => {
       const district = districts.find(d => d.properties.name === name);
       if (!district) throw new Error(`Missing district: ${name}`);
       const clip = zone.districtClips?.[name];
-      return clip ? pc.intersection(multi(district.geometry), clip.keep === 'north'
+      let geometry = clip ? pc.intersection(multi(district.geometry), clip.keep === 'north'
         ? box(clipExtent[0], clip.latitude, clipExtent[2], clipExtent[3])
         : box(clipExtent[0], clipExtent[1], clipExtent[2], clip.latitude)) : multi(district.geometry);
+      if (zone.districtClipBoxes?.[name]) geometry = pc.intersection(geometry, boxMask(zone.districtClipBoxes[name]));
+      return geometry;
     });
-    let polygons = pc.intersection(pc.union(...selected), boundary);
+    if (zone.source !== 'municipality' && !selected.length) throw new Error(`No source geometry for ${zone.key}`);
+    let polygons = zone.source === 'municipality' ? boundary : pc.intersection(pc.union(...selected), boundary);
+    if (zone.clipBoxes) polygons = pc.intersection(polygons, boxMask(zone.clipBoxes));
     if (zone.slice) polygons = pc.intersection(polygons, zone.slice.side === 'west'
       ? box(clipExtent[0], clipExtent[1], zone.slice.longitude, clipExtent[3])
       : box(zone.slice.longitude, clipExtent[1], clipExtent[2], clipExtent[3]));
+    if (config.remainderZoneKey === zone.key && municipalityRemainder.length) polygons = pc.union(polygons, municipalityRemainder);
     const anchor = config.landmarks.find(l => l.id === zone.anchorLandmarkId);
     if (!anchor || anchor.tier !== 1 || !inside([anchor.lng, anchor.lat], polygons)) throw new Error(`Anchor outside its region: ${zone.anchorLandmarkId}`);
     return { id: `${config.prefix}-zone-${zone.key}`, cityId: config.id, name: zone.name,
       geometry: { type: 'MultiPolygon', coordinates: polygons }, anchorLandmarkId: anchor.id,
       areaKm2: Math.round(area(polygons) * 10) / 10, districtNames: zone.districts, heat: zone.heat,
       rationale: zone.rationale, evidenceIds: zone.evidenceIds, verification: 'planned', version: planVersion,
-      boundaryNote: `外缘沿 OSM 市域边界，区内以区县为底稿合并。${zone.slice ? `东经 ${zone.slice.longitude}°为内部规划线。` : ''}${Object.entries(zone.districtClips ?? {}).map(([name, clip]) => `${name}在北纬 ${clip.latitude}°处作组团规划分隔。`).join('')}内部规划线不代表实测道路、河流或行政边界。`,
+      boundaryNote: zone.boundaryNoteOverride ?? `外缘沿 OSM 市域边界，区内以区县为底稿合并。${zone.slice ? `东经 ${zone.slice.longitude}°为内部规划线。` : ''}${Object.entries(zone.districtClips ?? {}).map(([name, clip]) => `${name}在北纬 ${clip.latitude}°处作组团规划分隔。`).join('')}内部规划线不代表实测道路、河流或行政边界。`,
     };
   });
   const union = pc.union(...regions.map(r => r.geometry.coordinates));
@@ -76,7 +98,7 @@ const cities = cityPlans.map(config => {
     startPosition: config.startPosition, zoom: config.zoom, bounds, coordinateSystem: 'WGS84', verification: 'planned',
     contentVersion: planVersion, boundary: { type: 'MultiPolygon', coordinates: boundary }, areaKm2: Math.round(area(boundary) * 10) / 10,
     coverage: { missingKm2: missing, overlapKm2: overlap, outsideKm2: outside, districtCount: districts.length, boundarySource: snapshot.source },
-    landmarks, regions };
+    ...(config.coverageNote ? { coverageNote: config.coverageNote } : {}), landmarks, regions };
 });
 writeFileSync('src/data/map/city-plans.json', JSON.stringify({ version: planVersion, researchedOn: '2026-10-02',
   heatMethod: '公开客流、官方景区名录和旅游片区规划的定性代理；非实时热力。先合并邻近组团，再选区域代表。', evidence, cities }) + '\n');

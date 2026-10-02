@@ -1,0 +1,587 @@
+{
+  "checkedAt": "2026-10-02T09:56:47.398Z",
+  "sourceEvidence": {
+    "basename": "hongkong-macau-scaffold-audit.json",
+    "sha256": "46b0145657d345f268665221fec25db32459470f3510796d6470091751e72283"
+  },
+  "planFile": {
+    "path": "src/data/map/city-plans.json",
+    "sha256": "710fcc5fe0c19450ec18d5e1cc677863f5e37a961054a1ae8e38d011bbbe8d93",
+    "version": "citywide-2026-10-02"
+  },
+  "snapshotFiles": [
+    {
+      "cityId": "hongkong",
+      "path": "src/data/map/boundaries/hongkong.json",
+      "sha256": "73f8d19d3c03c4c806459fa7251a1116b9350334755b061e872dd89a037be972",
+      "sourceUrl": "https://www.openstreetmap.org/relation/913110"
+    },
+    {
+      "cityId": "macau",
+      "path": "src/data/map/boundaries/macau.json",
+      "sha256": "af1f3633955ea882807cab0e080a6a2d2297334012f4ea47ce74f021ee371fcf",
+      "sourceUrl": "https://www.openstreetmap.org/relation/1867188"
+    }
+  ],
+  "method": "Exact polygon-clipping union, difference and pairwise intersection of original municipality and real scaffold features. Missing scaffold coverage is distinct from final game coverage, which has no missing geometry.",
+  "cities": [
+    {
+      "city": "hongkong",
+      "districts": [
+        {
+          "id": 2558879,
+          "name": "中西區 Central and Western District",
+          "polygons": 1,
+          "bbox": [
+            114.1098795,
+            22.2520804,
+            114.1682351,
+            22.2976036
+          ]
+        },
+        {
+          "id": 2558880,
+          "name": "東區 Eastern District",
+          "polygons": 1,
+          "bbox": [
+            114.1863289,
+            22.2457285,
+            114.2615958,
+            22.3002834
+          ]
+        },
+        {
+          "id": 2558881,
+          "name": "南區 Southern District",
+          "polygons": 1,
+          "bbox": [
+            114.1101095,
+            22.1926504,
+            114.3090495,
+            22.2756064
+          ]
+        },
+        {
+          "id": 2558883,
+          "name": "灣仔區 Wan Chai District",
+          "polygons": 1,
+          "bbox": [
+            114.1631605,
+            22.2540397,
+            114.2071683,
+            22.2938684
+          ]
+        },
+        {
+          "id": 2670978,
+          "name": "油尖旺區 Yau Tsim Mong District",
+          "polygons": 1,
+          "bbox": [
+            114.1494961,
+            22.2880501,
+            114.1868613,
+            22.3267914
+          ]
+        },
+        {
+          "id": 2800200,
+          "name": "深水埗區 Sham Shui Po District",
+          "polygons": 1,
+          "bbox": [
+            114.1303281,
+            22.3137521,
+            114.1768517,
+            22.3486198
+          ]
+        },
+        {
+          "id": 2800201,
+          "name": "九龍城區 Kowloon City District",
+          "polygons": 1,
+          "bbox": [
+            114.1727298,
+            22.2941115,
+            114.2193766,
+            22.3493283
+          ]
+        },
+        {
+          "id": 2800276,
+          "name": "觀塘區 Kwun Tong District",
+          "polygons": 1,
+          "bbox": [
+            114.2017069,
+            22.2822804,
+            114.2455799,
+            22.3349582
+          ]
+        },
+        {
+          "id": 2800277,
+          "name": "黃大仙區 Wong Tai Sin District",
+          "polygons": 1,
+          "bbox": [
+            114.1794611,
+            22.3304307,
+            114.2240462,
+            22.3584098
+          ]
+        },
+        {
+          "id": 7351646,
+          "name": "葵青區 Kwai Tsing District",
+          "polygons": 1,
+          "bbox": [
+            114.0724435,
+            22.2974808,
+            114.1499596,
+            22.384521
+          ]
+        },
+        {
+          "id": 8189562,
+          "name": "西貢區 Sai Kung District",
+          "polygons": 1,
+          "bbox": [
+            114.2211199,
+            22.1484722,
+            114.5024444,
+            22.4662238
+          ]
+        },
+        {
+          "id": 8191142,
+          "name": "離島區 Islands District",
+          "polygons": 1,
+          "bbox": [
+            113.8171111,
+            22.1367222,
+            114.30925,
+            22.3246312
+          ]
+        },
+        {
+          "id": 8368100,
+          "name": "荃灣區 Tsuen Wan District",
+          "polygons": 1,
+          "bbox": [
+            113.9945813,
+            22.3125262,
+            114.1691928,
+            22.4175525
+          ]
+        },
+        {
+          "id": 8477820,
+          "name": "沙田區 Sha Tin District",
+          "polygons": 1,
+          "bbox": [
+            114.1413094,
+            22.3441715,
+            114.2544451,
+            22.4389855
+          ]
+        },
+        {
+          "id": 8480494,
+          "name": "屯門區 Tuen Mun District",
+          "polygons": 1,
+          "bbox": [
+            113.8658702,
+            22.32435,
+            114.0661998,
+            22.4334016
+          ]
+        },
+        {
+          "id": 8480823,
+          "name": "元朗區 Yuen Long District",
+          "polygons": 1,
+          "bbox": [
+            113.8742315,
+            22.3912209,
+            114.1278983,
+            22.5231701
+          ]
+        },
+        {
+          "id": 9159733,
+          "name": "北區 North District",
+          "polygons": 1,
+          "bbox": [
+            114.0783273,
+            22.4656836,
+            114.33619,
+            22.5683333
+          ]
+        },
+        {
+          "id": 9159737,
+          "name": "大埔區 Tai Po District",
+          "polygons": 4,
+          "bbox": [
+            114.1119401,
+            22.3935987,
+            114.4560363,
+            22.5681316
+          ]
+        }
+      ],
+      "missingPolygons": 27,
+      "missingBoxes": [
+        [
+          113.9402451,
+          22.4905313,
+          113.9463422,
+          22.5038877
+        ],
+        [
+          114.0659511,
+          22.5222103,
+          114.0682003,
+          22.5245816
+        ],
+        [
+          114.0678481,
+          22.5224493,
+          114.0678911,
+          22.5224824
+        ],
+        [
+          114.0678981,
+          22.52237,
+          114.0679953,
+          22.5225255
+        ],
+        [
+          114.067908,
+          22.5225167,
+          114.0679441,
+          22.5225511
+        ],
+        [
+          114.0679962,
+          22.5223509,
+          114.068078,
+          22.5224997
+        ],
+        [
+          114.068131,
+          22.522095,
+          114.0682044,
+          22.5221354
+        ],
+        [
+          114.068414,
+          22.52222,
+          114.0684326,
+          22.5222444
+        ],
+        [
+          114.0684355,
+          22.5221575,
+          114.0686465,
+          22.5222903
+        ],
+        [
+          114.0686197,
+          22.5225682,
+          114.0687489,
+          22.5226618
+        ],
+        [
+          114.0688695,
+          22.5224995,
+          114.0689382,
+          22.5225932
+        ],
+        [
+          114.0694516,
+          22.5195433,
+          114.0707671,
+          22.5203149
+        ],
+        [
+          114.0715235,
+          22.5151585,
+          114.085323,
+          22.5300021
+        ],
+        [
+          114.1026637,
+          22.5315714,
+          114.1050906,
+          22.535177
+        ],
+        [
+          114.118782,
+          22.5343796,
+          114.1208821,
+          22.5353216
+        ],
+        [
+          114.1208808,
+          22.5352297,
+          114.1224089,
+          22.5369258
+        ],
+        [
+          114.1304805,
+          22.5416053,
+          114.1315169,
+          22.5419965
+        ],
+        [
+          114.1336596,
+          22.5411124,
+          114.13469,
+          22.5417278
+        ],
+        [
+          114.1431324,
+          22.54189,
+          114.143932,
+          22.5420562
+        ],
+        [
+          114.144257,
+          22.5408895,
+          114.1453352,
+          22.5416154
+        ],
+        [
+          114.146118,
+          22.5410901,
+          114.1480179,
+          22.5417855
+        ],
+        [
+          114.1496002,
+          22.5490503,
+          114.1497531,
+          22.5497539
+        ],
+        [
+          114.1504939,
+          22.550787,
+          114.1518555,
+          22.5525597
+        ],
+        [
+          114.1506526,
+          22.5478773,
+          114.1508831,
+          22.5480486
+        ],
+        [
+          114.1509841,
+          22.5479822,
+          114.1515886,
+          22.5481722
+        ],
+        [
+          114.1550714,
+          22.5544113,
+          114.1563594,
+          22.5551947
+        ],
+        [
+          114.1599458,
+          22.5609128,
+          114.1607972,
+          22.5617043
+        ]
+      ],
+      "outsidePolygons": 0,
+      "overlaps": [],
+      "verifiedAgainstSnapshotSha256": "73f8d19d3c03c4c806459fa7251a1116b9350334755b061e872dd89a037be972",
+      "missingGeometrySha256": "ae308ab88260623f8ad1557951f0fcde0ef7afb736147e252522a25e6aa04ffc",
+      "sourceUrl": "https://www.openstreetmap.org/relation/913110",
+      "sourceRequests": [
+        {
+          "url": "https://api.openstreetmap.org/api/0.6/relation/913110.json",
+          "downloadedAt": "2026-10-02T09:15:23.421Z",
+          "sha256": "b64cae5cfdef30743e7374c9a349a70579ba636c829ccd7c9a9cac6e50b47ffc"
+        },
+        {
+          "url": "https://overpass-api.de/api/interpreter",
+          "query": "[out:json][timeout:30][maxsize:67108864];relation[boundary=administrative][admin_level~\"^[456]$\"](22.1367222,113.8171111,22.5683333,114.5024444);out tags;",
+          "downloadedAt": "2026-10-02T09:18:26.580Z",
+          "sha256": "2a641c066c029eec5343feed2ca3d15771859681ea1a059ca484a0e335af0448"
+        },
+        {
+          "url": "https://api.openstreetmap.org/api/0.6/relations.json?relations=2558879,2558880,2558881,2558883,2670978,2800200,2800201,2800276,2800277,7351646,8189562,8191142,8368100,8477820,8480494,8480823,9159733,9159737",
+          "downloadedAt": "2026-10-02T09:24:04.416Z",
+          "sha256": "ce597323dae26e367558b2fd3d2685fd0c22eba82a78d3a256c2622f08c4d7e7"
+        },
+        {
+          "url": "https://nominatim.openstreetmap.org/lookup?osm_ids=R913110&format=jsonv2&polygon_geojson=1&extratags=1",
+          "downloadedAt": "2026-10-02T09:15:34.697Z",
+          "sha256": "3856788bcd9829f83313be4b3c35cbbd9210ea6509f5e5adb4c98d9c799c5427"
+        },
+        {
+          "url": "https://nominatim.openstreetmap.org/lookup?osm_ids=R2558879,R2558880,R2558881,R2558883,R2670978,R2800200,R2800201,R2800276,R2800277,R7351646,R8189562,R8191142,R8368100,R8477820,R8480494,R8480823,R9159733,R9159737&format=jsonv2&polygon_geojson=1&extratags=1",
+          "downloadedAt": "2026-10-02T09:24:08.198Z",
+          "sha256": "a39095831bd69a1da2ff2a1e0347c321b7aa53d3a9a7d7333c216afa0d85d954"
+        }
+      ],
+      "interpretation": "Eighteen real district scaffold features leave 27 source residual faces. Residuals are shown with the northwest game region; this does not assign formal district status."
+    },
+    {
+      "city": "macau",
+      "districts": [
+        {
+          "id": 5758867,
+          "name": "路氹填海區 Zona do Aterro de Cotai",
+          "polygons": 1,
+          "bbox": [
+            113.5508276,
+            22.1282965,
+            113.5889168,
+            22.1554431
+          ]
+        },
+        {
+          "id": 5758868,
+          "name": "氹仔 Taipa",
+          "polygons": 4,
+          "bbox": [
+            113.53885,
+            22.1205986,
+            113.5983546,
+            22.1714409
+          ]
+        },
+        {
+          "id": 5758869,
+          "name": "路環 Coloane",
+          "polygons": 1,
+          "bbox": [
+            113.5491454,
+            22.10979,
+            113.5925889,
+            22.1430972
+          ]
+        },
+        {
+          "id": 9506156,
+          "name": "花地瑪堂區 Nossa Senhora de Fátima",
+          "polygons": 1,
+          "bbox": [
+            113.5330833,
+            22.198311,
+            113.5636138,
+            22.2170361
+          ]
+        },
+        {
+          "id": 9506168,
+          "name": "花王堂區 Santo António",
+          "polygons": 1,
+          "bbox": [
+            113.5341979,
+            22.1951636,
+            113.5503757,
+            22.2080372
+          ]
+        },
+        {
+          "id": 12107627,
+          "name": "大堂區 Sé",
+          "polygons": 1,
+          "bbox": [
+            113.5281667,
+            22.1733056,
+            113.5638713,
+            22.2043936
+          ]
+        },
+        {
+          "id": 12107628,
+          "name": "望德堂區 São Lázaro",
+          "polygons": 1,
+          "bbox": [
+            113.5434973,
+            22.1951785,
+            113.5544166,
+            22.2037194
+          ]
+        },
+        {
+          "id": 12107629,
+          "name": "風順堂區 São Lourenço",
+          "polygons": 1,
+          "bbox": [
+            113.5282345,
+            22.1813234,
+            113.5409599,
+            22.1968473
+          ]
+        }
+      ],
+      "missingPolygons": 1,
+      "missingBoxes": [
+        [
+          113.5319722,
+          22.0766667,
+          113.6301389,
+          22.2122222
+        ]
+      ],
+      "outsidePolygons": 0,
+      "overlaps": [],
+      "verifiedAgainstSnapshotSha256": "af1f3633955ea882807cab0e080a6a2d2297334012f4ea47ce74f021ee371fcf",
+      "missingGeometrySha256": "3745f7d77b3eb95ebe59320c9a3b1819b1bf9c3ac9ae9b9d14d1e4cf670e0a62",
+      "sourceUrl": "https://www.openstreetmap.org/relation/1867188",
+      "sourceRequests": [
+        {
+          "url": "https://api.openstreetmap.org/api/0.6/relation/1867188.json",
+          "downloadedAt": "2026-10-02T09:15:25.777Z",
+          "sha256": "af80b17bebbca121ffb817ae1c28e3e783d1d71487d34d4e638aff6a4c617a2e"
+        },
+        {
+          "url": "https://api.openstreetmap.org/api/0.6/relations.json?relations=5758868,5758867,5758869,9506168,9506156,12107627,12107628,12107629",
+          "downloadedAt": "2026-10-02T09:18:23.256Z",
+          "sha256": "b3eb47379ff1c7e39b3567b153475a1d9c72a480711b200e3b11ae703589b641"
+        },
+        {
+          "url": "https://nominatim.openstreetmap.org/lookup?osm_ids=R1867188&format=jsonv2&polygon_geojson=1&extratags=1",
+          "downloadedAt": "2026-10-02T09:15:37.117Z",
+          "sha256": "91dc38bfd037741b432663c38f647d6ef23f2cc373410b8bffeb1c833ebb1d54"
+        },
+        {
+          "url": "https://nominatim.openstreetmap.org/lookup?osm_ids=R5758867,R5758868,R5758869,R9506156,R9506168,R12107627,R12107628,R12107629&format=jsonv2&polygon_geojson=1&extratags=1",
+          "downloadedAt": "2026-10-02T09:24:01.937Z",
+          "sha256": "10ba6d26370ac91c39b473bdcae64aba16a23fd2bd89d9230e5f8a5af198e33c"
+        }
+      ],
+      "interpretation": "Eight OSM scaffold features mix islands, parishes and Cotai; they are not eight official parishes. The large marine remainder requires municipality-based game masks."
+    }
+  ],
+  "finalGameCoverage": [
+    {
+      "cityId": "hongkong",
+      "regions": 10,
+      "landmarks": 15,
+      "missingPolygons": 0,
+      "outsidePolygons": 0,
+      "overlapPairs": 0,
+      "sourceGeometryUnchanged": true,
+      "geometryHash": "db3c3065c7a6f8576db9006eff3b36752b2cdf2498b16399f9cfed638fcbb033"
+    },
+    {
+      "cityId": "macau",
+      "regions": 3,
+      "landmarks": 8,
+      "missingPolygons": 0,
+      "outsidePolygons": 0,
+      "overlapPairs": 0,
+      "sourceGeometryUnchanged": true,
+      "geometryHash": "6a2ffdb02bfa6f457d5087134f064c88fb70486a268465a4bf590e0ed71de846"
+    }
+  ],
+  "limitations": [
+    "No district polygon was invented or source municipality replaced.",
+    "OSM scaffold labels and residual faces are source data, not independent legal determinations."
+  ]
+}

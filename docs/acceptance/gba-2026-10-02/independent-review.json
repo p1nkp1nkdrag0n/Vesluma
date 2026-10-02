@@ -1,0 +1,167 @@
+{
+  "reviewedOn": "2026-10-02",
+  "reviewer": "independent_review",
+  "branch": "Pink",
+  "baselineCommit": "b6d1473db02aaa33a26144d4b4b8907305e82340",
+  "builtEntryReviewed": "assets/index-CGmM-jbQ.js",
+  "builtWorkerExactlyMatchesReviewedSource": true,
+  "decision": {
+    "blockingCodeFindings": [],
+    "codeReviewAllowsCommit": true,
+    "overallAcceptance": "The final cache retry fix passed independent static review and targeted tests. The parent confirmed the QA owner's final 61/61 browser scenarios passed (25 city, 10 sync, 25 baseline, 1 real public resource), plus 10 Vite and 10 Node smoke checks. See browser-qa-summary.json for the QA execution evidence. These browser results were provided by QA, not independently executed by this reviewer. No blocking review findings remain; this review allows committing the verified version to Pink without merge or deployment. This review itself does not merge, deploy or commit anything."
+  },
+  "environment": {
+    "operatingSystem": "Windows",
+    "shell": "PowerShell",
+    "node": "v24.16.0",
+    "npm": "11.13.0",
+    "unitRunner": "Vitest v5.0.2",
+    "apiRunner": "Node test runner and real node:sqlite DatabaseSync in temporary databases",
+    "apiTransport": "Local IPv4 loopback HTTP; no cloud service or production database",
+    "reviewMode": "Read-only final application review; this review phase only adds this evidence file"
+  },
+  "independentlyExecuted": [
+    {
+      "command": "npx vitest run src/data/map/city-plans.test.ts src/lib/cities.acceptance.test.ts src/lib/storage.city-backup.test.ts",
+      "result": "PASS",
+      "files": 3,
+      "passed": 76,
+      "failed": 0,
+      "durationSeconds": 3.86,
+      "coverage": [
+        "All ten registered cities and globally unique landmark/region IDs",
+        "Fixed pre-expansion hashes of each of the six existing complete city objects, boundary snapshots and legacy rights",
+        "Full source/region union differences empty in both directions; pairwise region intersections empty",
+        "Each region has exactly one tier-1 representative; every selected point belongs to its intended region and city",
+        "All six pairs of the four new raw city footprints have empty area intersections",
+        "Secondary visits save progress without opening a region; representatives unlock once; retry and revisit remain idempotent",
+        "Inclusive numerical 250 m boundary and rejection at 250.001 m, using simulated coordinates",
+        "Ten-city switching, local storage reload, ended trips, sync projection, backup restore and allowed city artwork"
+      ]
+    },
+    {
+      "command": "npm run test:server",
+      "result": "PASS",
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0,
+      "durationMilliseconds": 967.0516,
+      "notRerunAtFinalReview": "Server production code and these API scenarios did not change after the independent successful run.",
+      "specificTests": [
+        "extends an existing six-city database to all ten cities and preserves photos and authority after restart",
+        "rejects cross-city landmark and region authority in each of the ten cities without partial writes",
+        "photo PUT is idempotent for equal bytes and rejects overwriting an existing key",
+        "a lost response and repeated request merge once, including after server restart",
+        "empty and stale snapshots never delete durable progress or roll back an ended trip",
+        "a SQLite failure during receipt insertion rolls back the already-updated progress and revision",
+        "an interrupted request cannot partially save metadata or reserve its request ID",
+        "an interrupted photo upload stores no partial BLOB and can be retried with the same photo ID"
+      ],
+      "expansionScenario": "Seed six old cities with 12 visits and their BLOBs; close/reopen SQLite; add all ten cities with 20 visits/photos; close/reopen again; compare exact snapshot, retry receipt and stale six-city merge; read all 20 photo byte sequences; verify another space stays empty. Submit forged landmark/region ownership for each of ten cities and require complete transaction rejection."
+    },
+    {
+      "command": "npx vitest run src/lib/service-worker.test.ts src/data/map/map.loader.test.ts",
+      "result": "PASS",
+      "files": 2,
+      "passed": 51,
+      "failed": 0,
+      "durationSeconds": 3.94,
+      "specificTests": [
+        "does not cache even HTTP 200 map bytes until the loader validates them, so malformed JSON can be retried",
+        "still serves the validated offline map when the browser sets HTTP cache mode %s (reload and no-store)",
+        "allows only an explicitly marked app retry to bypass an old invalid cached map, replacing it after validation",
+        "retains six least-recently-used cities separately from the app shell and touches in-memory visits",
+        "rolls back a newly stored seventh map if the index write hits quota, preserving every earlier map",
+        "rolls back the new map and restores prior order if eviction fails after writing the new index",
+        "migrates all six valid v7 hashes without a network request and discards stale maps without touching user data",
+        "bounds decoded map memory, refreshes hit recency and refetches an evicted city without mutating held maps",
+        "waits for an upgraded worker protocol acknowledgement without refetching or giving bytes to the old worker"
+      ]
+    },
+    {
+      "command": "node scripts/audit-gba-boundaries.mjs --research-dir <temporary-public-source-research-directory> --write docs/acceptance/gba-2026-10-02/boundary-audit.json",
+      "result": "PASS",
+      "evidence": "boundary-audit.json",
+      "coverage": "Original lookup SHA and exact geometry comparison against committed snapshots, per-component bbox/area, all six full pairwise intersections, complete Shenshan and all four supplemental street geometries inside the Shenzhen source. The main audit was also run without the optional research directory and passed."
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "note": "Git emitted existing working-copy CRLF normalization notices, not whitespace errors."
+    }
+  ],
+  "finalStaticReview": [
+    {
+      "area": "Boundary importer refresh receipts",
+      "result": "CLOSED",
+      "finding": "The earlier implementation fetched new bytes but compared them with the old receipt, breaking refresh.",
+      "resolution": "After successful JSON parsing, the importer writes the downloaded raw response and a new URL/query/time/SHA receipt. Reused cached bytes still require an exact matching receipt. No committed source was refreshed for this review."
+    },
+    {
+      "area": "Cold Hong Kong boundary import",
+      "result": "CLOSED",
+      "finding": "The earlier implementation required a discovery receipt that did not exist in an empty cache.",
+      "resolution": "The exact pinned Overpass query is now present in the importer and sent as a POST when needed. Complete Overpass response metadata and the expected 18-district inventory are checked. The source retains all municipality faces and does not invent a nineteenth district.",
+      "supportingExecution": "boundary-import-smoke.json: backend owner ran the real importer from an isolated temporary cwd with recorded responses replacing network calls, then changed response bytes and verified refresh updated receipt hashes. This final reviewer read the implementation and evidence; it did not claim to rerun live downloads."
+    },
+    {
+      "area": "Final browser-discovered HTTP cache mode regression",
+      "result": "CLOSED",
+      "finding": "A normal browser reload/no-store request could bypass an existing valid CacheStorage map and receive SW 503 offline.",
+      "resolution": "SW bypasses CacheStorage only for X-Vesluma-Map-Retry: 1. The loader sends that header only after a failed map load and retains cache: reload to bypass a bad HTTP cache response. First requests are unmarked. Independent rerun passed all 51 worker/loader tests, including ordinary reload/no-store offline hits and explicit invalid-map replacement. The rebuilt worker exactly matches reviewed source; the final rebuilt entry is index-CGmM-jbQ.js."
+    },
+    {
+      "area": "Map cache and runtime recovery",
+      "result": "PASS",
+      "resolution": "First install caches no city map. Only fully validated winning loader responses are handed off. Reload retries bypass corrupted old map/HTTP cache responses. Six-city CacheStorage mutations are serialized; index/eviction failure rolls back a new seventh copy. Decoded memory is limited to two cities. The old-v7 update window uses same-origin MessageChannel acknowledgement before transferring bytes, with a 30-second total waiting bound and controllerchange handling."
+    },
+    {
+      "area": "Cache privacy and update boundaries",
+      "result": "PASS",
+      "resolution": "Map messages require a same-origin client and target, no query/hash, an exact current manifest asset and bounded nonempty ArrayBuffer. The 64 MiB cap includes Guangzhou's actual 54,000,983-byte decoded form. API navigation and data/photo endpoints are excluded. Old valid six-city hashes can migrate; stale hashes are removed; API bodies do not migrate."
+    },
+    {
+      "area": "Coverage semantics and compatibility",
+      "result": "PASS",
+      "resolution": "Raw WGS84 source geometry, tourism game groups and official administrative attribution are distinguished. Shenzhen/Shenshan and Hong Kong/Macao special source faces use neutral coverage/access notes. Complete Boolean checks, rather than rounded areas or sample points, prove the selected source footprint is partitioned. The Chengdu generator text correction deliberately restores the released six-city object so regeneration preserves its fixed hash."
+    },
+    {
+      "area": "Secrets and production scope",
+      "result": "NO_FINDINGS",
+      "changedTextFilesScanned": 56,
+      "highConfidenceCredentialPatternMatches": 0,
+      "scanScope": "Changed tracked and nonignored untracked text files; private-key headers, common cloud/API token patterns and URL embedded credentials. Match contents were never printed. This is a bounded review, not a comprehensive security audit.",
+      "productionServerChanges": [],
+      "dependencyOrDeploymentConfigurationChanges": [],
+      "resolution": "Server changes in this expansion are tests only. No new cloud service, account, credential, production deployment configuration or dependency was added. Public OSM/Nominatim/Overpass source receipts contain public data requests."
+    }
+  ],
+  "otherAgentEvidenceReviewed": {
+    "rootFinalChecks": "After the final retry-header fix, the parent reported 312 unit tests across 19 files passing in 18.65 seconds, front/server typecheck, production build and build:server passing for index-CGmM-jbQ.js. These are parent-run checks, not independent reruns.",
+    "workerInstallAudit": "Reviewed the final sw-install-audit.json for assets/index-CGmM-jbQ.js: 10 city files exist, 0 maps prefetched, 20 boot assets totaling 14,496,706 bytes, a 62,008,780-byte reduction from the earlier six-city install. Missing and unsafe asset lists are empty; built SW equals source. The parent executed the Node VM audit; this reviewer read its evidence and separately confirmed source/build equality. This VM does not prove real browser activation or performance.",
+    "mapSources": "skeleton-source-summary.json records all four actual gzip assets, query receipts, empty offshore responses and omitted water relations. The selected arterial/water queries do not provide complete ocean surfaces or coastlines.",
+    "browserAcceptance": "The parent/browser owner was running the final rebuilt 61 browser scenarios plus 10 Vite smoke scenarios when this report was written; their final record is authoritative. Earlier pre-fix browser results are not substituted for these final runs. This reviewer did not execute those suites."
+  },
+  "limits": [
+    "No physical phone, field arrival, actual GPS drift, exact photograph entrance or local public-access permission was verified.",
+    "The 250 m tests validate numerical application behavior using simulated coordinates; they do not validate real-world accuracy or lawful access across a boundary.",
+    "Boundary area values include all OSM source faces and are not official land or sea-area statistics. Two-dimensional port faces do not establish legal or vertical jurisdiction.",
+    "The four supplemental street raw responses remain optional temporary research evidence; the committed-source component/intersection/Shenshan audit is independently reproducible without them.",
+    "Cross-tab eviction or manually clearing CacheStorage while a map remains in a tab's decoded memory can report a cache miss without automatically refetching that in-memory map. This edge was not browser-tested; offline availability after browser cleanup is not promised.",
+    "Cache quotas and true low-end phone or weak-network behavior remain device-dependent. Local SQLite spaces are namespaces, not production authentication or cloud synchronization.",
+    "Boundary importer smoke tests use recorded public responses and no network; they prove cold-start/request/receipt handling rather than future endpoint availability."
+  ],
+  "reviewedWorkingTreeSha256": {
+    "public/sw.js": "3968478574b62f4f60f2be1d0b13f96bc8379a06ea1f8fbd32f06ce46f2c385e",
+    "src/data/map/index.ts": "a65725f800394a4a74e9d29e96c8202836b1991f767856a211b9a78a31d80a6c",
+    "scripts/import-city-boundaries.mjs": "12625d765ca6b8fa72f7a9badd14e5781701551ca93d2fcedca34450e542956d",
+    "scripts/build-city-plans.mjs": "2bfd3f9b96735c14a2aeb4cfdd2593e88c09a8206b165c37c1c4f6dc190efd4b",
+    "src/data/map/city-plans.json": "710fcc5fe0c19450ec18d5e1cc677863f5e37a961054a1ae8e38d011bbbe8d93",
+    "src/data/map/city-plans.test.ts": "8ae6ee620d18c8060ac271e22ba6e6df6b496710e217522340f55f3798090617",
+    "src/lib/cities.acceptance.test.ts": "292c0a60c8c3340387a6eb2b87ab88d73461385bc79fa15f2e108060f2f55856",
+    "src/lib/storage.city-backup.test.ts": "24e12ba22d51e77f3ab7633c8374cf4144640190d7d4146d453d64e500761976",
+    "server/server.test.ts": "937ae5a97dca3128e2d393e3d4647d2d44d7cda63c1fbf177b1cebe19263ee57",
+    "src/lib/service-worker.test.ts": "ab6997603d56d78d01bee23eeba90a42d6b427de8ba772687f88a9f69d90331e",
+    "src/data/map/map.loader.test.ts": "12138f06a52b0ea9a8e6b10de6368721f0007ca9bedd77bc47b18138278d9ebe"
+  }
+}

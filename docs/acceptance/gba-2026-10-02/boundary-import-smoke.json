@@ -1,0 +1,8 @@
+{
+  "mode": "Isolated temporary cwd; all download calls mocked from actual cached responses; no network or committed snapshot refresh",
+  "cold": "hongkong: municipality + 18 complete district polygons",
+  "refresh": "hongkong: municipality + 18 complete district polygons",
+  "receiptChanged": true,
+  "result": "PASS",
+  "details": "Ran the real importer twice in an isolated temporary working directory. All download calls were replaced by actual cached public responses, then those response bytes were changed by adding a newline for the refresh run. Verified that the importer regenerated receipt hashes. No network request or committed snapshot refresh occurred."
+}

@@ -1,0 +1,1284 @@
+{
+  "status": "passed",
+  "environment": "Each city visited online before its own offline reload, with a six-city LRU limit; not all ten simultaneously cached. Browser simulation, not physical device verification.",
+  "url": "http://127.0.0.1:53021",
+  "outcomes": [
+    {
+      "cityId": "nanjing",
+      "cache": {
+        "names": [
+          "vesluma-shell-v8",
+          "vesluma-maps-v1"
+        ],
+        "stores": [
+          {
+            "name": "vesluma-shell-v8",
+            "paths": [
+              "/index.html",
+              "/",
+              "/.vite/manifest.json",
+              "/manifest.webmanifest",
+              "/icon.svg",
+              "/images/nanjing.png",
+              "/images/xian.png",
+              "/images/beijing.png",
+              "/images/shanghai.png",
+              "/images/hangzhou.png",
+              "/images/chengdu.png",
+              "/images/guangzhou.png",
+              "/images/shenzhen.png",
+              "/images/hongkong.png",
+              "/images/macau.png",
+              "/images/map-paper-texture.webp",
+              "/images/map-treasure-texture.webp",
+              "/assets/map-engine-BZOsmtGx.js",
+              "/assets/map-engine-CIGW-MKW.css",
+              "/assets/react-runtime-BZIfiq8F.js",
+              "/assets/index-CGmM-jbQ.js",
+              "/assets/index-i-NuwVLl.css",
+              "/assets/web-C3fe3YnL.js"
+            ]
+          },
+          {
+            "name": "vesluma-maps-v1",
+            "paths": [
+              "/assets/nanjing-CySEN2L4.json",
+              "/__vesluma_map_lru__"
+            ]
+          }
+        ],
+        "paths": [
+          "/index.html",
+          "/",
+          "/.vite/manifest.json",
+          "/manifest.webmanifest",
+          "/icon.svg",
+          "/images/nanjing.png",
+          "/images/xian.png",
+          "/images/beijing.png",
+          "/images/shanghai.png",
+          "/images/hangzhou.png",
+          "/images/chengdu.png",
+          "/images/guangzhou.png",
+          "/images/shenzhen.png",
+          "/images/hongkong.png",
+          "/images/macau.png",
+          "/images/map-paper-texture.webp",
+          "/images/map-treasure-texture.webp",
+          "/assets/map-engine-BZOsmtGx.js",
+          "/assets/map-engine-CIGW-MKW.css",
+          "/assets/react-runtime-BZIfiq8F.js",
+          "/assets/index-CGmM-jbQ.js",
+          "/assets/index-i-NuwVLl.css",
+          "/assets/web-C3fe3YnL.js",
+          "/assets/nanjing-CySEN2L4.json",
+          "/__vesluma_map_lru__"
+        ],
+        "mapPaths": [
+          "/assets/nanjing-CySEN2L4.json"
+        ],
+        "shellPaths": [
+          "/index.html",
+          "/",
+          "/.vite/manifest.json",
+          "/manifest.webmanifest",
+          "/icon.svg",
+          "/images/nanjing.png",
+          "/images/xian.png",
+          "/images/beijing.png",
+          "/images/shanghai.png",
+          "/images/hangzhou.png",
+          "/images/chengdu.png",
+          "/images/guangzhou.png",
+          "/images/shenzhen.png",
+          "/images/hongkong.png",
+          "/images/macau.png",
+          "/images/map-paper-texture.webp",
+          "/images/map-treasure-texture.webp",
+          "/assets/map-engine-BZOsmtGx.js",
+          "/assets/map-engine-CIGW-MKW.css",
+          "/assets/react-runtime-BZIfiq8F.js",
+          "/assets/index-CGmM-jbQ.js",
+          "/assets/index-i-NuwVLl.css",
+          "/assets/web-C3fe3YnL.js"
+        ],
+        "lru": [
+          "/assets/nanjing-CySEN2L4.json"
+        ]
+      }
+    },
+    {
+      "cityId": "xian",
+      "cache": {
+        "names": [
+          "vesluma-shell-v8",
+          "vesluma-maps-v1"
+        ],
+        "stores": [
+          {
+            "name": "vesluma-shell-v8",
+            "paths": [
+              "/index.html",
+              "/",
+              "/.vite/manifest.json",
+              "/manifest.webmanifest",
+              "/icon.svg",
+              "/images/nanjing.png",
+              "/images/xian.png",
+              "/images/beijing.png",
+              "/images/shanghai.png",
+              "/images/hangzhou.png",
+              "/images/chengdu.png",
+              "/images/guangzhou.png",
+              "/images/shenzhen.png",
+              "/images/hongkong.png",
+              "/images/macau.png",
+              "/images/map-paper-texture.webp",
+              "/images/map-treasure-texture.webp",
+              "/assets/map-engine-BZOsmtGx.js",
+              "/assets/map-engine-CIGW-MKW.css",
+              "/assets/react-runtime-BZIfiq8F.js",
+              "/assets/index-CGmM-jbQ.js",
+              "/assets/index-i-NuwVLl.css",
+              "/assets/web-C3fe3YnL.js"
+            ]
+          },
+          {
+            "name": "vesluma-maps-v1",
+            "paths": [
+              "/assets/nanjing-CySEN2L4.json",
+              "/assets/xian-DuXZFYl-.json",
+              "/__vesluma_map_lru__"
+            ]
+          }
+        ],
+        "paths": [
+          "/index.html",
+          "/",
+          "/.vite/manifest.json",
+          "/manifest.webmanifest",
+          "/icon.svg",
+          "/images/nanjing.png",
+          "/images/xian.png",
+          "/images/beijing.png",
+          "/images/shanghai.png",
+          "/images/hangzhou.png",
+          "/images/chengdu.png",
+          "/images/guangzhou.png",
+          "/images/shenzhen.png",
+          "/images/hongkong.png",
+          "/images/macau.png",
+          "/images/map-paper-texture.webp",
+          "/images/map-treasure-texture.webp",
+          "/assets/map-engine-BZOsmtGx.js",
+          "/assets/map-engine-CIGW-MKW.css",
+          "/assets/react-runtime-BZIfiq8F.js",
+          "/assets/index-CGmM-jbQ.js",
+          "/assets/index-i-NuwVLl.css",
+          "/assets/web-C3fe3YnL.js",
+          "/assets/nanjing-CySEN2L4.json",
+          "/assets/xian-DuXZFYl-.json",
+          "/__vesluma_map_lru__"
+        ],
+        "mapPaths": [
+          "/assets/nanjing-CySEN2L4.json",
+          "/assets/xian-DuXZFYl-.json"
+        ],
+        "shellPaths": [
+          "/index.html",
+          "/",
+          "/.vite/manifest.json",
+          "/manifest.webmanifest",
+          "/icon.svg",
+          "/images/nanjing.png",
+          "/images/xian.png",
+          "/images/beijing.png",
+          "/images/shanghai.png",
+          "/images/hangzhou.png",
+          "/images/chengdu.png",
+          "/images/guangzhou.png",
+          "/images/shenzhen.png",
+          "/images/hongkong.png",
+          "/images/macau.png",
+          "/images/map-paper-texture.webp",
+          "/images/map-treasure-texture.webp",
+          "/assets/map-engine-BZOsmtGx.js",
+          "/assets/map-engine-CIGW-MKW.css",
+          "/assets/react-runtime-BZIfiq8F.js",
+          "/assets/index-CGmM-jbQ.js",
+          "/assets/index-i-NuwVLl.css",
+          "/assets/web-C3fe3YnL.js"
+        ],
+        "lru": [
+          "/assets/nanjing-CySEN2L4.json",
+          "/assets/xian-DuXZFYl-.json"
+        ]
+      }
+    },
+    {
+      "cityId": "beijing",
+      "cache": {
+        "names": [
+          "vesluma-shell-v8",
+          "vesluma-maps-v1"
+        ],
+        "stores": [
+          {
+            "name": "vesluma-shell-v8",
+            "paths": [
+              "/index.html",
+              "/",
+              "/.vite/manifest.json",
+              "/manifest.webmanifest",
+              "/icon.svg",
+              "/images/nanjing.png",
+              "/images/xian.png",
+              "/images/beijing.png",
+              "/images/shanghai.png",
+              "/images/hangzhou.png",
+              "/images/chengdu.png",
+              "/images/guangzhou.png",
+              "/images/shenzhen.png",
+              "/images/hongkong.png",
+              "/images/macau.png",
+              "/images/map-paper-texture.webp",
+              "/images/map-treasure-texture.webp",
+              "/assets/map-engine-BZOsmtGx.js",
+              "/assets/map-engine-CIGW-MKW.css",
+              "/assets/react-runtime-BZIfiq8F.js",
+              "/assets/index-CGmM-jbQ.js",
+              "/assets/index-i-NuwVLl.css",
+              "/assets/web-C3fe3YnL.js"
+            ]
+          },
+          {
+            "name": "vesluma-maps-v1",
+            "paths": [
+              "/assets/nanjing-CySEN2L4.json",
+              "/assets/xian-DuXZFYl-.json",
+              "/assets/beijing.json-zKQGpKMN.gz",
+              "/__vesluma_map_lru__"
+            ]
+          }
+        ],
+        "paths": [
+          "/index.html",
+          "/",
+          "/.vite/manifest.json",
+          "/manifest.webmanifest",
+          "/icon.svg",
+          "/images/nanjing.png",
+          "/images/xian.png",
+          "/images/beijing.png",
+          "/images/shanghai.png",
+          "/images/hangzhou.png",
+          "/images/chengdu.png",
+          "/images/guangzhou.png",
+          "/images/shenzhen.png",
+          "/images/hongkong.png",
+          "/images/macau.png",
+          "/images/map-paper-texture.webp",
+          "/images/map-treasure-texture.webp",
+          "/assets/map-engine-BZOsmtGx.js",
+          "/assets/map-engine-CIGW-MKW.css",
+          "/assets/react-runtime-BZIfiq8F.js",
+          "/assets/index-CGmM-jbQ.js",
+          "/assets/index-i-NuwVLl.css",
+          "/assets/web-C3fe3YnL.js",
+          "/assets/nanjing-CySEN2L4.json",
+          "/assets/xian-DuXZFYl-.json",
+          "/assets/beijing.json-zKQGpKMN.gz",
+          "/__vesluma_map_lru__"
+        ],
+        "mapPaths": [
+          "/assets/nanjing-CySEN2L4.json",
+          "/assets/xian-DuXZFYl-.json",
+          "/assets/beijing.json-zKQGpKMN.gz"
+        ],
+        "shellPaths": [
+          "/index.html",
+          "/",
+          "/.vite/manifest.json",
+          "/manifest.webmanifest",
+          "/icon.svg",
+          "/images/nanjing.png",
+          "/images/xian.png",
+          "/images/beijing.png",
+          "/images/shanghai.png",
+          "/images/hangzhou.png",
+          "/images/chengdu.png",
+          "/images/guangzhou.png",
+          "/images/shenzhen.png",
+          "/images/hongkong.png",
+          "/images/macau.png",
+          "/images/map-paper-texture.webp",
+          "/images/map-treasure-texture.webp",
+          "/assets/map-engine-BZOsmtGx.js",
+          "/assets/map-engine-CIGW-MKW.css",
+          "/assets/react-runtime-BZIfiq8F.js",
+          "/assets/index-CGmM-jbQ.js",
+          "/assets/index-i-NuwVLl.css",
+          "/assets/web-C3fe3YnL.js"
+        ],
+        "lru": [
+          "/assets/nanjing-CySEN2L4.json",
+          "/assets/xian-DuXZFYl-.json",
+          "/assets/beijing.json-zKQGpKMN.gz"
+        ]
+      }
+    },
+    {
+      "cityId": "shanghai",
+      "cache": {
+        "names": [
+          "vesluma-shell-v8",
+          "vesluma-maps-v1"
+        ],
+        "stores": [
+          {
+            "name": "vesluma-shell-v8",
+            "paths": [
+              "/index.html",
+              "/",
+              "/.vite/manifest.json",
+              "/manifest.webmanifest",
+              "/icon.svg",
+              "/images/nanjing.png",
+              "/images/xian.png",
+              "/images/beijing.png",
+              "/images/shanghai.png",
+              "/images/hangzhou.png",
+              "/images/chengdu.png",
+              "/images/guangzhou.png",
+              "/images/shenzhen.png",
+              "/images/hongkong.png",
+              "/images/macau.png",
+              "/images/map-paper-texture.webp",
+              "/images/map-treasure-texture.webp",
+              "/assets/map-engine-BZOsmtGx.js",
+              "/assets/map-engine-CIGW-MKW.css",
+              "/assets/react-runtime-BZIfiq8F.js",
+              "/assets/index-CGmM-jbQ.js",
+              "/assets/index-i-NuwVLl.css",
+              "/assets/web-C3fe3YnL.js"
+            ]
+          },
+          {
+            "name": "vesluma-maps-v1",
+            "paths": [
+              "/assets/nanjing-CySEN2L4.json",
+              "/assets/xian-DuXZFYl-.json",
+              "/assets/beijing.json-zKQGpKMN.gz",
+              "/assets/shanghai.json-C-fEtP8b.gz",
+              "/__vesluma_map_lru__"
+            ]
+          }
+        ],
+        "paths": [
+          "/index.html",
+          "/",
+          "/.vite/manifest.json",
+          "/manifest.webmanifest",
+          "/icon.svg",
+          "/images/nanjing.png",
+          "/images/xian.png",
+          "/images/beijing.png",
+          "/images/shanghai.png",
+          "/images/hangzhou.png",
+          "/images/chengdu.png",
+          "/images/guangzhou.png",
+          "/images/shenzhen.png",
+          "/images/hongkong.png",
+          "/images/macau.png",
+          "/images/map-paper-texture.webp",
+          "/images/map-treasure-texture.webp",
+          "/assets/map-engine-BZOsmtGx.js",
+          "/assets/map-engine-CIGW-MKW.css",
+          "/assets/react-runtime-BZIfiq8F.js",
+          "/assets/index-CGmM-jbQ.js",
+          "/assets/index-i-NuwVLl.css",
+          "/assets/web-C3fe3YnL.js",
+          "/assets/nanjing-CySEN2L4.json",
+          "/assets/xian-DuXZFYl-.json",
+          "/assets/beijing.json-zKQGpKMN.gz",
+          "/assets/shanghai.json-C-fEtP8b.gz",
+          "/__vesluma_map_lru__"
+        ],
+        "mapPaths": [
+          "/assets/nanjing-CySEN2L4.json",
+          "/assets/xian-DuXZFYl-.json",
+          "/assets/beijing.json-zKQGpKMN.gz",
+          "/assets/shanghai.json-C-fEtP8b.gz"
+        ],
+        "shellPaths": [
+          "/index.html",
+          "/",
+          "/.vite/manifest.json",
+          "/manifest.webmanifest",
+          "/icon.svg",
+          "/images/nanjing.png",
+          "/images/xian.png",
+          "/images/beijing.png",
+          "/images/shanghai.png",
+          "/images/hangzhou.png",
+          "/images/chengdu.png",
+          "/images/guangzhou.png",
+          "/images/shenzhen.png",
+          "/images/hongkong.png",
+          "/images/macau.png",
+          "/images/map-paper-texture.webp",
+          "/images/map-treasure-texture.webp",
+          "/assets/map-engine-BZOsmtGx.js",
+          "/assets/map-engine-CIGW-MKW.css",
+          "/assets/react-runtime-BZIfiq8F.js",
+          "/assets/index-CGmM-jbQ.js",
+          "/assets/index-i-NuwVLl.css",
+          "/assets/web-C3fe3YnL.js"
+        ],
+        "lru": [
+          "/assets/nanjing-CySEN2L4.json",
+          "/assets/xian-DuXZFYl-.json",
+          "/assets/beijing.json-zKQGpKMN.gz",
+          "/assets/shanghai.json-C-fEtP8b.gz"
+        ]
+      }
+    },
+    {
+      "cityId": "hangzhou",
+      "cache": {
+        "names": [
+          "vesluma-shell-v8",
+          "vesluma-maps-v1"
+        ],
+        "stores": [
+          {
+            "name": "vesluma-shell-v8",
+            "paths": [
+              "/index.html",
+              "/",
+              "/.vite/manifest.json",
+              "/manifest.webmanifest",
+              "/icon.svg",
+              "/images/nanjing.png",
+              "/images/xian.png",
+              "/images/beijing.png",
+              "/images/shanghai.png",
+              "/images/hangzhou.png",
+              "/images/chengdu.png",
+              "/images/guangzhou.png",
+              "/images/shenzhen.png",
+              "/images/hongkong.png",
+              "/images/macau.png",
+              "/images/map-paper-texture.webp",
+              "/images/map-treasure-texture.webp",
+              "/assets/map-engine-BZOsmtGx.js",
+              "/assets/map-engine-CIGW-MKW.css",
+              "/assets/react-runtime-BZIfiq8F.js",
+              "/assets/index-CGmM-jbQ.js",
+              "/assets/index-i-NuwVLl.css",
+              "/assets/web-C3fe3YnL.js"
+            ]
+          },
+          {
+            "name": "vesluma-maps-v1",
+            "paths": [
+              "/assets/nanjing-CySEN2L4.json",
+              "/assets/xian-DuXZFYl-.json",
+              "/assets/beijing.json-zKQGpKMN.gz",
+              "/assets/shanghai.json-C-fEtP8b.gz",
+              "/assets/hangzhou.json-nj-uVRVO.gz",
+              "/__vesluma_map_lru__"
+            ]
+          }
+        ],
+        "paths": [
+          "/index.html",
+          "/",
+          "/.vite/manifest.json",
+          "/manifest.webmanifest",
+          "/icon.svg",
+          "/images/nanjing.png",
+          "/images/xian.png",
+          "/images/beijing.png",
+          "/images/shanghai.png",
+          "/images/hangzhou.png",
+          "/images/chengdu.png",
+          "/images/guangzhou.png",
+          "/images/shenzhen.png",
+          "/images/hongkong.png",
+          "/images/macau.png",
+          "/images/map-paper-texture.webp",
+          "/images/map-treasure-texture.webp",
+          "/assets/map-engine-BZOsmtGx.js",
+          "/assets/map-engine-CIGW-MKW.css",
+          "/assets/react-runtime-BZIfiq8F.js",
+          "/assets/index-CGmM-jbQ.js",
+          "/assets/index-i-NuwVLl.css",
+          "/assets/web-C3fe3YnL.js",
+          "/assets/nanjing-CySEN2L4.json",
+          "/assets/xian-DuXZFYl-.json",
+          "/assets/beijing.json-zKQGpKMN.gz",
+          "/assets/shanghai.json-C-fEtP8b.gz",
+          "/assets/hangzhou.json-nj-uVRVO.gz",
+          "/__vesluma_map_lru__"
+        ],
+        "mapPaths": [
+          "/assets/nanjing-CySEN2L4.json",
+          "/assets/xian-DuXZFYl-.json",
+          "/assets/beijing.json-zKQGpKMN.gz",
+          "/assets/shanghai.json-C-fEtP8b.gz",
+          "/assets/hangzhou.json-nj-uVRVO.gz"
+        ],
+        "shellPaths": [
+          "/index.html",
+          "/",
+          "/.vite/manifest.json",
+          "/manifest.webmanifest",
+          "/icon.svg",
+          "/images/nanjing.png",
+          "/images/xian.png",
+          "/images/beijing.png",
+          "/images/shanghai.png",
+          "/images/hangzhou.png",
+          "/images/chengdu.png",
+          "/images/guangzhou.png",
+          "/images/shenzhen.png",
+          "/images/hongkong.png",
+          "/images/macau.png",
+          "/images/map-paper-texture.webp",
+          "/images/map-treasure-texture.webp",
+          "/assets/map-engine-BZOsmtGx.js",
+          "/assets/map-engine-CIGW-MKW.css",
+          "/assets/react-runtime-BZIfiq8F.js",
+          "/assets/index-CGmM-jbQ.js",
+          "/assets/index-i-NuwVLl.css",
+          "/assets/web-C3fe3YnL.js"
+        ],
+        "lru": [
+          "/assets/nanjing-CySEN2L4.json",
+          "/assets/xian-DuXZFYl-.json",
+          "/assets/beijing.json-zKQGpKMN.gz",
+          "/assets/shanghai.json-C-fEtP8b.gz",
+          "/assets/hangzhou.json-nj-uVRVO.gz"
+        ]
+      }
+    },
+    {
+      "cityId": "chengdu",
+      "cache": {
+        "names": [
+          "vesluma-shell-v8",
+          "vesluma-maps-v1"
+        ],
+        "stores": [
+          {
+            "name": "vesluma-shell-v8",
+            "paths": [
+              "/index.html",
+              "/",
+              "/.vite/manifest.json",
+              "/manifest.webmanifest",
+              "/icon.svg",
+              "/images/nanjing.png",
+              "/images/xian.png",
+              "/images/beijing.png",
+              "/images/shanghai.png",
+              "/images/hangzhou.png",
+              "/images/chengdu.png",
+              "/images/guangzhou.png",
+              "/images/shenzhen.png",
+              "/images/hongkong.png",
+              "/images/macau.png",
+              "/images/map-paper-texture.webp",
+              "/images/map-treasure-texture.webp",
+              "/assets/map-engine-BZOsmtGx.js",
+              "/assets/map-engine-CIGW-MKW.css",
+              "/assets/react-runtime-BZIfiq8F.js",
+              "/assets/index-CGmM-jbQ.js",
+              "/assets/index-i-NuwVLl.css",
+              "/assets/web-C3fe3YnL.js"
+            ]
+          },
+          {
+            "name": "vesluma-maps-v1",
+            "paths": [
+              "/assets/nanjing-CySEN2L4.json",
+              "/assets/xian-DuXZFYl-.json",
+              "/assets/beijing.json-zKQGpKMN.gz",
+              "/assets/shanghai.json-C-fEtP8b.gz",
+              "/assets/hangzhou.json-nj-uVRVO.gz",
+              "/assets/chengdu.json-h_Z5-iVh.gz",
+              "/__vesluma_map_lru__"
+            ]
+          }
+        ],
+        "paths": [
+          "/index.html",
+          "/",
+          "/.vite/manifest.json",
+          "/manifest.webmanifest",
+          "/icon.svg",
+          "/images/nanjing.png",
+          "/images/xian.png",
+          "/images/beijing.png",
+          "/images/shanghai.png",
+          "/images/hangzhou.png",
+          "/images/chengdu.png",
+          "/images/guangzhou.png",
+          "/images/shenzhen.png",
+          "/images/hongkong.png",
+          "/images/macau.png",
+          "/images/map-paper-texture.webp",
+          "/images/map-treasure-texture.webp",
+          "/assets/map-engine-BZOsmtGx.js",
+          "/assets/map-engine-CIGW-MKW.css",
+          "/assets/react-runtime-BZIfiq8F.js",
+          "/assets/index-CGmM-jbQ.js",
+          "/assets/index-i-NuwVLl.css",
+          "/assets/web-C3fe3YnL.js",
+          "/assets/nanjing-CySEN2L4.json",
+          "/assets/xian-DuXZFYl-.json",
+          "/assets/beijing.json-zKQGpKMN.gz",
+          "/assets/shanghai.json-C-fEtP8b.gz",
+          "/assets/hangzhou.json-nj-uVRVO.gz",
+          "/assets/chengdu.json-h_Z5-iVh.gz",
+          "/__vesluma_map_lru__"
+        ],
+        "mapPaths": [
+          "/assets/nanjing-CySEN2L4.json",
+          "/assets/xian-DuXZFYl-.json",
+          "/assets/beijing.json-zKQGpKMN.gz",
+          "/assets/shanghai.json-C-fEtP8b.gz",
+          "/assets/hangzhou.json-nj-uVRVO.gz",
+          "/assets/chengdu.json-h_Z5-iVh.gz"
+        ],
+        "shellPaths": [
+          "/index.html",
+          "/",
+          "/.vite/manifest.json",
+          "/manifest.webmanifest",
+          "/icon.svg",
+          "/images/nanjing.png",
+          "/images/xian.png",
+          "/images/beijing.png",
+          "/images/shanghai.png",
+          "/images/hangzhou.png",
+          "/images/chengdu.png",
+          "/images/guangzhou.png",
+          "/images/shenzhen.png",
+          "/images/hongkong.png",
+          "/images/macau.png",
+          "/images/map-paper-texture.webp",
+          "/images/map-treasure-texture.webp",
+          "/assets/map-engine-BZOsmtGx.js",
+          "/assets/map-engine-CIGW-MKW.css",
+          "/assets/react-runtime-BZIfiq8F.js",
+          "/assets/index-CGmM-jbQ.js",
+          "/assets/index-i-NuwVLl.css",
+          "/assets/web-C3fe3YnL.js"
+        ],
+        "lru": [
+          "/assets/nanjing-CySEN2L4.json",
+          "/assets/xian-DuXZFYl-.json",
+          "/assets/beijing.json-zKQGpKMN.gz",
+          "/assets/shanghai.json-C-fEtP8b.gz",
+          "/assets/hangzhou.json-nj-uVRVO.gz",
+          "/assets/chengdu.json-h_Z5-iVh.gz"
+        ]
+      }
+    },
+    {
+      "cityId": "guangzhou",
+      "cache": {
+        "names": [
+          "vesluma-shell-v8",
+          "vesluma-maps-v1"
+        ],
+        "stores": [
+          {
+            "name": "vesluma-shell-v8",
+            "paths": [
+              "/index.html",
+              "/",
+              "/.vite/manifest.json",
+              "/manifest.webmanifest",
+              "/icon.svg",
+              "/images/nanjing.png",
+              "/images/xian.png",
+              "/images/beijing.png",
+              "/images/shanghai.png",
+              "/images/hangzhou.png",
+              "/images/chengdu.png",
+              "/images/guangzhou.png",
+              "/images/shenzhen.png",
+              "/images/hongkong.png",
+              "/images/macau.png",
+              "/images/map-paper-texture.webp",
+              "/images/map-treasure-texture.webp",
+              "/assets/map-engine-BZOsmtGx.js",
+              "/assets/map-engine-CIGW-MKW.css",
+              "/assets/react-runtime-BZIfiq8F.js",
+              "/assets/index-CGmM-jbQ.js",
+              "/assets/index-i-NuwVLl.css",
+              "/assets/web-C3fe3YnL.js"
+            ]
+          },
+          {
+            "name": "vesluma-maps-v1",
+            "paths": [
+              "/assets/xian-DuXZFYl-.json",
+              "/assets/beijing.json-zKQGpKMN.gz",
+              "/assets/shanghai.json-C-fEtP8b.gz",
+              "/assets/hangzhou.json-nj-uVRVO.gz",
+              "/assets/chengdu.json-h_Z5-iVh.gz",
+              "/assets/guangzhou.json-Bw1FS0Ny.gz",
+              "/__vesluma_map_lru__"
+            ]
+          }
+        ],
+        "paths": [
+          "/index.html",
+          "/",
+          "/.vite/manifest.json",
+          "/manifest.webmanifest",
+          "/icon.svg",
+          "/images/nanjing.png",
+          "/images/xian.png",
+          "/images/beijing.png",
+          "/images/shanghai.png",
+          "/images/hangzhou.png",
+          "/images/chengdu.png",
+          "/images/guangzhou.png",
+          "/images/shenzhen.png",
+          "/images/hongkong.png",
+          "/images/macau.png",
+          "/images/map-paper-texture.webp",
+          "/images/map-treasure-texture.webp",
+          "/assets/map-engine-BZOsmtGx.js",
+          "/assets/map-engine-CIGW-MKW.css",
+          "/assets/react-runtime-BZIfiq8F.js",
+          "/assets/index-CGmM-jbQ.js",
+          "/assets/index-i-NuwVLl.css",
+          "/assets/web-C3fe3YnL.js",
+          "/assets/xian-DuXZFYl-.json",
+          "/assets/beijing.json-zKQGpKMN.gz",
+          "/assets/shanghai.json-C-fEtP8b.gz",
+          "/assets/hangzhou.json-nj-uVRVO.gz",
+          "/assets/chengdu.json-h_Z5-iVh.gz",
+          "/assets/guangzhou.json-Bw1FS0Ny.gz",
+          "/__vesluma_map_lru__"
+        ],
+        "mapPaths": [
+          "/assets/xian-DuXZFYl-.json",
+          "/assets/beijing.json-zKQGpKMN.gz",
+          "/assets/shanghai.json-C-fEtP8b.gz",
+          "/assets/hangzhou.json-nj-uVRVO.gz",
+          "/assets/chengdu.json-h_Z5-iVh.gz",
+          "/assets/guangzhou.json-Bw1FS0Ny.gz"
+        ],
+        "shellPaths": [
+          "/index.html",
+          "/",
+          "/.vite/manifest.json",
+          "/manifest.webmanifest",
+          "/icon.svg",
+          "/images/nanjing.png",
+          "/images/xian.png",
+          "/images/beijing.png",
+          "/images/shanghai.png",
+          "/images/hangzhou.png",
+          "/images/chengdu.png",
+          "/images/guangzhou.png",
+          "/images/shenzhen.png",
+          "/images/hongkong.png",
+          "/images/macau.png",
+          "/images/map-paper-texture.webp",
+          "/images/map-treasure-texture.webp",
+          "/assets/map-engine-BZOsmtGx.js",
+          "/assets/map-engine-CIGW-MKW.css",
+          "/assets/react-runtime-BZIfiq8F.js",
+          "/assets/index-CGmM-jbQ.js",
+          "/assets/index-i-NuwVLl.css",
+          "/assets/web-C3fe3YnL.js"
+        ],
+        "lru": [
+          "/assets/xian-DuXZFYl-.json",
+          "/assets/beijing.json-zKQGpKMN.gz",
+          "/assets/shanghai.json-C-fEtP8b.gz",
+          "/assets/hangzhou.json-nj-uVRVO.gz",
+          "/assets/chengdu.json-h_Z5-iVh.gz",
+          "/assets/guangzhou.json-Bw1FS0Ny.gz"
+        ]
+      }
+    },
+    {
+      "cityId": "shenzhen",
+      "cache": {
+        "names": [
+          "vesluma-shell-v8",
+          "vesluma-maps-v1"
+        ],
+        "stores": [
+          {
+            "name": "vesluma-shell-v8",
+            "paths": [
+              "/index.html",
+              "/",
+              "/.vite/manifest.json",
+              "/manifest.webmanifest",
+              "/icon.svg",
+              "/images/nanjing.png",
+              "/images/xian.png",
+              "/images/beijing.png",
+              "/images/shanghai.png",
+              "/images/hangzhou.png",
+              "/images/chengdu.png",
+              "/images/guangzhou.png",
+              "/images/shenzhen.png",
+              "/images/hongkong.png",
+              "/images/macau.png",
+              "/images/map-paper-texture.webp",
+              "/images/map-treasure-texture.webp",
+              "/assets/map-engine-BZOsmtGx.js",
+              "/assets/map-engine-CIGW-MKW.css",
+              "/assets/react-runtime-BZIfiq8F.js",
+              "/assets/index-CGmM-jbQ.js",
+              "/assets/index-i-NuwVLl.css",
+              "/assets/web-C3fe3YnL.js"
+            ]
+          },
+          {
+            "name": "vesluma-maps-v1",
+            "paths": [
+              "/assets/beijing.json-zKQGpKMN.gz",
+              "/assets/shanghai.json-C-fEtP8b.gz",
+              "/assets/hangzhou.json-nj-uVRVO.gz",
+              "/assets/chengdu.json-h_Z5-iVh.gz",
+              "/assets/guangzhou.json-Bw1FS0Ny.gz",
+              "/assets/shenzhen.json-CvRdRs0v.gz",
+              "/__vesluma_map_lru__"
+            ]
+          }
+        ],
+        "paths": [
+          "/index.html",
+          "/",
+          "/.vite/manifest.json",
+          "/manifest.webmanifest",
+          "/icon.svg",
+          "/images/nanjing.png",
+          "/images/xian.png",
+          "/images/beijing.png",
+          "/images/shanghai.png",
+          "/images/hangzhou.png",
+          "/images/chengdu.png",
+          "/images/guangzhou.png",
+          "/images/shenzhen.png",
+          "/images/hongkong.png",
+          "/images/macau.png",
+          "/images/map-paper-texture.webp",
+          "/images/map-treasure-texture.webp",
+          "/assets/map-engine-BZOsmtGx.js",
+          "/assets/map-engine-CIGW-MKW.css",
+          "/assets/react-runtime-BZIfiq8F.js",
+          "/assets/index-CGmM-jbQ.js",
+          "/assets/index-i-NuwVLl.css",
+          "/assets/web-C3fe3YnL.js",
+          "/assets/beijing.json-zKQGpKMN.gz",
+          "/assets/shanghai.json-C-fEtP8b.gz",
+          "/assets/hangzhou.json-nj-uVRVO.gz",
+          "/assets/chengdu.json-h_Z5-iVh.gz",
+          "/assets/guangzhou.json-Bw1FS0Ny.gz",
+          "/assets/shenzhen.json-CvRdRs0v.gz",
+          "/__vesluma_map_lru__"
+        ],
+        "mapPaths": [
+          "/assets/beijing.json-zKQGpKMN.gz",
+          "/assets/shanghai.json-C-fEtP8b.gz",
+          "/assets/hangzhou.json-nj-uVRVO.gz",
+          "/assets/chengdu.json-h_Z5-iVh.gz",
+          "/assets/guangzhou.json-Bw1FS0Ny.gz",
+          "/assets/shenzhen.json-CvRdRs0v.gz"
+        ],
+        "shellPaths": [
+          "/index.html",
+          "/",
+          "/.vite/manifest.json",
+          "/manifest.webmanifest",
+          "/icon.svg",
+          "/images/nanjing.png",
+          "/images/xian.png",
+          "/images/beijing.png",
+          "/images/shanghai.png",
+          "/images/hangzhou.png",
+          "/images/chengdu.png",
+          "/images/guangzhou.png",
+          "/images/shenzhen.png",
+          "/images/hongkong.png",
+          "/images/macau.png",
+          "/images/map-paper-texture.webp",
+          "/images/map-treasure-texture.webp",
+          "/assets/map-engine-BZOsmtGx.js",
+          "/assets/map-engine-CIGW-MKW.css",
+          "/assets/react-runtime-BZIfiq8F.js",
+          "/assets/index-CGmM-jbQ.js",
+          "/assets/index-i-NuwVLl.css",
+          "/assets/web-C3fe3YnL.js"
+        ],
+        "lru": [
+          "/assets/beijing.json-zKQGpKMN.gz",
+          "/assets/shanghai.json-C-fEtP8b.gz",
+          "/assets/hangzhou.json-nj-uVRVO.gz",
+          "/assets/chengdu.json-h_Z5-iVh.gz",
+          "/assets/guangzhou.json-Bw1FS0Ny.gz",
+          "/assets/shenzhen.json-CvRdRs0v.gz"
+        ]
+      }
+    },
+    {
+      "cityId": "hongkong",
+      "cache": {
+        "names": [
+          "vesluma-shell-v8",
+          "vesluma-maps-v1"
+        ],
+        "stores": [
+          {
+            "name": "vesluma-shell-v8",
+            "paths": [
+              "/index.html",
+              "/",
+              "/.vite/manifest.json",
+              "/manifest.webmanifest",
+              "/icon.svg",
+              "/images/nanjing.png",
+              "/images/xian.png",
+              "/images/beijing.png",
+              "/images/shanghai.png",
+              "/images/hangzhou.png",
+              "/images/chengdu.png",
+              "/images/guangzhou.png",
+              "/images/shenzhen.png",
+              "/images/hongkong.png",
+              "/images/macau.png",
+              "/images/map-paper-texture.webp",
+              "/images/map-treasure-texture.webp",
+              "/assets/map-engine-BZOsmtGx.js",
+              "/assets/map-engine-CIGW-MKW.css",
+              "/assets/react-runtime-BZIfiq8F.js",
+              "/assets/index-CGmM-jbQ.js",
+              "/assets/index-i-NuwVLl.css",
+              "/assets/web-C3fe3YnL.js"
+            ]
+          },
+          {
+            "name": "vesluma-maps-v1",
+            "paths": [
+              "/assets/shanghai.json-C-fEtP8b.gz",
+              "/assets/hangzhou.json-nj-uVRVO.gz",
+              "/assets/chengdu.json-h_Z5-iVh.gz",
+              "/assets/guangzhou.json-Bw1FS0Ny.gz",
+              "/assets/shenzhen.json-CvRdRs0v.gz",
+              "/assets/hongkong.json-Dru4gV7c.gz",
+              "/__vesluma_map_lru__"
+            ]
+          }
+        ],
+        "paths": [
+          "/index.html",
+          "/",
+          "/.vite/manifest.json",
+          "/manifest.webmanifest",
+          "/icon.svg",
+          "/images/nanjing.png",
+          "/images/xian.png",
+          "/images/beijing.png",
+          "/images/shanghai.png",
+          "/images/hangzhou.png",
+          "/images/chengdu.png",
+          "/images/guangzhou.png",
+          "/images/shenzhen.png",
+          "/images/hongkong.png",
+          "/images/macau.png",
+          "/images/map-paper-texture.webp",
+          "/images/map-treasure-texture.webp",
+          "/assets/map-engine-BZOsmtGx.js",
+          "/assets/map-engine-CIGW-MKW.css",
+          "/assets/react-runtime-BZIfiq8F.js",
+          "/assets/index-CGmM-jbQ.js",
+          "/assets/index-i-NuwVLl.css",
+          "/assets/web-C3fe3YnL.js",
+          "/assets/shanghai.json-C-fEtP8b.gz",
+          "/assets/hangzhou.json-nj-uVRVO.gz",
+          "/assets/chengdu.json-h_Z5-iVh.gz",
+          "/assets/guangzhou.json-Bw1FS0Ny.gz",
+          "/assets/shenzhen.json-CvRdRs0v.gz",
+          "/assets/hongkong.json-Dru4gV7c.gz",
+          "/__vesluma_map_lru__"
+        ],
+        "mapPaths": [
+          "/assets/shanghai.json-C-fEtP8b.gz",
+          "/assets/hangzhou.json-nj-uVRVO.gz",
+          "/assets/chengdu.json-h_Z5-iVh.gz",
+          "/assets/guangzhou.json-Bw1FS0Ny.gz",
+          "/assets/shenzhen.json-CvRdRs0v.gz",
+          "/assets/hongkong.json-Dru4gV7c.gz"
+        ],
+        "shellPaths": [
+          "/index.html",
+          "/",
+          "/.vite/manifest.json",
+          "/manifest.webmanifest",
+          "/icon.svg",
+          "/images/nanjing.png",
+          "/images/xian.png",
+          "/images/beijing.png",
+          "/images/shanghai.png",
+          "/images/hangzhou.png",
+          "/images/chengdu.png",
+          "/images/guangzhou.png",
+          "/images/shenzhen.png",
+          "/images/hongkong.png",
+          "/images/macau.png",
+          "/images/map-paper-texture.webp",
+          "/images/map-treasure-texture.webp",
+          "/assets/map-engine-BZOsmtGx.js",
+          "/assets/map-engine-CIGW-MKW.css",
+          "/assets/react-runtime-BZIfiq8F.js",
+          "/assets/index-CGmM-jbQ.js",
+          "/assets/index-i-NuwVLl.css",
+          "/assets/web-C3fe3YnL.js"
+        ],
+        "lru": [
+          "/assets/shanghai.json-C-fEtP8b.gz",
+          "/assets/hangzhou.json-nj-uVRVO.gz",
+          "/assets/chengdu.json-h_Z5-iVh.gz",
+          "/assets/guangzhou.json-Bw1FS0Ny.gz",
+          "/assets/shenzhen.json-CvRdRs0v.gz",
+          "/assets/hongkong.json-Dru4gV7c.gz"
+        ]
+      }
+    },
+    {
+      "cityId": "macau",
+      "cache": {
+        "names": [
+          "vesluma-shell-v8",
+          "vesluma-maps-v1"
+        ],
+        "stores": [
+          {
+            "name": "vesluma-shell-v8",
+            "paths": [
+              "/index.html",
+              "/",
+              "/.vite/manifest.json",
+              "/manifest.webmanifest",
+              "/icon.svg",
+              "/images/nanjing.png",
+              "/images/xian.png",
+              "/images/beijing.png",
+              "/images/shanghai.png",
+              "/images/hangzhou.png",
+              "/images/chengdu.png",
+              "/images/guangzhou.png",
+              "/images/shenzhen.png",
+              "/images/hongkong.png",
+              "/images/macau.png",
+              "/images/map-paper-texture.webp",
+              "/images/map-treasure-texture.webp",
+              "/assets/map-engine-BZOsmtGx.js",
+              "/assets/map-engine-CIGW-MKW.css",
+              "/assets/react-runtime-BZIfiq8F.js",
+              "/assets/index-CGmM-jbQ.js",
+              "/assets/index-i-NuwVLl.css",
+              "/assets/web-C3fe3YnL.js"
+            ]
+          },
+          {
+            "name": "vesluma-maps-v1",
+            "paths": [
+              "/assets/hangzhou.json-nj-uVRVO.gz",
+              "/assets/chengdu.json-h_Z5-iVh.gz",
+              "/assets/guangzhou.json-Bw1FS0Ny.gz",
+              "/assets/shenzhen.json-CvRdRs0v.gz",
+              "/assets/hongkong.json-Dru4gV7c.gz",
+              "/assets/macau.json-XFqT9wNJ.gz",
+              "/__vesluma_map_lru__"
+            ]
+          }
+        ],
+        "paths": [
+          "/index.html",
+          "/",
+          "/.vite/manifest.json",
+          "/manifest.webmanifest",
+          "/icon.svg",
+          "/images/nanjing.png",
+          "/images/xian.png",
+          "/images/beijing.png",
+          "/images/shanghai.png",
+          "/images/hangzhou.png",
+          "/images/chengdu.png",
+          "/images/guangzhou.png",
+          "/images/shenzhen.png",
+          "/images/hongkong.png",
+          "/images/macau.png",
+          "/images/map-paper-texture.webp",
+          "/images/map-treasure-texture.webp",
+          "/assets/map-engine-BZOsmtGx.js",
+          "/assets/map-engine-CIGW-MKW.css",
+          "/assets/react-runtime-BZIfiq8F.js",
+          "/assets/index-CGmM-jbQ.js",
+          "/assets/index-i-NuwVLl.css",
+          "/assets/web-C3fe3YnL.js",
+          "/assets/hangzhou.json-nj-uVRVO.gz",
+          "/assets/chengdu.json-h_Z5-iVh.gz",
+          "/assets/guangzhou.json-Bw1FS0Ny.gz",
+          "/assets/shenzhen.json-CvRdRs0v.gz",
+          "/assets/hongkong.json-Dru4gV7c.gz",
+          "/assets/macau.json-XFqT9wNJ.gz",
+          "/__vesluma_map_lru__"
+        ],
+        "mapPaths": [
+          "/assets/hangzhou.json-nj-uVRVO.gz",
+          "/assets/chengdu.json-h_Z5-iVh.gz",
+          "/assets/guangzhou.json-Bw1FS0Ny.gz",
+          "/assets/shenzhen.json-CvRdRs0v.gz",
+          "/assets/hongkong.json-Dru4gV7c.gz",
+          "/assets/macau.json-XFqT9wNJ.gz"
+        ],
+        "shellPaths": [
+          "/index.html",
+          "/",
+          "/.vite/manifest.json",
+          "/manifest.webmanifest",
+          "/icon.svg",
+          "/images/nanjing.png",
+          "/images/xian.png",
+          "/images/beijing.png",
+          "/images/shanghai.png",
+          "/images/hangzhou.png",
+          "/images/chengdu.png",
+          "/images/guangzhou.png",
+          "/images/shenzhen.png",
+          "/images/hongkong.png",
+          "/images/macau.png",
+          "/images/map-paper-texture.webp",
+          "/images/map-treasure-texture.webp",
+          "/assets/map-engine-BZOsmtGx.js",
+          "/assets/map-engine-CIGW-MKW.css",
+          "/assets/react-runtime-BZIfiq8F.js",
+          "/assets/index-CGmM-jbQ.js",
+          "/assets/index-i-NuwVLl.css",
+          "/assets/web-C3fe3YnL.js"
+        ],
+        "lru": [
+          "/assets/hangzhou.json-nj-uVRVO.gz",
+          "/assets/chengdu.json-h_Z5-iVh.gz",
+          "/assets/guangzhou.json-Bw1FS0Ny.gz",
+          "/assets/shenzhen.json-CvRdRs0v.gz",
+          "/assets/hongkong.json-Dru4gV7c.gz",
+          "/assets/macau.json-XFqT9wNJ.gz"
+        ]
+      }
+    }
+  ],
+  "responses": [
+    {
+      "path": "/assets/nanjing-CySEN2L4.json",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/assets/xian-DuXZFYl-.json",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/assets/xian-DuXZFYl-.json",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/assets/beijing.json-zKQGpKMN.gz",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/assets/beijing.json-zKQGpKMN.gz",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/assets/shanghai.json-C-fEtP8b.gz",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/assets/shanghai.json-C-fEtP8b.gz",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/assets/hangzhou.json-nj-uVRVO.gz",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/assets/hangzhou.json-nj-uVRVO.gz",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/assets/chengdu.json-h_Z5-iVh.gz",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/assets/chengdu.json-h_Z5-iVh.gz",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/assets/guangzhou.json-Bw1FS0Ny.gz",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/assets/guangzhou.json-Bw1FS0Ny.gz",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/assets/shenzhen.json-CvRdRs0v.gz",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/assets/shenzhen.json-CvRdRs0v.gz",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/assets/hongkong.json-Dru4gV7c.gz",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/assets/hongkong.json-Dru4gV7c.gz",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/assets/macau.json-XFqT9wNJ.gz",
+      "status": 200,
+      "fromServiceWorker": true
+    },
+    {
+      "path": "/assets/macau.json-XFqT9wNJ.gz",
+      "status": 200,
+      "fromServiceWorker": true
+    }
+  ]
+}

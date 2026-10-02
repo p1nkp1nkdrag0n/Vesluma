@@ -1,7 +1,7 @@
 import plan from './map/city-plans.json'
 import legacy from './map/legacy-regions.json'
 
-export type CityId = 'nanjing' | 'xian' | 'beijing' | 'shanghai' | 'hangzhou' | 'chengdu'
+export type CityId = 'nanjing' | 'xian' | 'beijing' | 'shanghai' | 'hangzhou' | 'chengdu' | 'guangzhou' | 'shenzhen' | 'hongkong' | 'macau'
 export type Coordinate = [number, number] // GeoJSON: [longitude, latitude], WGS84
 export interface CityGeometry { type: 'MultiPolygon'; coordinates: Coordinate[][][] }
 export type LandmarkTier = 1 | 2 | 3
@@ -47,6 +47,8 @@ export interface City {
   name: string
   enName: string
   subtitle: string
+  /** Explain special map coverage without implying access or travel permission. */
+  coverageNote?: string
   center: [number, number] // Leaflet: [latitude, longitude]
   startPosition: { lat: number; lng: number }
   zoom: number

@@ -114,7 +114,10 @@ export const cityPlans = [
       point('cd-shengde', '圣德寺塔', 1, 'jianyang', 104.5513743, 30.3842918, 'node/10777983841', '圣德寺白塔主体 · 地图候选点', '以简阳历史地标代表全市域东部组团。'),
       point('cd-kuanzhai', '宽窄巷子', 2, 'shaocheng', 104.0508079, 30.6661938, 'way/588905842', '宽窄巷子街区标识 · 范围中心候选点', '中心文化游览点，由杜甫草堂统一展开所在组团。'),
       point('cd-jinli', '锦里', 2, 'wuhou', 104.0473904, 30.6487093, 'way/837197354', '锦里街区标识 · 地图候选点', '与武侯祠相邻，记录到访与照片，不增加开图门槛。'),
-      point('cd-taikoo', '成都太古里', 2, 'wuhou', 104.0795208, 30.6562847, 'node/12741356742', '太古里街区标识 · 同名公交站附近候选点', '锦江城市游览到访点，由武侯祠统一展开本组团；当前候选坐标取纱帽中街同名公交站，正式拍照点待校准。'),
+      // Preserve the released b6d1473 text on regeneration. The coordinate
+      // receipt identifies the nearby Shamao Middle Street bus stop, not a
+      // field-verified photo entrance; that limitation remains in the receipts.
+      point('cd-taikoo', '成都太古里', 2, 'wuhou', 104.0795208, 30.6562847, 'node/12741356742', '太古里街区标识 · 地图候选点', '锦江城市游览到访点，由武侯祠统一展开本组团。'),
       point('cd-baoguang', '宝光寺', 2, 'panda', 104.1580196, 30.8344476, 'relation/18795954', '宝光寺外观 · 建筑范围中心候选点', '新都文化游览点，由熊猫基地代表东北组团开图。'),
       point('cd-jianfu', '青城山建福宫', 2, 'dujiangyan', 103.5707623, 30.9003372, 'way/1155405197', '建福宫建筑 · 建筑中心候选点', '青城山文化到访点，与都江堰共同组成遗产组团。'),
       point('cd-station', '成都东站', 3, 'panda', 104.1388944, 30.6311821, 'relation/17923601', '成都东站站名 · 站房中心候选点', '记录抵达成都；广场拍照点需现场确认，车站不承担开图任务。'),

@@ -4,6 +4,8 @@
  */
 import { evidence as beijingShanghaiEvidence, cityPlans as beijingShanghaiCities } from './city-plan.beijing-shanghai.mjs';
 import { evidence as hangzhouChengduEvidence, cityPlans as hangzhouChengduCities } from './city-plan.hangzhou-chengdu.mjs';
+import { evidence as guangzhouShenzhenEvidence, cityPlans as guangzhouShenzhenCities } from './city-plan.guangzhou-shenzhen.mjs';
+import { evidence as hongkongMacauEvidence, cityPlans as hongkongMacauCities } from './city-plan.hongkong-macau.mjs';
 // This version is also stored in existing local/SQLite visits. Keep the original
 // two cities and their IDs stable when adding independent city configurations.
 export const planVersion = 'citywide-2026-10-02';
@@ -117,5 +119,5 @@ const weiyang = xa.find(z => z.key === 'weiyang');
 weiyang.districts.push('新城区');
 weiyang.districtClips = { 新城区: { latitude: 34.282, keep: 'north' } };
 
-evidence.push(...beijingShanghaiEvidence, ...hangzhouChengduEvidence);
-cityPlans.push(...beijingShanghaiCities, ...hangzhouChengduCities);
+evidence.push(...beijingShanghaiEvidence, ...hangzhouChengduEvidence, ...guangzhouShenzhenEvidence, ...hongkongMacauEvidence);
+cityPlans.push(...beijingShanghaiCities, ...hangzhouChengduCities, ...guangzhouShenzhenCities, ...hongkongMacauCities);

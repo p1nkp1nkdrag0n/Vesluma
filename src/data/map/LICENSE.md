@@ -1,6 +1,6 @@
 # OpenStreetMap skeleton data
 
-`nanjing.json`, `xian.json`, the losslessly compressed `beijing.json.gz`, `shanghai.json.gz`, `hangzhou.json.gz`, `chengdu.json.gz`, `boundaries/*.json`, and `city-plans.json` contain a selected and reorganized extract of OpenStreetMap data. Gzip changes storage only; decompressed coordinates retain the source geometry.
+`nanjing.json`, `xian.json`, the losslessly compressed `beijing.json.gz`, `shanghai.json.gz`, `hangzhou.json.gz`, `chengdu.json.gz`, `guangzhou.json.gz`, `shenzhen.json.gz`, `hongkong.json.gz`, `macau.json.gz`, `boundaries/*.json`, and `city-plans.json` contain a selected and reorganized extract of OpenStreetMap data. Gzip changes storage only; decompressed coordinates retain the source geometry.
 
 © OpenStreetMap contributors
 

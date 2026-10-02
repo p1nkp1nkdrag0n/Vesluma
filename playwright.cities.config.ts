@@ -4,7 +4,7 @@ import { join } from 'node:path';
 
 // Build frontend + server first. The shared server fixture always receives an
 // explicit temporary SQLite path. This suite never opens .local-data.
-const evidenceDir = process.env.VESLUMA_CITIES_QA_DIR ?? join(tmpdir(), 'vesluma-six-city-qa');
+const evidenceDir = process.env.VESLUMA_CITIES_QA_DIR ?? join(tmpdir(), 'vesluma-gba-qa');
 process.env.VESLUMA_SYNC_QA_DIR = evidenceDir;
 
 export default defineConfig({

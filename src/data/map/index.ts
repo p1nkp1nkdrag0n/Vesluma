@@ -4,6 +4,10 @@ import beijingUrl from './beijing.json.gz?url';
 import shanghaiUrl from './shanghai.json.gz?url';
 import hangzhouUrl from './hangzhou.json.gz?url';
 import chengduUrl from './chengdu.json.gz?url';
+import guangzhouUrl from './guangzhou.json.gz?url';
+import shenzhenUrl from './shenzhen.json.gz?url';
+import hongkongUrl from './hongkong.json.gz?url';
+import macauUrl from './macau.json.gz?url';
 
 export type SkeletonCoordinate = [lng: number, lat: number];
 export type SkeletonBounds = [west: number, south: number, east: number, north: number];
@@ -153,10 +157,20 @@ const cityAssets: Record<string, { url: string; bounds: SkeletonBounds; gzip?: b
   shanghai: { url: shanghaiUrl, bounds: [120.8508, 30.6693, 123.2258, 31.8721], gzip: true },
   hangzhou: { url: hangzhouUrl, bounds: [118.3396, 29.1888, 120.7255, 30.5649], gzip: true },
   chengdu: { url: chengduUrl, bounds: [102.9896, 30.0916, 104.8949, 31.4371], gzip: true },
+  guangzhou: { url: guangzhouUrl, bounds: [112.9523, 22.5607, 114.0553, 23.9357], gzip: true },
+  shenzhen: { url: shenzhenUrl, bounds: [113.6805, 21.8213, 115.3891, 23.0166], gzip: true },
+  hongkong: { url: hongkongUrl, bounds: [113.8171, 22.1367, 114.5025, 22.5684], gzip: true },
+  macau: { url: macauUrl, bounds: [113.5281, 22.0766, 113.6302, 22.2171], gzip: true },
 };
 const citySkeletons = new Map<string, MapSkeleton>();
 const pendingLoads = new Map<string, Promise<MapSkeleton | null>>();
+const failedLoads = new Set<string>();
+// Decoded coordinates cost substantially more memory than their gzip assets.
+// Keep only the two most recently opened maps; the worker independently retains
+// six validated files and can serve an evicted in-memory map without a network.
+export const MAP_MEMORY_CITY_LIMIT = 2;
 export const MAP_LOAD_TIMEOUT_MS = 30_000;
+export const MAP_CACHE_READY_TIMEOUT_MS = 30_000;
 const permittedRoadClasses = new Set(['motorway', 'motorway_link', 'trunk', 'trunk_link', 'primary', 'primary_link', 'secondary', 'secondary_link']);
 const supportedOverpassSources = new Set([
   'https://overpass-api.de/api/interpreter',
@@ -228,14 +242,86 @@ export function getCitySkeleton(cityId: string): MapSkeleton | null {
   return citySkeletons.get(cityId) ?? null;
 }
 
+function hasMapWorker(): boolean {
+  return typeof navigator !== 'undefined' && Boolean(navigator.serviceWorker)
+    && typeof location !== 'undefined';
+}
+
+/** First-load caching also works before the page has a service-worker controller.
+ * A worker that never activates must not retain a large map response indefinitely.
+ */
+async function mapWorker(): Promise<ServiceWorker | null> {
+  if (!hasMapWorker()) return null;
+  return new Promise(resolve => {
+    const container = navigator.serviceWorker;
+    let settled = false;
+    let channel: MessageChannel | undefined;
+    const closeChannel = () => { channel?.port1.close(); channel?.port2.close(); channel = undefined; };
+    const finish = (worker: ServiceWorker | null) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      container.removeEventListener?.('controllerchange', onControllerChange);
+      closeChannel();
+      resolve(worker);
+    };
+    const timer = setTimeout(() => finish(null), MAP_CACHE_READY_TIMEOUT_MS);
+    const verify = (worker: ServiceWorker | null) => {
+      if (settled || !worker || typeof MessageChannel === 'undefined') return;
+      closeChannel();
+      channel = new MessageChannel();
+      channel.port1.onmessage = event => { if (event.data?.version === 1) finish(worker); };
+      try { worker.postMessage({ type: 'VESLUMA_MAP_CACHE_READY' }, [channel.port2]); }
+      catch { closeChannel(); } // A redundant worker may be replaced by controllerchange.
+    };
+    const onControllerChange = () => verify(container.controller);
+    container.addEventListener?.('controllerchange', onControllerChange);
+    try {
+      // ready can still refer to an older worker during an update. It must
+      // acknowledge this cache protocol before receiving any large map body.
+      container.ready.then(registration => verify(container.controller ?? registration.active), () => finish(null));
+    } catch { finish(null); }
+  });
+}
+
+function discardMapResponse(response?: Response): void {
+  // A tee branch may wait for its sibling to finish. Never block the error path.
+  if (response?.body) void response.body.cancel().catch(() => {});
+}
+
+/** Only the winner of full validation may hand bytes to the offline cache. */
+function cacheValidatedMap(url: string, response?: Response): void {
+  if (!hasMapWorker()) { discardMapResponse(response); return; }
+  void (async () => {
+    try {
+      const absoluteUrl = new URL(url, location.href).href;
+      const worker = await mapWorker();
+      if (!worker) { discardMapResponse(response); return; }
+      if (!response) {
+        worker.postMessage({ type: 'VESLUMA_TOUCH_MAP', url: absoluteUrl });
+        return;
+      }
+      const body = await response.arrayBuffer();
+      worker.postMessage({ type: 'VESLUMA_CACHE_MAP', url: absoluteUrl, body,
+        contentType: response.headers.get('Content-Type') || 'application/octet-stream' }, [body]);
+    } catch { discardMapResponse(response); /* Offline quota/worker failure cannot hide a valid map. */ }
+  })();
+}
+
 /** Successes and in-flight loads are shared. A rejected request can be retried. */
 export function loadCitySkeleton(cityId: string): Promise<MapSkeleton | null> {
   if (!Object.hasOwn(cityAssets, cityId)) return Promise.resolve(null);
   const cached = citySkeletons.get(cityId);
-  if (cached) return Promise.resolve(cached);
+  if (cached) {
+    citySkeletons.delete(cityId);
+    citySkeletons.set(cityId, cached);
+    cacheValidatedMap(cityAssets[cityId].url);
+    return Promise.resolve(cached);
+  }
   const pending = pendingLoads.get(cityId);
   if (pending) return pending;
   const controller = new AbortController();
+  let cacheResponse: Response | undefined;
   let timer: ReturnType<typeof setTimeout>;
   const timeout = new Promise<never>((_, reject) => {
     timer = setTimeout(() => {
@@ -243,8 +329,14 @@ export function loadCitySkeleton(cityId: string): Promise<MapSkeleton | null> {
       controller.abort();
     }, MAP_LOAD_TIMEOUT_MS);
   });
-  const request = fetch(cityAssets[cityId].url, { signal: controller.signal }).then(async response => {
-    if (!response.ok) throw new Error('城市主干道未能加载，请重试。');
+  const request = fetch(cityAssets[cityId].url, { signal: controller.signal,
+    ...(failedLoads.has(cityId) ? { cache: 'reload' as RequestCache, headers: { 'X-Vesluma-Map-Retry': '1' } } : {}) }).then(async response => {
+    if (controller.signal.aborted) throw new Error('骨架地图加载超时，请联网后重试。');
+    if (!response.ok) {
+      if (response.headers?.get('X-Vesluma-Map-Cache') === 'miss') throw new Error('此城地图尚未缓存。联网后点重试，或切换到已缓存的城市。');
+      throw new Error('城市主干道未能加载，请重试。');
+    }
+    if (hasMapWorker() && response.headers?.get('X-Vesluma-Map-Cache') !== 'hit') cacheResponse = response.clone();
     let collection: unknown;
     if (cityAssets[cityId].gzip) {
       const buffer = await response.arrayBuffer();
@@ -264,8 +356,18 @@ export function loadCitySkeleton(cityId: string): Promise<MapSkeleton | null> {
   // Race the entire body load as well as the response headers. Only the winning
   // request may populate the cache, even when a transport ignores AbortSignal.
   const load = Promise.race([request, timeout]).then(skeleton => {
+    citySkeletons.delete(cityId);
     citySkeletons.set(cityId, skeleton);
+    while (citySkeletons.size > MAP_MEMORY_CITY_LIMIT) citySkeletons.delete(citySkeletons.keys().next().value!);
+    failedLoads.delete(cityId);
+    cacheValidatedMap(cityAssets[cityId].url, cacheResponse);
+    cacheResponse = undefined;
     return skeleton;
+  }).catch(error => {
+    failedLoads.add(cityId);
+    discardMapResponse(cacheResponse);
+    cacheResponse = undefined;
+    throw error;
   }).finally(() => {
     clearTimeout(timer);
     pendingLoads.delete(cityId);

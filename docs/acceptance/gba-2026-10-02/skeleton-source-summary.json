@@ -1,0 +1,268 @@
+{
+  "coordinateSystem": "WGS84",
+  "geometry": "Original OSM nodes and ring membership retained without coordinate simplification; gzip is lossless.",
+  "scope": "The query selects arterial highway classes, named river/canal ways, natural=water ways and multipolygon relations. It does not query natural=coastline and does not provide complete coastlines, ocean surfaces, shipping channels or navigational permissions.",
+  "cities": [
+    {
+      "cityId": "guangzhou",
+      "bbox": [
+        112.9523,
+        22.5607,
+        114.0553,
+        23.9357
+      ],
+      "jsonBytes": 54000983,
+      "gzipBytes": 11105281,
+      "gzipSha256": "298851969abe5370684735592a1fa261e4e15bcf2e3bb05006f97f977020e8f0",
+      "counts": {
+        "road": 76279,
+        "water": 5905,
+        "waterLine": 1565
+      },
+      "emptyPartitions": 0,
+      "omittedFeatures": [
+        {
+          "id": "relation/19902556",
+          "reason": "No closed original outer water ring"
+        },
+        {
+          "id": "relation/21021991",
+          "reason": "Unassigned water island hole for relation/21021991"
+        },
+        {
+          "id": "relation/21021992",
+          "reason": "Unassigned water island hole for relation/21021992"
+        },
+        {
+          "id": "relation/11246750",
+          "reason": "Nested water relation members are not flattened or invented"
+        }
+      ],
+      "requests": [
+        {
+          "url": "https://overpass-api.de/api/interpreter",
+          "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](22.5607,112.9523,23.2482,113.5038);way[waterway~\"^(river|canal)$\"][name](22.5607,112.9523,23.2482,113.5038);way[natural=water](22.5607,112.9523,23.2482,113.5038);relation[natural=water][type=multipolygon](22.5607,112.9523,23.2482,113.5038););(._;>;);out meta;",
+          "downloadedAt": "2026-10-02T09:27:38.985Z",
+          "sha256": "2c1c7e16852608bfa03f7b3470515f83c9a658ec7ba40bff6fc2370126a09e37",
+          "responseBytes": 112955117,
+          "selectedAndDependentElements": 471551,
+          "empty": false,
+          "timestampOsmBase": "2026-10-02T09:26:06Z"
+        },
+        {
+          "url": "https://overpass-api.de/api/interpreter",
+          "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](22.5607,113.5038,23.2482,114.0553);way[waterway~\"^(river|canal)$\"][name](22.5607,113.5038,23.2482,114.0553);way[natural=water](22.5607,113.5038,23.2482,114.0553);relation[natural=water][type=multipolygon](22.5607,113.5038,23.2482,114.0553););(._;>;);out meta;",
+          "downloadedAt": "2026-10-02T09:27:55.015Z",
+          "sha256": "93896556ad70a069772a0d6218e56310903a808841d718e700a046cc1a347b60",
+          "responseBytes": 85619987,
+          "selectedAndDependentElements": 358496,
+          "empty": false,
+          "timestampOsmBase": "2026-10-02T09:26:06Z"
+        },
+        {
+          "url": "https://overpass-api.de/api/interpreter",
+          "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](23.2482,112.9523,23.9357,113.5038);way[waterway~\"^(river|canal)$\"][name](23.2482,112.9523,23.9357,113.5038);way[natural=water](23.2482,112.9523,23.9357,113.5038);relation[natural=water][type=multipolygon](23.2482,112.9523,23.9357,113.5038););(._;>;);out meta;",
+          "downloadedAt": "2026-10-02T09:31:28.051Z",
+          "sha256": "2f3c4d89e6fb5855affa404ffe3759a133493d727b0c5e5758f0198888e480c5",
+          "responseBytes": 36758875,
+          "selectedAndDependentElements": 157527,
+          "empty": false,
+          "timestampOsmBase": "2026-10-02T09:29:05Z"
+        },
+        {
+          "url": "https://overpass-api.de/api/interpreter",
+          "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](23.2482,113.5038,23.9357,114.0553);way[waterway~\"^(river|canal)$\"][name](23.2482,113.5038,23.9357,114.0553);way[natural=water](23.2482,113.5038,23.9357,114.0553);relation[natural=water][type=multipolygon](23.2482,113.5038,23.9357,114.0553););(._;>;);out meta;",
+          "downloadedAt": "2026-10-02T09:31:50.120Z",
+          "sha256": "81b0d5c22d8fa5d21d8308b03fbd741ed22787bd5d18584544dacf507f38aa50",
+          "responseBytes": 20410596,
+          "selectedAndDependentElements": 88157,
+          "empty": false,
+          "timestampOsmBase": "2026-10-02T09:30:05Z"
+        }
+      ]
+    },
+    {
+      "cityId": "shenzhen",
+      "bbox": [
+        113.6805,
+        21.8213,
+        115.3891,
+        23.0166
+      ],
+      "jsonBytes": 38887847,
+      "gzipBytes": 7876802,
+      "gzipSha256": "879be2197cb8c0e32c34117794bf5f709437a35659c0d60275fa321019540344",
+      "counts": {
+        "road": 58067,
+        "water": 3216,
+        "waterLine": 752
+      },
+      "emptyPartitions": 1,
+      "omittedFeatures": [],
+      "requests": [
+        {
+          "url": "https://overpass-api.de/api/interpreter",
+          "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](21.8213,113.6805,22.41895,114.5348);way[waterway~\"^(river|canal)$\"][name](21.8213,113.6805,22.41895,114.5348);way[natural=water](21.8213,113.6805,22.41895,114.5348);relation[natural=water][type=multipolygon](21.8213,113.6805,22.41895,114.5348););(._;>;);out meta;",
+          "downloadedAt": "2026-10-02T09:34:00.453Z",
+          "sha256": "039949c253a5405611b86b5c72e4acfcc76259365bd12bd54a7e4cb55f2500bb",
+          "responseBytes": 43618206,
+          "selectedAndDependentElements": 139086,
+          "empty": false,
+          "timestampOsmBase": "2026-10-02T09:32:06Z"
+        },
+        {
+          "url": "https://maps.mail.ru/osm/tools/overpass/api/interpreter",
+          "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](21.8213,114.5348,22.41895,115.3891);way[waterway~\"^(river|canal)$\"][name](21.8213,114.5348,22.41895,115.3891);way[natural=water](21.8213,114.5348,22.41895,115.3891);relation[natural=water][type=multipolygon](21.8213,114.5348,22.41895,115.3891););(._;>;);out meta;",
+          "downloadedAt": "2026-10-02T09:40:56.647Z",
+          "sha256": "4a23a1499d221bac0a77519e84aa4b6e6704497cb17d33840b4947dc14f0323e",
+          "responseBytes": 286,
+          "selectedAndDependentElements": 0,
+          "empty": true,
+          "timestampOsmBase": "2026-10-02T09:39:21Z"
+        },
+        {
+          "url": "https://overpass-api.de/api/interpreter",
+          "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](22.41895,113.6805,23.0166,114.5348);way[waterway~\"^(river|canal)$\"][name](22.41895,113.6805,23.0166,114.5348);way[natural=water](22.41895,113.6805,23.0166,114.5348);relation[natural=water][type=multipolygon](22.41895,113.6805,23.0166,114.5348););(._;>;);out meta;",
+          "downloadedAt": "2026-10-02T09:44:00.361Z",
+          "sha256": "75e5a3274deb01619f36ba9fc39c31b3202178ee2fc1189966a12e156d0503b4",
+          "responseBytes": 127821087,
+          "selectedAndDependentElements": 528942,
+          "empty": false,
+          "timestampOsmBase": "2026-10-02T09:42:19Z"
+        },
+        {
+          "url": "https://overpass-api.de/api/interpreter",
+          "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](22.41895,114.5348,23.0166,115.3891);way[waterway~\"^(river|canal)$\"][name](22.41895,114.5348,23.0166,115.3891);way[natural=water](22.41895,114.5348,23.0166,115.3891);relation[natural=water][type=multipolygon](22.41895,114.5348,23.0166,115.3891););(._;>;);out meta;",
+          "downloadedAt": "2026-10-02T09:44:22.772Z",
+          "sha256": "0d512792940f2cb5d79cb62fbf41d26d1c5656b79cbe7e43d8a288c4674bc3bb",
+          "responseBytes": 16346576,
+          "selectedAndDependentElements": 70464,
+          "empty": false,
+          "timestampOsmBase": "2026-10-02T09:42:19Z"
+        }
+      ]
+    },
+    {
+      "cityId": "hongkong",
+      "bbox": [
+        113.8171,
+        22.1367,
+        114.5025,
+        22.5684
+      ],
+      "jsonBytes": 17267623,
+      "gzipBytes": 3276295,
+      "gzipSha256": "b6409368813789b2b7010acc278abfaed2d3c73ef3560dcd0eefebd965464fc0",
+      "counts": {
+        "road": 30271,
+        "water": 929,
+        "waterLine": 254
+      },
+      "emptyPartitions": 0,
+      "omittedFeatures": [],
+      "requests": [
+        {
+          "url": "https://overpass-api.de/api/interpreter",
+          "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](22.1367,113.8171,22.35255,114.1598);way[waterway~\"^(river|canal)$\"][name](22.1367,113.8171,22.35255,114.1598);way[natural=water](22.1367,113.8171,22.35255,114.1598);relation[natural=water][type=multipolygon](22.1367,113.8171,22.35255,114.1598););(._;>;);out meta;",
+          "downloadedAt": "2026-10-02T09:46:00.259Z",
+          "sha256": "7ab46596c01e0570b11486f8f13e9b205c2b3eb954fbec99dffab1791d370b31",
+          "responseBytes": 10009147,
+          "selectedAndDependentElements": 31908,
+          "empty": false,
+          "timestampOsmBase": "2026-10-02T09:44:21Z"
+        },
+        {
+          "url": "https://overpass-api.de/api/interpreter",
+          "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](22.1367,114.1598,22.35255,114.5025);way[waterway~\"^(river|canal)$\"][name](22.1367,114.1598,22.35255,114.5025);way[natural=water](22.1367,114.1598,22.35255,114.5025);relation[natural=water][type=multipolygon](22.1367,114.1598,22.35255,114.5025););(._;>;);out meta;",
+          "downloadedAt": "2026-10-02T09:46:14.547Z",
+          "sha256": "9cf5a991a38d4601d065e7560787476436a99075e574a12d3f68cac7243b2468",
+          "responseBytes": 18566281,
+          "selectedAndDependentElements": 56178,
+          "empty": false,
+          "timestampOsmBase": "2026-10-02T09:44:21Z"
+        },
+        {
+          "url": "https://overpass-api.de/api/interpreter",
+          "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](22.35255,113.8171,22.5684,114.1598);way[waterway~\"^(river|canal)$\"][name](22.35255,113.8171,22.5684,114.1598);way[natural=water](22.35255,113.8171,22.5684,114.1598);relation[natural=water][type=multipolygon](22.35255,113.8171,22.5684,114.1598););(._;>;);out meta;",
+          "downloadedAt": "2026-10-02T09:46:32.353Z",
+          "sha256": "0f1440db942279709292f40407072aa7af1c670f1b84ac3a04fb8b15d43e5e70",
+          "responseBytes": 43604284,
+          "selectedAndDependentElements": 170393,
+          "empty": false,
+          "timestampOsmBase": "2026-10-02T09:45:21Z"
+        },
+        {
+          "url": "https://overpass-api.de/api/interpreter",
+          "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](22.35255,114.1598,22.5684,114.5025);way[waterway~\"^(river|canal)$\"][name](22.35255,114.1598,22.5684,114.5025);way[natural=water](22.35255,114.1598,22.5684,114.5025);relation[natural=water][type=multipolygon](22.35255,114.1598,22.5684,114.5025););(._;>;);out meta;",
+          "downloadedAt": "2026-10-02T09:46:45.579Z",
+          "sha256": "f19407ed75d69081a8536a167a8f765ae85a501bf6086a77e559ee2a0bf1aa3d",
+          "responseBytes": 11038950,
+          "selectedAndDependentElements": 41382,
+          "empty": false,
+          "timestampOsmBase": "2026-10-02T09:45:21Z"
+        }
+      ]
+    },
+    {
+      "cityId": "macau",
+      "bbox": [
+        113.5281,
+        22.0766,
+        113.6302,
+        22.2171
+      ],
+      "jsonBytes": 1622462,
+      "gzipBytes": 330631,
+      "gzipSha256": "7854a01be263a3d9d6d4d8cc2f2beaa80df5f7ea34d1f424c08b80de0bc0f855",
+      "counts": {
+        "road": 2719,
+        "water": 44,
+        "waterLine": 8
+      },
+      "emptyPartitions": 0,
+      "omittedFeatures": [],
+      "requests": [
+        {
+          "url": "https://overpass-api.de/api/interpreter",
+          "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](22.0766,113.5281,22.14685,113.57915);way[waterway~\"^(river|canal)$\"][name](22.0766,113.5281,22.14685,113.57915);way[natural=water](22.0766,113.5281,22.14685,113.57915);relation[natural=water][type=multipolygon](22.0766,113.5281,22.14685,113.57915););(._;>;);out meta;",
+          "downloadedAt": "2026-10-02T09:47:26.689Z",
+          "sha256": "55db4a88d1ef159f0fa5307a1f108f4b20af24fab4cf69791aa20cf8d419408e",
+          "responseBytes": 2322330,
+          "selectedAndDependentElements": 9690,
+          "empty": false,
+          "timestampOsmBase": "2026-10-02T09:46:21Z"
+        },
+        {
+          "url": "https://overpass-api.de/api/interpreter",
+          "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](22.0766,113.57915,22.14685,113.6302);way[waterway~\"^(river|canal)$\"][name](22.0766,113.57915,22.14685,113.6302);way[natural=water](22.0766,113.57915,22.14685,113.6302);relation[natural=water][type=multipolygon](22.0766,113.57915,22.14685,113.6302););(._;>;);out meta;",
+          "downloadedAt": "2026-10-02T09:47:37.782Z",
+          "sha256": "449c57ff907b5c12726cc35070aefb0524553ada86f4f5bb48e8d4380d904531",
+          "responseBytes": 57479,
+          "selectedAndDependentElements": 243,
+          "empty": false,
+          "timestampOsmBase": "2026-10-02T09:46:21Z"
+        },
+        {
+          "url": "https://overpass-api.de/api/interpreter",
+          "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](22.14685,113.5281,22.2171,113.57915);way[waterway~\"^(river|canal)$\"][name](22.14685,113.5281,22.2171,113.57915);way[natural=water](22.14685,113.5281,22.2171,113.57915);relation[natural=water][type=multipolygon](22.14685,113.5281,22.2171,113.57915););(._;>;);out meta;",
+          "downloadedAt": "2026-10-02T09:47:50.485Z",
+          "sha256": "0cb838329e3c43a601977fbda90e9ff8584d2b5e42f733582b3c78b09b7bb2a6",
+          "responseBytes": 4501527,
+          "selectedAndDependentElements": 17366,
+          "empty": false,
+          "timestampOsmBase": "2026-10-02T09:46:21Z"
+        },
+        {
+          "url": "https://overpass-api.de/api/interpreter",
+          "query": "[out:json][timeout:45][maxsize:134217728];(way[highway~\"^(motorway|trunk|primary|secondary)(_link)?$\"](22.14685,113.57915,22.2171,113.6302);way[waterway~\"^(river|canal)$\"][name](22.14685,113.57915,22.2171,113.6302);way[natural=water](22.14685,113.57915,22.2171,113.6302);relation[natural=water][type=multipolygon](22.14685,113.57915,22.2171,113.6302););(._;>;);out meta;",
+          "downloadedAt": "2026-10-02T09:48:08.773Z",
+          "sha256": "8eb608a8d946eeb4b179a3a865e19f64f0adb6540b53a8d7d2445a67f5d4eb05",
+          "responseBytes": 92562,
+          "selectedAndDependentElements": 373,
+          "empty": false,
+          "timestampOsmBase": "2026-10-02T09:46:21Z"
+        }
+      ]
+    }
+  ]
+}

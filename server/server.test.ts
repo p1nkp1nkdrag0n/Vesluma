@@ -32,27 +32,27 @@ function payload(data = snapshot(), requestId = 'request-1', sequence = 1, clien
   return { requestId, clientId, sequence, snapshot: data }
 }
 
-function sixCitySnapshot(): SyncSnapshot {
-  assert.deepEqual(cities.map(city => city.id).sort(), ['beijing', 'chengdu', 'hangzhou', 'nanjing', 'shanghai', 'xian'])
+function tenCitySnapshot(): SyncSnapshot {
+  assert.deepEqual(cities.map(city => city.id).sort(), ['beijing', 'chengdu', 'guangzhou', 'hangzhou', 'hongkong', 'macau', 'nanjing', 'shanghai', 'shenzhen', 'xian'])
   let state = createInitialState(1_000_000)
   for (const [index, city] of cities.entries()) {
     const at = 1_000_000 + index * 10_000
     state = reducer(state, { type: 'set-city', cityId: city.id })
-    state = reducer(state, { type: 'start-trip', id: `six-trip-${city.id}`, at })
+    state = reducer(state, { type: 'start-trip', id: `ten-trip-${city.id}`, at })
     const secondary = city.landmarks.find(landmark => landmark.tier === 2)!
     const anchorId = city.regions.find(region => region.id === secondary.regionId)!.anchorLandmarkId
     const primary = city.landmarks.find(landmark => landmark.id === anchorId)!
     for (const [offset, landmark] of [secondary, primary].entries()) {
       const time = at + offset * 1000
-      const id = `six-visit-${landmark.id}`
+      const id = `ten-visit-${landmark.id}`
       state = reducer(state, { type: 'set-position', position: { lat: landmark.lat, lng: landmark.lng, at: time, accuracy: 5, source: 'demo' } })
       // Real BLOB references exercise the same path for every newly added city.
       state = reducer(state, { type: 'check-in', id, landmarkId: landmark.id, at: time, photoId: `original-${id}` })
     }
     state = reducer(state, { type: 'end-trip', at: at + 2000 })
   }
-  assert.equal(state.visits.length, 12)
-  assert.equal(state.unlocks.length, 6)
+  assert.equal(state.visits.length, 20)
+  assert.equal(state.unlocks.length, 10)
   return projectSyncState(state)
 }
 
@@ -114,26 +114,30 @@ test('initializes SQLite schema version 1 and reopens it without losing data', a
   connection.close()
 })
 
-test('extends an existing two-city database to all six cities and preserves photos and authority after restart', async t => {
+test('extends an existing six-city database to all ten cities and preserves photos and authority after restart', async t => {
   const f = await fixture(t)
   // A restarted listener must receive fresh TCP connections. The process-wide
   // Node fetch pool may still hold an idle socket from the closed listener.
   const fresh = { Connection: 'close' }
   const read = (space = 'local-a') => fetch(`${f.url}/api/sync`, { headers: { ...headers, ...fresh, 'X-Vesluma-Space': space } })
-  const complete = sixCitySnapshot()
+  const complete = tenCitySnapshot()
+  const previousCities = new Set(['nanjing', 'xian', 'beijing', 'shanghai', 'hangzhou', 'chengdu'])
   const original: SyncSnapshot = {
     ...complete,
-    trips: complete.trips.filter(trip => trip.cityId === 'nanjing' || trip.cityId === 'xian'),
-    visits: complete.visits.filter(visit => visit.cityId === 'nanjing' || visit.cityId === 'xian'),
-    unlocks: complete.unlocks.filter(unlock => unlock.cityId === 'nanjing' || unlock.cityId === 'xian'),
+    trips: complete.trips.filter(trip => previousCities.has(trip.cityId)),
+    visits: complete.visits.filter(visit => previousCities.has(visit.cityId)),
+    unlocks: complete.unlocks.filter(unlock => previousCities.has(unlock.cityId)),
   }
+  assert.equal(original.trips.length, 6)
+  assert.equal(original.visits.length, 12)
+  assert.equal(original.unlocks.length, 6)
   assert.ok(original.visits.every(visit => visit.contentVersion === 'citywide-2026-10-02'))
   for (const visit of original.visits) {
     const upload = await f.put(visit.photoId, png, fresh)
     assert.equal(upload.status, 200)
     await upload.arrayBuffer()
   }
-  const seed = await f.post(payload(original, 'old-two-cities'), fresh)
+  const seed = await f.post(payload(original, 'old-six-cities'), fresh)
   assert.equal(seed.status, 200)
   const seeded = await seed.json()
   await f.restart()
@@ -144,13 +148,13 @@ test('extends an existing two-city database to all six cities and preserves phot
     assert.equal(upload.status, 200)
     await upload.arrayBuffer()
   }
-  const request = payload(complete, 'six-cities', 2)
+  const request = payload(complete, 'ten-cities', 2)
   const response = await f.post(request, fresh)
   assert.equal(response.status, 200)
   const committed = await response.json()
-  assert.equal(committed.snapshot.trips.length, 6)
-  assert.equal(committed.snapshot.visits.length, 12)
-  assert.equal(committed.snapshot.unlocks.length, 6)
+  assert.equal(committed.snapshot.trips.length, 10)
+  assert.equal(committed.snapshot.visits.length, 20)
+  assert.equal(committed.snapshot.unlocks.length, 10)
   for (const city of cities) {
     const records = committed.snapshot.visits.filter((visit: { cityId: string }) => visit.cityId === city.id)
     assert.equal(records.length, 2)
@@ -174,9 +178,9 @@ test('extends an existing two-city database to all six cities and preserves phot
   assert.deepEqual((await (await read('local-b')).json()).snapshot, emptySyncSnapshot())
 })
 
-test('rejects cross-city landmark and region authority in each of the six cities without partial writes', async t => {
+test('rejects cross-city landmark and region authority in each of the ten cities without partial writes', async t => {
   const f = await fixture(t)
-  const complete = sixCitySnapshot()
+  const complete = tenCitySnapshot()
   for (const [index, city] of cities.entries()) {
     const foreign = cities[(index + 1) % cities.length]
     const foreignPrimary = foreign.landmarks.find(landmark => landmark.tier === 1)!

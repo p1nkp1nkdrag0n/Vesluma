@@ -1,0 +1,72 @@
+{
+  "checkedAt": "2026-10-02T10:11:14.560Z",
+  "command": "node scripts/audit-sw-install.mjs",
+  "scope": "Node VM execution of the actual built service worker install handler using the actual built HTML and manifest. Confirms ten city files exist and none is prefetched at install; cache writes and fetches are recorded, with no network or browser execution.",
+  "limits": "Does not execute activate, demonstrate migration/LRU, prove browser cache quota, installation time, offline rendering, physical-device performance, or field location accuracy. Those browser flows have separate evidence.",
+  "entry": "assets/index-CGmM-jbQ.js",
+  "cityAssets": [
+    "/assets/beijing.json-zKQGpKMN.gz",
+    "/assets/chengdu.json-h_Z5-iVh.gz",
+    "/assets/guangzhou.json-Bw1FS0Ny.gz",
+    "/assets/hangzhou.json-nj-uVRVO.gz",
+    "/assets/hongkong.json-Dru4gV7c.gz",
+    "/assets/macau.json-XFqT9wNJ.gz",
+    "/assets/nanjing-CySEN2L4.json",
+    "/assets/shanghai.json-C-fEtP8b.gz",
+    "/assets/shenzhen.json-CvRdRs0v.gz",
+    "/assets/xian-DuXZFYl-.json"
+  ],
+  "bootAssetCount": 20,
+  "bootAssets": [
+    "/manifest.webmanifest",
+    "/icon.svg",
+    "/images/nanjing.png",
+    "/images/xian.png",
+    "/images/beijing.png",
+    "/images/shanghai.png",
+    "/images/hangzhou.png",
+    "/images/chengdu.png",
+    "/images/guangzhou.png",
+    "/images/shenzhen.png",
+    "/images/hongkong.png",
+    "/images/macau.png",
+    "/images/map-paper-texture.webp",
+    "/images/map-treasure-texture.webp",
+    "/assets/map-engine-BZOsmtGx.js",
+    "/assets/map-engine-CIGW-MKW.css",
+    "/assets/react-runtime-BZIfiq8F.js",
+    "/assets/index-CGmM-jbQ.js",
+    "/assets/index-i-NuwVLl.css",
+    "/assets/web-C3fe3YnL.js"
+  ],
+  "bytes": 14496706,
+  "previousSixCityBootBytes": 76505486,
+  "reductionFromPreviousBootBytes": 62008780,
+  "totalMapAssetBytes": 86135388,
+  "newMapAssetBytes": 22589009,
+  "installFetches": [
+    "/index.html",
+    "/.vite/manifest.json"
+  ],
+  "storedKeys": [
+    {
+      "cache": "vesluma-shell-v8",
+      "key": "/index.html"
+    },
+    {
+      "cache": "vesluma-shell-v8",
+      "key": "/"
+    },
+    {
+      "cache": "vesluma-shell-v8",
+      "key": "/.vite/manifest.json"
+    }
+  ],
+  "prefetchedCityAssets": [],
+  "missingCityFiles": [],
+  "unsafeAssets": [],
+  "missingFiles": [],
+  "sourceMatchesBuild": true,
+  "skipWaitingCalled": true,
+  "passed": true
+}
