@@ -7,6 +7,7 @@ export type SkeletonHighway = 'motorway' | 'motorway_link' | 'trunk' | 'trunk_li
   | 'primary' | 'primary_link' | 'secondary' | 'secondary_link';
 
 export interface SkeletonRoad {
+  bounds: SkeletonBounds;
   id: string;
   name: string;
   highway: SkeletonHighway;
@@ -21,6 +22,7 @@ export interface SkeletonRoad {
 }
 
 export interface SkeletonWater {
+  bounds: SkeletonBounds;
   id: string;
   name?: string;
   /** First ring is the shore; later rings are real islands/holes. */
@@ -28,6 +30,7 @@ export interface SkeletonWater {
 }
 
 export interface SkeletonWaterLine {
+  bounds: SkeletonBounds;
   id: string;
   name?: string;
   coordinates: SkeletonCoordinate[];
@@ -95,6 +98,15 @@ function hasTag(value: string | undefined): boolean {
   return value !== undefined && value !== '' && !['no', 'false', '0'].includes(value);
 }
 
+function coordinateBounds(coordinates: SkeletonCoordinate[]): SkeletonBounds {
+  const bounds: SkeletonBounds = [Infinity, Infinity, -Infinity, -Infinity];
+  for (const [lng, lat] of coordinates) {
+    bounds[0] = Math.min(bounds[0], lng); bounds[1] = Math.min(bounds[1], lat);
+    bounds[2] = Math.max(bounds[2], lng); bounds[3] = Math.max(bounds[3], lat);
+  }
+  return bounds;
+}
+
 export function normalizeSkeleton(collection: SkeletonFeatureCollection): MapSkeleton {
   const roads: SkeletonRoad[] = [];
   const water: SkeletonWater[] = [];
@@ -108,19 +120,19 @@ export function normalizeSkeleton(collection: SkeletonFeatureCollection): MapSke
         : ['yes', '1', 'true'].includes(properties.oneway ?? '') ? 'forward' : undefined;
       roads.push({
         id: feature.id, name: properties.name, highway: properties.highway,
-        coordinates: geometry.coordinates, bridge: hasTag(properties.bridge),
+        coordinates: geometry.coordinates, bounds: coordinateBounds(geometry.coordinates), bridge: hasTag(properties.bridge),
         tunnel: hasTag(properties.tunnel), layer: layer !== undefined && Number.isFinite(layer) ? layer : undefined,
         access: properties.access, foot: properties.foot,
         oneway: onewayDirection !== undefined, onewayDirection,
       });
     } else if (properties.kind === 'water' && geometry.type !== 'LineString') {
       const polygons = geometry.type === 'Polygon' ? [geometry.coordinates] : geometry.coordinates;
-      polygons.forEach((rings, index) => water.push({ id: `${feature.id}/${index}`, name: properties.name || undefined, rings }));
+      polygons.forEach((rings, index) => water.push({ id: `${feature.id}/${index}`, name: properties.name || undefined, rings, bounds: coordinateBounds(rings[0]) }));
     } else if (properties.kind === 'waterLine' && geometry.type === 'LineString') {
       const metricWidth = properties.width?.match(/^(\d+(?:\.\d+)?)\s*(?:m)?$/);
       const width = metricWidth ? Number(metricWidth[1]) : undefined;
       waterLines.push({
-        id: feature.id, name: properties.name || undefined, coordinates: geometry.coordinates,
+        id: feature.id, name: properties.name || undefined, coordinates: geometry.coordinates, bounds: coordinateBounds(geometry.coordinates),
         widthMetres: width !== undefined && width > 0 ? width : undefined,
       });
     }
@@ -130,8 +142,8 @@ export function normalizeSkeleton(collection: SkeletonFeatureCollection): MapSke
 
 /** Large source geometries are assets; they are not parsed inside the main JS bundle. */
 const cityAssets: Record<string, { url: string; bounds: SkeletonBounds }> = {
-  nanjing: { url: nanjingUrl, bounds: [118.758, 32.001, 118.816, 32.103] },
-  xian: { url: xianUrl, bounds: [108.914, 34.203, 108.981, 34.393] },
+  nanjing: { url: nanjingUrl, bounds: [118.3345, 31.2267, 119.2396, 32.6158] },
+  xian: { url: xianUrl, bounds: [107.6584, 33.6961, 109.8239, 34.7438] },
 };
 const citySkeletons = new Map<string, MapSkeleton>();
 const pendingLoads = new Map<string, Promise<MapSkeleton | null>>();
@@ -167,7 +179,7 @@ export function validateSkeletonCollection(value: unknown, cityId: string): asse
     || !validDate(value.source.downloadedAt) || !Array.isArray(value.source.requests)
     || !value.source.requests.length || !Array.isArray(value.features) || !value.features.length) return fail();
   for (const request of value.source.requests) {
-    if (!isObject(request) || typeof request.url !== 'string' || !request.url.startsWith('https://api.openstreetmap.org/api/0.6/')
+    if (!isObject(request) || typeof request.url !== 'string' || !(request.url.startsWith('https://api.openstreetmap.org/api/0.6/') || request.url === 'https://overpass-api.de/api/interpreter')
       || typeof request.sha256 !== 'string' || !/^[a-f0-9]{64}$/.test(request.sha256) || !validDate(request.downloadedAt)) return fail();
   }
   let hasRoad = false;

@@ -1,6 +1,6 @@
 # OpenStreetMap skeleton data
 
-`nanjing.json` and `xian.json` contain a selected and reorganized extract of OpenStreetMap data.
+`nanjing.json`, `xian.json`, `boundaries/*.json`, and `city-plans.json` contain a selected and reorganized extract of OpenStreetMap data.
 
 © OpenStreetMap contributors
 

@@ -1,5 +1,31 @@
 # 主干道简图数据来源与更新
 
+## 当前全市快照（2026-10-02）
+
+旧的主城试验框已被完整市域覆盖框取代。以下为当前应用数据；本文后半部的 2026-09-29 内容仅保留为历史记录，不能继续作为当前覆盖、数量或区划规则。
+
+| 城市 | WGS84 覆盖框 `[西,南,东,北]` | 主干道分段 | 水域要素 | 命名河线 | 原始 JSON |
+|---|---|---:|---:|---:|---:|
+| 南京 | `[118.3345,31.2267,119.2396,32.6158]` | 18,212 | 4,548 | 701 | 19,282,045 B |
+| 西安 | `[107.6584,33.6961,109.8239,34.7438]` | 16,170 | 441 | 395 | 13,227,235 B |
+
+来源为 [Overpass API](https://overpass-api.de/api/interpreter) 的有界只读查询，保留原始 OSM 节点与版本；主干道仍限于 motorway、trunk、primary、secondary 及其连接线。源请求的查询文本、下载时间和 SHA-256 在各文件 `source.requests` 内；运行时不请求查询服务。水域仍保留孔洞、不造岸线。西安的无名关系 `relation/3895359` 存在无法归入外环的内环，已在 `source.omittedFeatures` 记载并跳过。
+
+同时取得 [南京市 relation/2131524](https://www.openstreetmap.org/relation/2131524) 与 [西安市 relation/3226004](https://www.openstreetmap.org/relation/3226004) 及 24 个下辖区县的完整几何，数据保存在 `src/data/map/boundaries/`，来源为 OSM 与 Nominatim。主干道绘制既裁剪到查询框，也裁剪到市域；框的存在不被用来伪造市域外形。
+
+南京 11 个开图区、西安 10 个开图区的并集与各自市域原几何相等，保留 MultiPolygon 与内环。分级取舍、拓扑校验、组团规划线、候选坐标限制以及旧版范围保留方式见[全市解锁规划](city-unlock-planning.md)。
+
+```powershell
+npm run maps:boundaries                 # 默认复用已提交边界
+npm run maps:plan                       # 从已提交边界离线重建分区
+npm run maps:skeleton                   # 优先复用原始 Overpass 缓存
+npm run maps:skeleton -- xian --refresh # 显式更新某城道路／水域
+```
+
+导入缓存位于忽略目录 `node_modules/.cache/vesluma-boundaries/`。ODbL-1.0、WGS84、原始节点、通行限制和详细地图不预缓存的约束继续适用。市域边界是社区地图快照，面积不是官方统计值；OSM 道路完整度与候选入口仍须校准。整体骨架的原始体积约 32.5 MB，按城请求；源码中保留的原始区县边界不会被应用另行加载。
+
+## 历史记录：2026-09-29 的主城试验快照
+
 本轮把未解锁区的道路从完全遮挡改为真实几何骨架。骨架使用 **OpenStreetMap 的原始道路节点和水域几何**，以本地 GeoJSON 快照随应用打包。C 纸感与藏宝图共用这份数据；参考图里的生成道路没有进入地图数据。
 
 ## 快照与覆盖

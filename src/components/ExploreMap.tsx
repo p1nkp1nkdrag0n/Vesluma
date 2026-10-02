@@ -5,8 +5,8 @@ import './map.css';
 import { getCitySkeleton, loadCitySkeleton } from '../data/map';
 import type { MapSkeleton } from '../data/map';
 import { SkeletonLayer } from './SkeletonLayer';
-import { isPointUnlocked } from './mapGeometry';
-import type { MapCoordinates, MapTheme } from './mapGeometry';
+import { isPointUnlocked, regionPolygons } from './mapGeometry';
+import type { MapCoordinates, MapTheme, MapRegion } from './mapGeometry';
 
 export type { MapCoordinates, MapTheme } from './mapGeometry';
 
@@ -15,8 +15,9 @@ export interface ExploreMapCity {
   name: string;
   center: MapCoordinates;
   zoom: number;
-  landmarks: { id: string; name: string; coordinates: MapCoordinates }[];
-  regions: { id: string; polygon: MapCoordinates[] }[];
+  landmarks: { id: string; name: string; coordinates: MapCoordinates; tier?: number; regionId?: string }[];
+  regions: MapRegion[];
+  boundary?: MapRegion['geometry'];
 }
 
 export interface ExploreMapProps {
@@ -32,6 +33,8 @@ export interface ExploreMapProps {
   compact?: boolean;
   mapTheme?: MapTheme;
   overlayBottom?: number;
+  showRegionPlan?: boolean;
+  focusRegionId?: string | null;
 }
 
 type TileState = 'loading' | 'ready' | 'partial' | 'unavailable';
@@ -43,9 +46,9 @@ function toLatLng([lng, lat]: MapCoordinates): L.LatLngTuple {
   return [lat, lng];
 }
 
-function createLandmarkIcon(name: string, unlocked: boolean, selected: boolean): L.DivIcon {
+function createLandmarkIcon(name: string, unlocked: boolean, selected: boolean, tier = 1): L.DivIcon {
   const element = document.createElement('div');
-  element.className = `vesluma-landmark-pin${unlocked ? ' is-unlocked' : ''}${selected ? ' is-selected' : ''}`;
+  element.className = `vesluma-landmark-pin tier-${tier}${unlocked ? ' is-unlocked' : ''}${selected ? ' is-selected' : ''}`;
   element.innerHTML = landmarkSvg;
   element.setAttribute('aria-label', name);
   return L.divIcon({
@@ -64,13 +67,13 @@ function createPositionIcon(): L.DivIcon {
 }
 
 function fitCity(map: L.Map, city: ExploreMapCity, compact: boolean, overlayBottom: number): void {
-  const coordinates = city.regions.flatMap(region => region.polygon);
+  const coordinates = city.boundary?.coordinates.flat(2) ?? city.regions.flatMap(region => regionPolygons(region).flat(2));
   const landmarks = city.landmarks.map(landmark => landmark.coordinates);
-  const allCoordinates = compact ? landmarks : [...coordinates, ...landmarks];
+  const allCoordinates = compact && landmarks.length ? landmarks : [...coordinates, ...landmarks];
   if (allCoordinates.length) {
     map.fitBounds(L.latLngBounds(allCoordinates.map(toLatLng)), {
-      paddingTopLeft: [42, compact ? 34 : 65],
-      paddingBottomRight: [52, compact ? 34 : overlayBottom + 35],
+      paddingTopLeft: [28, compact ? 34 : overlayBottom === 0 ? 20 : 65],
+      paddingBottomRight: [42, compact ? 34 : overlayBottom === 0 ? 25 : overlayBottom + 35],
       maxZoom: city.zoom,
       animate: false,
     });
@@ -166,6 +169,8 @@ export const ExploreMap = memo(function ExploreMap({
   compact = false,
   mapTheme = 'paper',
   overlayBottom = 190,
+  showRegionPlan = false,
+  focusRegionId,
 }: ExploreMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
@@ -174,6 +179,7 @@ export const ExploreMap = memo(function ExploreMap({
   const pointsRef = useRef<L.LayerGroup | null>(null);
   const positionRef = useRef<L.LayerGroup | null>(null);
   const tilesRef = useRef<L.TileLayer | null>(null);
+  const regionsRef = useRef<L.LayerGroup | null>(null);
   const onSelectRef = useRef(onSelectLandmark);
   const cityRef = useRef(city);
   const focusedCitiesRef = useRef(new Set<string>());
@@ -211,7 +217,9 @@ export const ExploreMap = memo(function ExploreMap({
       zoomAnimation: false,
       markerZoomAnimation: false,
       fadeAnimation: false,
-      minZoom: 10,
+      minZoom: 7,
+      zoomSnap: 0.25,
+      zoomDelta: 1,
       maxZoom: 19,
       preferCanvas: false,
       scrollWheelZoom: true,
@@ -242,6 +250,8 @@ export const ExploreMap = memo(function ExploreMap({
       setTileState(errors ? (successfulTiles ? 'partial' : 'unavailable') : 'ready');
     });
     fogRef.current = new SkeletonLayer().addTo(map);
+    map.createPane('regionPane').style.zIndex = '470';
+    regionsRef.current = L.layerGroup().addTo(map);
     markersRef.current = L.layerGroup().addTo(map);
     pointsRef.current = L.layerGroup().addTo(map);
     positionRef.current = L.layerGroup().addTo(map);
@@ -259,6 +269,7 @@ export const ExploreMap = memo(function ExploreMap({
       pointsRef.current = null;
       positionRef.current = null;
       tilesRef.current = null;
+      regionsRef.current = null;
     };
   }, []);
 
@@ -277,21 +288,72 @@ export const ExploreMap = memo(function ExploreMap({
   }, [city.id, city.zoom, position?.lat, position?.lng, compact, overlayBottom]);
 
   useEffect(() => {
-    fogRef.current?.setContent({ regions: city.regions, unlockedRegionIds, skeleton, dataStatus: skeletonStatus, theme: mapTheme, landmarks: city.landmarks, compact });
+    fogRef.current?.setContent({ regions: city.regions, boundary: city.boundary, unlockedRegionIds, skeleton, dataStatus: skeletonStatus, theme: mapTheme, landmarks: city.landmarks, compact });
   }, [city.id, city.regions, city.landmarks, unlockedRegionIds, skeleton, skeletonStatus, mapTheme, compact]);
+
+  useEffect(() => {
+    const group = regionsRef.current;
+    if (!group) return;
+    group.clearLayers();
+    const colors = ['#358673', '#be8851', '#808f51', '#748dba', '#b77c73', '#6e9d9d'];
+    const selectedRegion = focusRegionId ?? city.landmarks.find(l => l.id === selectedLandmarkId)?.regionId;
+    city.regions.filter(r => !r.legacy).forEach((region, index) => {
+      if (!showRegionPlan && region.id !== selectedRegion) return;
+      const selected = region.id === selectedRegion;
+      const layer = L.polygon(regionPolygons(region).map(p => p.map(r => r.map(toLatLng))), {
+        pane: 'regionPane', color: selected ? JADE : colors[index % colors.length], weight: selected ? 2.5 : 1.2,
+        fillOpacity: showRegionPlan ? selected ? 0.18 : 0.12 : 0, interactive: showRegionPlan,
+      }).addTo(group);
+      if (region.name) layer.bindTooltip(region.name, { sticky: true });
+      if (showRegionPlan) layer.on('click', () => {
+        const anchor = city.landmarks.find(l => l.tier === 1 && l.regionId === region.id);
+        if (anchor) onSelectRef.current(anchor.id);
+      });
+    });
+  }, [city.regions, city.landmarks, showRegionPlan, selectedLandmarkId, focusRegionId]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    const region = city.regions.find(r => r.id === focusRegionId);
+    if (map && region) map.fitBounds(L.latLngBounds(regionPolygons(region).flat(2).map(toLatLng)), { padding: [30, 35], maxZoom: 13, animate: false });
+  }, [city.id, focusRegionId]);
 
   useEffect(() => {
     const group = markersRef.current;
     if (!group) return;
     group.clearLayers();
     const unlocked = new Set(unlockedRegionIds);
+    const map = mapRef.current!;
+    const clustered = new Set<string>();
+    if (!compact && mapZoom < 11) {
+      const candidates = city.landmarks.filter(l => (l.tier ?? 1) === 1 && l.id !== selectedLandmarkId);
+      for (const candidate of candidates) {
+        if (clustered.has(candidate.id)) continue;
+        const pixel = map.latLngToLayerPoint(toLatLng(candidate.coordinates));
+        const members = candidates.filter(l => !clustered.has(l.id)
+          && pixel.distanceTo(map.latLngToLayerPoint(toLatLng(l.coordinates))) < 27);
+        if (members.length < 2) continue;
+        members.forEach(l => clustered.add(l.id));
+        const label = `${members.length} 处开图地标，点击展开`;
+        const element = document.createElement('span');
+        element.className = 'vesluma-marker-cluster';
+        element.textContent = String(members.length);
+        const marker = L.marker(toLatLng(candidate.coordinates), { title: label,
+          icon: L.divIcon({ html: element, className: 'vesluma-cluster-marker', iconSize: [30, 30], iconAnchor: [15, 15] }),
+        }).addTo(group);
+        marker.bindTooltip(label);
+        marker.on('click', () => map.fitBounds(L.latLngBounds(members.map(l => toLatLng(l.coordinates))), { padding: [50, 60], maxZoom: 13, animate: false }));
+      }
+    }
     for (const landmark of city.landmarks) {
+      if (clustered.has(landmark.id)) continue;
+      const selected = selectedLandmarkId === landmark.id;
+      if (!selected && !compact && (landmark.tier ?? 1) > 1 && (showRegionPlan || mapZoom < 13)) continue;
       const revealed = visitedLandmarkIds
         ? visitedLandmarkIds.includes(landmark.id)
         : isPointUnlocked(landmark.coordinates, city.regions, unlocked);
-      const selected = selectedLandmarkId === landmark.id;
       const marker = L.marker(toLatLng(landmark.coordinates), {
-        icon: createLandmarkIcon(landmark.name, revealed, selected),
+        icon: createLandmarkIcon(landmark.name, revealed, selected, landmark.tier),
         title: landmark.name,
         keyboard: true,
         zIndexOffset: selected ? 500 : 0,
@@ -299,7 +361,7 @@ export const ExploreMap = memo(function ExploreMap({
       const label = document.createElement('span');
       label.textContent = landmark.name;
       marker.bindTooltip(label, {
-        permanent: compact || mapZoom >= 14 || landmark.id === city.landmarks[0]?.id || selected,
+        permanent: compact || mapZoom >= 13 || selected,
         direction: 'bottom',
         offset: [0, 12],
         className: `vesluma-map-label${selected ? ' is-selected' : ''}`,
@@ -309,7 +371,7 @@ export const ExploreMap = memo(function ExploreMap({
       marker.addTo(group);
       marker.getElement()?.classList.toggle('is-small', !compact && mapZoom < 14);
     }
-  }, [city.landmarks, city.regions, unlockedRegionIds, selectedLandmarkId, visitedLandmarkIds, mapZoom, compact]);
+  }, [city.landmarks, city.regions, unlockedRegionIds, selectedLandmarkId, visitedLandmarkIds, mapZoom, compact, showRegionPlan]);
 
   useEffect(() => {
     const group = pointsRef.current;
@@ -385,7 +447,7 @@ export const ExploreMap = memo(function ExploreMap({
     {skeletonStatus === 'ready' && tileState === 'loading' && unlockedRegionIds.length > 0
       ? <div className="vesluma-skeleton-status" role="status">详细底图正在加载</div> : null}
     <div className="vesluma-map-controls" aria-label="地图操作">
-      <button type="button" aria-label="查看城市试验范围" title="查看城市试验范围" onClick={() => mapRef.current && fitCity(mapRef.current, city, compact, overlayBottom)}><MapControlIcon kind="fit" /></button>
+      <button type="button" aria-label="查看全市范围" title="查看全市范围" onClick={() => mapRef.current && fitCity(mapRef.current, city, compact, overlayBottom)}><MapControlIcon kind="fit" /></button>
       <div className="vesluma-zoom-controls">
         <button type="button" aria-label="放大地图" title="放大地图" onClick={() => mapRef.current?.zoomIn()}><MapControlIcon kind="plus" /></button>
         <button type="button" aria-label="缩小地图" title="缩小地图" onClick={() => mapRef.current?.zoomOut()}><MapControlIcon kind="minus" /></button>

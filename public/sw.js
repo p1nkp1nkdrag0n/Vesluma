@@ -1,5 +1,5 @@
 /* App-shell caching only. Map tiles, location data and remote responses are never cached. */
-const CACHE_NAME = 'vesluma-shell-v4';
+const CACHE_NAME = 'vesluma-shell-v5';
 const SHELL = ['/', '/index.html', '/manifest.webmanifest', '/icon.svg', '/images/nanjing.png', '/images/xian.png', '/images/map-paper-texture.webp', '/images/map-treasure-texture.webp'];
 const MAX_LOCAL_ASSETS = 60;
 

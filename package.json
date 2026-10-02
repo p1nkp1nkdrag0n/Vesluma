@@ -8,6 +8,9 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host 0.0.0.0",
     "test": "vitest run",
+    "maps:boundaries": "node scripts/import-city-boundaries.mjs",
+    "maps:plan": "node scripts/build-city-plans.mjs",
+    "maps:skeleton": "node scripts/import-map-skeleton.mjs",
     "native:sync": "npm run build && cap sync",
     "android": "cap open android",
     "ios": "cap open ios"
@@ -30,6 +33,7 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^4.7.0",
+    "polygon-clipping": "^0.15.7",
     "typescript": "~5.8.3",
     "vite": "^6.3.5",
     "vitest": "^5.0.2"

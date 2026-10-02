@@ -1,4 +1,4 @@
-import { cities, getCity, getLandmark, getRegion, type CityId, type Landmark } from '../data/cities'
+import { cities, getCity, getLandmark, getRegion, allowedVisitRegions, type CityId, type Landmark } from '../data/cities'
 import { isMapTheme, type MapTheme } from './mapTheme'
 export type { MapTheme } from './mapTheme'
 
@@ -37,6 +37,7 @@ export interface Trip {
   squadCode?: string
 }
 export interface Visit {
+  contentVersion?: string
   id: string
   tripId: string
   cityId: CityId
@@ -161,10 +162,12 @@ export const getTripPoints = (state: AppState, tripId: string, userId = state.pr
 
 export function getCityProgress(state: AppState, cityId = state.cityId, userId = state.profile.id) {
   const city = getCity(cityId)
-  const regionIds = [...new Set(getProfileUnlocks(state, userId).filter((unlock) => unlock.cityId === cityId).map((unlock) => unlock.regionId))]
+  const allRegionIds = [...new Set(getProfileUnlocks(state, userId).filter((unlock) => unlock.cityId === cityId).map((unlock) => unlock.regionId))]
+  const regionIds = allRegionIds.filter(id => city.regions.some(region => region.id === id))
+  const legacyRegionIds = allRegionIds.filter(id => getRegion(id)?.legacy)
   const visits = getProfileVisits(state, userId).filter((visit) => visit.cityId === cityId)
   const landmarkIds = [...new Set(visits.map((visit) => visit.landmarkId))]
-  return { regionIds, landmarkIds, unlocked: regionIds.length, total: city.regions.length,
+  return { regionIds, allRegionIds, legacyRegionIds, landmarkIds, unlocked: regionIds.length, total: city.regions.length,
     visited: landmarkIds.length, totalLandmarks: city.landmarks.length, visitCount: visits.length,
     ratio: city.regions.length ? regionIds.length / city.regions.length : 0 }
 }
@@ -239,7 +242,7 @@ export function reducer(state: AppState, action: Action): AppState {
     }
     case 'start-trip': {
       if (getActiveTrip(state) || state.trips.some((trip) => trip.id === action.id) || !action.id || !Number.isFinite(action.at)) return state
-      const unlockIdsAtStart = getCityProgress(state).regionIds
+      const unlockIdsAtStart = getCityProgress(state).allRegionIds
       const trip: Trip = { id: action.id, userId: state.profile.id, cityId: state.cityId,
         name: action.name?.trim() || `${getCity(state.cityId).name} · 自在探索`, mode: action.mode ?? 'solo', status: 'active',
         startedAt: action.at, members: [{ ...state.profile, joinedAt: action.at, solo: false, unlockIdsAtJoin: unlockIdsAtStart }], unlockIdsAtStart }
@@ -277,14 +280,15 @@ export function reducer(state: AppState, action: Action): AppState {
       const personalVisits = state.visits.filter((visit) => visit.landmarkId === action.landmarkId && visit.userId === state.profile.id)
       const priorVisits = getLandmarkVisits(state, action.landmarkId)
       const owned = getCityProgress(state).regionIds
-      const newlyUnlocked = landmark.regionIds.filter((id) => !owned.includes(id))
+      const unlockable = landmark.tier === 1 ? landmark.regionIds : []
+      const newlyUnlocked = unlockable.filter((id) => !owned.includes(id))
       const visit: Visit = { id: action.id, tripId: trip.id, cityId: trip.cityId, landmarkId: landmark.id,
         userId: state.profile.id, photoId: action.photoId, ...(action.photoUrl ? { photoUrl: action.photoUrl } : {}),
         at: action.at, source: shared ? 'squad' : 'personal', recipientIds, firstActivation: priorVisits.length === 0,
-        firstPersonalVisit: personalVisits.length === 0, unlockedRegionIds: newlyUnlocked, public: false,
+        firstPersonalVisit: personalVisits.length === 0, unlockedRegionIds: newlyUnlocked, public: false, contentVersion: getCity(trip.cityId).contentVersion,
         demo: state.position!.source === 'demo', position: { ...state.position! }, ...(action.note ? { note: action.note } : {}) }
       const unlocks = [...state.unlocks]
-      for (const userId of recipientIds) for (const regionId of landmark.regionIds) {
+      for (const userId of recipientIds) for (const regionId of unlockable) {
         if (!unlocks.some((unlock) => unlock.userId === userId && unlock.regionId === regionId)) {
           unlocks.push({ id: `${userId}:${regionId}`, userId, cityId: trip.cityId, regionId, at: action.at, visitId: visit.id,
             source: userId === state.profile.id ? 'personal' : 'squad' })
@@ -308,7 +312,7 @@ export function reducer(state: AppState, action: Action): AppState {
       if (!trip || !Number.isFinite(action.at) || action.at < trip.startedAt || (getActiveTrip(state) && state.activeTripId !== trip.id)) return state
       const oldMember = trip.members.find((member) => member.id === state.profile.id)
       const member: Member = { ...state.profile, joinedAt: action.at, solo: false,
-        unlockIdsAtJoin: getCityProgress(state, trip.cityId).regionIds }
+        unlockIdsAtJoin: getCityProgress(state, trip.cityId).allRegionIds }
       const next = replaceTrip(state, { ...trip, members: oldMember
         ? trip.members.map((item) => item.id === member.id ? oldMember.leftAt === undefined ? oldMember : member : item)
         : [...trip.members, member] })
@@ -330,7 +334,7 @@ export function reducer(state: AppState, action: Action): AppState {
       if (!trip || trip.mode !== 'squad' || !action.member.id || !Number.isFinite(action.member.joinedAt)) return state
       const members = trip.members.some((member) => member.id === action.member.id)
         ? trip.members.map((member) => member.id === action.member.id ? { ...action.member } : member)
-        : [...trip.members, { ...action.member, unlockIdsAtJoin: action.member.unlockIdsAtJoin ?? getCityProgress(state, trip.cityId, action.member.id).regionIds }]
+        : [...trip.members, { ...action.member, unlockIdsAtJoin: action.member.unlockIdsAtJoin ?? getCityProgress(state, trip.cityId, action.member.id).allRegionIds }]
       return replaceTrip(state, { ...trip, members })
     }
   }
@@ -381,13 +385,14 @@ export function isAppState(value: unknown): value is AppState {
     && typeof visit.public === 'boolean' && typeof visit.demo === 'boolean' && visit.demo === (visit.position.source === 'demo') && ['personal', 'squad'].includes(visit.source)
     && typeof visit.firstActivation === 'boolean' && typeof visit.firstPersonalVisit === 'boolean'
     && Array.isArray(visit.recipientIds) && visit.recipientIds.includes(visit.userId) && visit.recipientIds.every((id) => typeof id === 'string')
-    && Array.isArray(visit.unlockedRegionIds) && visit.unlockedRegionIds.every((id) => getLandmark(visit.landmarkId)?.regionIds.includes(id)))) return false
+    && (visit.contentVersion === undefined || visit.contentVersion === getCity(visit.cityId).contentVersion)
+    && Array.isArray(visit.unlockedRegionIds) && visit.unlockedRegionIds.every((id) => allowedVisitRegions(visit.landmarkId, visit.contentVersion).includes(id)))) return false
   if (!state.points.every((point) => point && typeof point.id === 'string' && typeof point.userId === 'string' && isValidPosition(point)
     && state.trips.some((trip) => trip.id === point.tripId && trip.cityId === point.cityId))) return false
   if (!state.unlocks.every((unlock) => unlock && typeof unlock.id === 'string' && typeof unlock.userId === 'string' && Number.isFinite(unlock.at)
     && getRegion(unlock.regionId)?.cityId === unlock.cityId && ['personal', 'squad'].includes(unlock.source)
     && state.visits.some((visit) => visit.id === unlock.visitId && visit.cityId === unlock.cityId && visit.recipientIds.includes(unlock.userId)
-      && getLandmark(visit.landmarkId)?.regionIds.includes(unlock.regionId) && unlock.at === visit.at))) return false
+      && allowedVisitRegions(visit.landmarkId, visit.contentVersion).includes(unlock.regionId) && unlock.at === visit.at))) return false
   if (new Set(state.trips.map((trip) => trip.id)).size !== state.trips.length
     || new Set(state.visits.map((visit) => visit.id)).size !== state.visits.length
     || new Set(state.points.map((point) => point.id)).size !== state.points.length

@@ -344,3 +344,5 @@
 @media (prefers-reduced-motion: reduce) {
   .vesluma-landmark-pin { transition: none; }
 }
+
+.vesluma-marker-cluster{display:flex;width:30px;height:30px;align-items:center;justify-content:center;background:#fffef8;color:#3a8773;border:1px solid #71a68e;border-radius:50%;box-shadow:0 2px 5px #32574420;font:600 12px system-ui,sans-serif}

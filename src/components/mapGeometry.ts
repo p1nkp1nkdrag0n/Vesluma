@@ -13,7 +13,19 @@ export interface RoadLabelCandidate {
   height: number;
   priority: number;
 }
-export interface MapRegion { id: string; polygon: MapCoordinates[] }
+export interface MapRegion {
+  id: string;
+  polygon?: MapCoordinates[];
+  geometry?: { type: 'MultiPolygon'; coordinates: MapCoordinates[][][] };
+  name?: string;
+  legacy?: boolean;
+}
+export function regionPolygons(region: MapRegion): MapCoordinates[][][] {
+  return region.geometry?.coordinates ?? (region.polygon ? [[region.polygon]] : []);
+}
+export function containsRegionPoint(point: MapCoordinates, region: MapRegion): boolean {
+  return regionPolygons(region).some(([outer, ...holes]) => containsPoint(point, outer) && !holes.some(hole => containsPoint(point, hole)));
+}
 
 /** Only explicit source restrictions; absence of tags is never walking advice. */
 export function roadRestriction(road: { foot?: string; access?: string }): 'no-foot' | 'restricted' | null {
@@ -46,7 +58,7 @@ export function containsPoint(point: MapCoordinates, polygon: MapCoordinates[]):
 }
 
 export function isPointUnlocked(point: MapCoordinates, regions: MapRegion[], unlockedIds: ReadonlySet<string>): boolean {
-  return regions.some(region => unlockedIds.has(region.id) && containsPoint(point, region.polygon));
+  return regions.some(region => unlockedIds.has(region.id) && containsRegionPoint(point, region));
 }
 
 /** Liang–Barsky clipping, used only to find visible label anchors, not to redraw roads. */

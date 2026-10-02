@@ -3,7 +3,7 @@ import type { CSSProperties } from 'react';
 import { ArrowUpRight, Camera, ChevronRight, Clock3, Compass, Footprints, Grid2X2, List, MapPin, Pause, Play, Plus, Settings2, Sparkles, UsersRound } from 'lucide-react';
 import type { AppState, Visit } from '../lib/model';
 import { getActiveTrip, getProfileTrips, getProfileVisits, getProfileUnlocks, getReplayState } from '../lib/model';
-import { getCity, getLandmark } from '../data/cities';
+import { getCity, getLandmark, getMapRegions } from '../data/cities';
 import { clockLabel, dateLabel } from '../lib/format';
 import ExploreMap from '../components/ExploreMap';
 import { EmptyState } from '../components/Primitives';
@@ -31,7 +31,7 @@ export function TripsScreen({ state, onStart, onManage, onLandmark, onVisit }: T
   const tripPoints = selectedTrip ? state.points.filter((point) => point.tripId === selectedTrip.id && point.userId === state.profile.id) : [];
   const city = getCity(selectedTrip?.cityId || state.cityId);
   const mapCity = useMemo(() => ({
-    ...city,
+    ...city, regions: getMapRegions(city.id),
     center: [city.center[1], city.center[0]] as [number, number],
     landmarks: city.landmarks.map((landmark) => ({ ...landmark, coordinates: [landmark.lng, landmark.lat] as [number, number] })),
   }), [city]);
@@ -56,7 +56,7 @@ export function TripsScreen({ state, onStart, onManage, onLandmark, onVisit }: T
     return <div className="trips-screen scroll-screen">
       <header className="trips-heading"><h1>这一程，留了下来</h1></header>
       <EmptyState icon={<Compass size={30} />} title="故事，从出发开始" body="开始一段旅行，记录位置、到访地标，把城市里的相遇留在这一程。" action={<button className="primary-button" onClick={onStart}><Plus size={17} />开始第一段旅行</button>} />
-      <div className="trip-empty-note"><Footprints size={17} /><p>足迹以位置点云保存。拍照到访后，城市的示意区域才会展开。</p></div>
+      <div className="trip-empty-note"><Footprints size={17} /><p>足迹以位置点云保存。到访一级地标后，展开其负责的整片区域。</p></div>
     </div>;
   }
 
@@ -101,7 +101,7 @@ export function TripsScreen({ state, onStart, onManage, onLandmark, onVisit }: T
       const landmark = getLandmark(visit.landmarkId);
       const previous = replayVisits[index - 1];
       const newDay = !previous || dateLabel(previous.at) !== dateLabel(visit.at);
-      return <article className="trip-timeline-event" key={visit.id}><div className="trip-event-time">{newDay ? <small>{dateLabel(visit.at).slice(5)}</small> : null}<b>{clockLabel(visit.at)}</b><i /></div><div className="trip-event-content"><div className="trip-event-title"><button onClick={() => onLandmark(visit.landmarkId)}><h3>{landmark?.name || '到访地标'}</h3><ArrowUpRight size={15} /></button>{visit.firstActivation ? <span><Sparkles size={11} />首次激活</span> : <span>再次相遇</span>}</div><p>{visit.source === 'squad' ? '来自本次小队的共同记录' : visit.demo ? '本地演示到访' : '在这里，留下一张照片'}</p><div className="trip-timeline-photo"><VisitPhoto visit={visit} onClick={() => onVisit(visit)} /><button className="trip-photo-details" onClick={() => onVisit(visit)}><span>查看这次到访</span><small>{visit.unlockedRegionIds.length ? `展开 ${visit.unlockedRegionIds.length} 个示意区域` : '记忆已留在这一程'}</small><ChevronRight size={15} /></button></div></div></article>;
+      return <article className="trip-timeline-event" key={visit.id}><div className="trip-event-time">{newDay ? <small>{dateLabel(visit.at).slice(5)}</small> : null}<b>{clockLabel(visit.at)}</b><i /></div><div className="trip-event-content"><div className="trip-event-title"><button onClick={() => onLandmark(visit.landmarkId)}><h3>{landmark?.name || '到访地标'}</h3><ArrowUpRight size={15} /></button>{visit.firstActivation ? <span><Sparkles size={11} />首次到访</span> : <span>再次相遇</span>}</div><p>{visit.source === 'squad' ? '来自本次小队的共同记录' : visit.demo ? '本地演示到访' : '在这里，留下一张照片'}</p><div className="trip-timeline-photo"><VisitPhoto visit={visit} onClick={() => onVisit(visit)} /><button className="trip-photo-details" onClick={() => onVisit(visit)}><span>查看这次到访</span><small>{visit.unlockedRegionIds.length ? `展开 ${visit.unlockedRegionIds.length} 片地图区域` : '记忆已留在这一程'}</small><ChevronRight size={15} /></button></div></div></article>;
     })}</div> : <div className="trip-gallery">{replayVisits.map((visit) => <article key={visit.id}><VisitPhoto visit={visit} onClick={() => onVisit(visit)} /><button className="trip-gallery-caption" onClick={() => onLandmark(visit.landmarkId)}><b>{getLandmark(visit.landmarkId)?.name || '到访地标'}</b><span>{clockLabel(visit.at)}<ArrowUpRight size={13} /></span></button></article>)}</div> : <div className="trip-visits-empty"><Camera size={26} /><p>{visits.length && replayProgress < 1000 ? '这一刻，故事还没开始。' : '第一张合影，等你来留下。'}</p><small>{visits.length && replayProgress < 1000 ? '向后拖动回放，看看接下来的相遇。' : '在地标拍照到访，它会出现在这条时间线上。'}</small></div>}
 
     {archivedTrips.length ? <section className="trip-archive"><div className="trip-archive-heading"><h2>其他旅程</h2><span>{archivedTrips.length} 段记忆</span></div>{archivedTrips.map((trip) => {

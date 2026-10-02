@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { chooseRoadLabels, containsPoint, isPointUnlocked, polygonIntersectsBox, roadRestriction,
+import { chooseRoadLabels, containsPoint, containsRegionPoint, isPointUnlocked, polygonIntersectsBox, roadRestriction,
   type MapCoordinates, type RoadLabelCandidate } from './mapGeometry'
 
 const square: MapCoordinates[] = [[0, 0], [4, 0], [4, 4], [0, 4]]
@@ -10,6 +10,16 @@ const candidate = (id: string, fields: Partial<RoadLabelCandidate> = {}): RoadLa
 })
 
 describe('map rights use the geographic union of unlocked regions', () => {
+  it('preserves MultiPolygon pieces and excluded holes', () => {
+    const island: MapCoordinates[] = [[10, 10], [12, 10], [12, 12], [10, 12], [10, 10]]
+    const hole: MapCoordinates[] = [[1, 1], [3, 1], [3, 3], [1, 3], [1, 1]]
+    const region = { id: 'pieces', geometry: { type: 'MultiPolygon' as const, coordinates: [[square, hole], [island]] } }
+    expect(containsRegionPoint([0.5, 2], region)).toBe(true)
+    expect(containsRegionPoint([2, 2], region)).toBe(false)
+    expect(containsRegionPoint([11, 11], region)).toBe(true)
+    expect(isPointUnlocked([2, 2], [region], new Set(['pieces']))).toBe(false)
+    expect(isPointUnlocked([11, 11], [region], new Set(['pieces']))).toBe(true)
+  })
   it('includes polygon edges and vertices without filling a concave excluded area', () => {
     expect(containsPoint([0, 2], square)).toBe(true)
     expect(containsPoint([4, 4], square)).toBe(true)

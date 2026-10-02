@@ -1,0 +1,345 @@
+{
+  "regions": [
+    {
+      "id": "nj-arrival",
+      "cityId": "nanjing",
+      "name": "南京站示意区",
+      "polygon": [
+        [
+          118.78,
+          32.096
+        ],
+        [
+          118.804,
+          32.096
+        ],
+        [
+          118.804,
+          32.082
+        ],
+        [
+          118.797,
+          32.079
+        ],
+        [
+          118.78,
+          32.082
+        ],
+        [
+          118.78,
+          32.096
+        ]
+      ],
+      "verification": "illustrative",
+      "version": "prototype-1",
+      "boundaryNote": "原型示意区划，尚未完成现场勘察；不代表正式道路、河流边界。"
+    },
+    {
+      "id": "nj-qinhuai",
+      "cityId": "nanjing",
+      "name": "秦淮 · 门东示意区",
+      "polygon": [
+        [
+          118.779,
+          32.028
+        ],
+        [
+          118.794,
+          32.028
+        ],
+        [
+          118.794,
+          32.016
+        ],
+        [
+          118.786,
+          32.012
+        ],
+        [
+          118.779,
+          32.015
+        ],
+        [
+          118.779,
+          32.028
+        ]
+      ],
+      "verification": "illustrative",
+      "version": "prototype-1",
+      "boundaryNote": "原型示意区划，尚未完成现场勘察；不代表正式道路、河流边界。"
+    },
+    {
+      "id": "nj-zhonghua",
+      "cityId": "nanjing",
+      "name": "中华门示意区",
+      "polygon": [
+        [
+          118.768,
+          32.025
+        ],
+        [
+          118.779,
+          32.028
+        ],
+        [
+          118.779,
+          32.015
+        ],
+        [
+          118.786,
+          32.012
+        ],
+        [
+          118.775,
+          32.008
+        ],
+        [
+          118.768,
+          32.013
+        ],
+        [
+          118.768,
+          32.025
+        ]
+      ],
+      "verification": "illustrative",
+      "version": "prototype-1",
+      "boundaryNote": "原型示意区划，尚未完成现场勘察；不代表正式道路、河流边界。"
+    },
+    {
+      "id": "nj-xuanwu",
+      "cityId": "nanjing",
+      "name": "玄武湖西示意区",
+      "polygon": [
+        [
+          118.773,
+          32.082
+        ],
+        [
+          118.788,
+          32.079
+        ],
+        [
+          118.788,
+          32.067
+        ],
+        [
+          118.782,
+          32.062
+        ],
+        [
+          118.773,
+          32.067
+        ],
+        [
+          118.773,
+          32.082
+        ]
+      ],
+      "verification": "illustrative",
+      "version": "prototype-1",
+      "boundaryNote": "原型示意区划，尚未完成现场勘察；不代表正式道路、河流边界。"
+    },
+    {
+      "id": "nj-jiming",
+      "cityId": "nanjing",
+      "name": "鸡鸣寺示意区",
+      "polygon": [
+        [
+          118.788,
+          32.079
+        ],
+        [
+          118.8,
+          32.076
+        ],
+        [
+          118.8,
+          32.058
+        ],
+        [
+          118.782,
+          32.062
+        ],
+        [
+          118.788,
+          32.067
+        ],
+        [
+          118.788,
+          32.079
+        ]
+      ],
+      "verification": "illustrative",
+      "version": "prototype-1",
+      "boundaryNote": "原型示意区划，尚未完成现场勘察；不代表正式道路、河流边界。"
+    },
+    {
+      "id": "xa-arrival",
+      "cityId": "xian",
+      "name": "西安北站示意区",
+      "polygon": [
+        [
+          108.924,
+          34.386
+        ],
+        [
+          108.946,
+          34.386
+        ],
+        [
+          108.946,
+          34.369
+        ],
+        [
+          108.936,
+          34.366
+        ],
+        [
+          108.924,
+          34.371
+        ],
+        [
+          108.924,
+          34.386
+        ]
+      ],
+      "verification": "illustrative",
+      "version": "prototype-1",
+      "boundaryNote": "原型示意区划，尚未完成现场勘察；不代表正式道路、河流边界。"
+    },
+    {
+      "id": "xa-center",
+      "cityId": "xian",
+      "name": "钟鼓楼示意区",
+      "polygon": [
+        [
+          108.929,
+          34.27
+        ],
+        [
+          108.951,
+          34.27
+        ],
+        [
+          108.951,
+          34.258
+        ],
+        [
+          108.929,
+          34.258
+        ],
+        [
+          108.929,
+          34.27
+        ]
+      ],
+      "verification": "illustrative",
+      "version": "prototype-1",
+      "boundaryNote": "原型示意区划，尚未完成现场勘察；不代表正式道路、河流边界。"
+    },
+    {
+      "id": "xa-yongning",
+      "cityId": "xian",
+      "name": "永宁门示意区",
+      "polygon": [
+        [
+          108.929,
+          34.258
+        ],
+        [
+          108.951,
+          34.258
+        ],
+        [
+          108.953,
+          34.245
+        ],
+        [
+          108.939,
+          34.243
+        ],
+        [
+          108.929,
+          34.249
+        ],
+        [
+          108.929,
+          34.258
+        ]
+      ],
+      "verification": "illustrative",
+      "version": "prototype-1",
+      "boundaryNote": "原型示意区划，尚未完成现场勘察；不代表正式道路、河流边界。"
+    },
+    {
+      "id": "xa-pagoda",
+      "cityId": "xian",
+      "name": "大雁塔示意区",
+      "polygon": [
+        [
+          108.949,
+          34.23
+        ],
+        [
+          108.971,
+          34.23
+        ],
+        [
+          108.973,
+          34.214
+        ],
+        [
+          108.958,
+          34.21
+        ],
+        [
+          108.949,
+          34.215
+        ],
+        [
+          108.949,
+          34.23
+        ]
+      ],
+      "verification": "illustrative",
+      "version": "prototype-1",
+      "boundaryNote": "原型示意区划，尚未完成现场勘察；不代表正式道路、河流边界。"
+    }
+  ],
+  "landmarkRegions": {
+    "nj-station": [
+      "nj-arrival"
+    ],
+    "nj-confucius": [
+      "nj-qinhuai"
+    ],
+    "nj-laomendong": [
+      "nj-qinhuai"
+    ],
+    "nj-zhonghua": [
+      "nj-zhonghua"
+    ],
+    "nj-xuanwu": [
+      "nj-xuanwu"
+    ],
+    "nj-jiming": [
+      "nj-jiming"
+    ],
+    "xa-station": [
+      "xa-arrival"
+    ],
+    "xa-bell": [
+      "xa-center"
+    ],
+    "xa-drum": [
+      "xa-center"
+    ],
+    "xa-yongning": [
+      "xa-yongning"
+    ],
+    "xa-pagoda": [
+      "xa-pagoda"
+    ]
+  }
+}

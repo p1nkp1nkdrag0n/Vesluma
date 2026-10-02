@@ -43,10 +43,11 @@ describe('bundled real city skeleton', () => {
       const knownNodes = new Map<number, SkeletonCoordinate>();
       expect(skeleton.roads.length).toBeGreaterThan(50);
       const originalRoads = collection.features.filter(feature => feature.properties.kind === 'road');
+      const byId = new Map(originalRoads.map(feature => [feature.id, feature]));
       expect(skeleton.roads).toHaveLength(originalRoads.length);
       for (const road of skeleton.roads) {
         expect(permitted.has(road.highway)).toBe(true);
-        const source = originalRoads.find(feature => feature.id === road.id)!;
+        const source = byId.get(road.id)!;
         expect(source.properties.osmType).toBe('way');
         expect(source.id).toBe(`way/${source.properties.osmId}`);
         expect(source.properties.sourceVersion).toBeGreaterThan(0);
@@ -57,14 +58,15 @@ describe('bundled real city skeleton', () => {
         expect(source.properties.nodeIds).toHaveLength(road.coordinates.length);
         road.coordinates.forEach((coordinate, index) => {
           const [lng, lat] = coordinate;
-          expect(Number.isFinite(lng) && Number.isFinite(lat)).toBe(true);
-          expect(lng).toBeGreaterThan(100);
-          expect(lng).toBeLessThan(125);
-          expect(lat).toBeGreaterThan(25);
-          expect(lat).toBeLessThan(40);
+          // Scan every original node without allocating hundreds of thousands
+          // of assertion objects now that the snapshot spans whole cities.
+          if (!Number.isFinite(lng) || !Number.isFinite(lat) || lng <= 100 || lng >= 125 || lat <= 25 || lat >= 40) {
+            throw new Error(`Invalid original coordinate in ${road.id}, node ${index}`);
+          }
           const id = source.properties.nodeIds![index];
-          if (knownNodes.has(id)) expect(coordinate).toEqual(knownNodes.get(id));
-          else knownNodes.set(id, coordinate);
+          const known = knownNodes.get(id);
+          if (known && (known[0] !== lng || known[1] !== lat)) throw new Error(`Inconsistent shared node ${id}`);
+          if (!known) knownNodes.set(id, coordinate);
         });
       }
       expect(new Set(collection.features.map(feature => feature.id)).size).toBe(collection.features.length);
@@ -95,8 +97,9 @@ describe('bundled real city skeleton', () => {
     for (const city of cities) {
       const skeleton = getCitySkeleton(city.id)!;
       const collection = skeletonCollections[city.id];
+      const byId = new Map(collection.features.map(feature => [feature.id, feature]));
       for (const road of skeleton.roads) {
-        const raw = collection.features.find(feature => feature.id === road.id)!.properties;
+        const raw = byId.get(road.id)!.properties;
         expect(road.foot).toBe(raw.foot);
         expect(road.access).toBe(raw.access);
         if (raw.layer !== undefined && Number.isFinite(Number(raw.layer))) expect(road.layer).toBe(Number(raw.layer));
@@ -116,7 +119,7 @@ describe('bundled real city skeleton', () => {
       expect(Number.isFinite(Date.parse(skeleton.source.downloadedAt))).toBe(true);
       expect(skeleton.source.requests.length).toBeGreaterThan(0);
       for (const request of skeleton.source.requests) {
-        expect(request.url.startsWith('https://api.openstreetmap.org/api/0.6/')).toBe(true);
+        expect(request.url).toBe('https://overpass-api.de/api/interpreter');
         expect(request.sha256).toMatch(/^[a-f0-9]{64}$/);
         expect(Number.isFinite(Date.parse(request.downloadedAt))).toBe(true);
       }

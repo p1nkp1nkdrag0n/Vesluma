@@ -97,7 +97,7 @@ describe('map theme preferences leave exploration records intact', () => {
     const state = recordedState()
     const themed = reducer(state, { type: 'set-map-theme', theme: 'treasure' })
     expect(getReplayState(themed, 'theme-trip', activationAt - 1).unlockedRegionIds).toEqual([])
-    expect(getReplayState(themed, 'theme-trip', activationAt).unlockedRegionIds).toEqual(['nj-qinhuai'])
+    expect(getReplayState(themed, 'theme-trip', activationAt).unlockedRegionIds).toEqual(['nj-zone-qinhuai'])
     for (const cursorAt of [startedAt, activationAt - 1, activationAt, activationAt + 1000]) {
       expect(getReplayState(themed, 'theme-trip', cursorAt)).toEqual(getReplayState(state, 'theme-trip', cursorAt))
     }

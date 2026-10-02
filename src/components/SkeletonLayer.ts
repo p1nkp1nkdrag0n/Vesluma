@@ -1,6 +1,6 @@
 import L from 'leaflet';
 import type { MapSkeleton, SkeletonRoad } from '../data/map';
-import { chooseRoadLabels, clipSegment, containsPoint, polygonIntersectsBox, roadLabelBox, roadRestriction } from './mapGeometry';
+import { chooseRoadLabels, clipSegment, containsPoint, containsRegionPoint, regionPolygons, polygonIntersectsBox, roadLabelBox, roadRestriction } from './mapGeometry';
 import type { LabelBox, MapCoordinates, MapRegion, MapTheme, PixelPoint, RoadLabelCandidate } from './mapGeometry';
 
 const MARGIN = 192;
@@ -12,6 +12,7 @@ const THEMES = {
 } as const;
 
 interface Content {
+  boundary?: MapRegion['geometry'];
   regions: MapRegion[];
   unlockedRegionIds: string[];
   skeleton: MapSkeleton | null;
@@ -145,7 +146,7 @@ export class SkeletonLayer extends L.Layer {
     canvas.style.height = `${height}px`;
     L.DomUtil.setPosition(canvas, map.containerPointToLayerPoint([-MARGIN, -MARGIN]));
     const context = canvas.getContext('2d')!;
-    const { regions, unlockedRegionIds, skeleton, dataStatus, theme, landmarks, compact } = this.content;
+    const { regions, boundary, unlockedRegionIds, skeleton, dataStatus, theme, landmarks, compact } = this.content;
     const palette = THEMES[theme];
     context.setTransform(ratio, 0, 0, ratio, 0, 0);
     context.globalCompositeOperation = 'source-over';
@@ -171,7 +172,10 @@ export class SkeletonLayer extends L.Layer {
     const viewport: LabelBox = { left: MARGIN + 25, top: MARGIN + 74, right: MARGIN + size.x - 50, bottom: MARGIN + size.y - (compact ? 25 : 145) };
     const labels: RoadLabelCandidate[] = [];
     const unlocked = new Set(unlockedRegionIds);
-    const unlockedPolygons = regions.filter(region => unlocked.has(region.id)).map(region => region.polygon.map(p => this.project(p)));
+    const unlockedPolygons = regions.filter(region => unlocked.has(region.id)).flatMap(region => regionPolygons(region).map(([outer]) => outer.map(p => this.project(p))));
+    const visibleBounds = map.getBounds().pad(0.5);
+    const visible = (bounds: [number, number, number, number]) => bounds[2] >= visibleBounds.getWest() && bounds[0] <= visibleBounds.getEast()
+      && bounds[3] >= visibleBounds.getSouth() && bounds[1] <= visibleBounds.getNorth();
     const obstacles = landmarks.map(landmark => {
       const point = this.project(landmark.coordinates);
       return { left: point.x - 40, right: point.x + 40, top: point.y - 22, bottom: point.y + 41 };
@@ -185,18 +189,28 @@ export class SkeletonLayer extends L.Layer {
       context.beginPath();
       context.rect(nw.x, nw.y, se.x - nw.x, se.y - nw.y);
       context.clip();
+      if (boundary) {
+        context.beginPath();
+        boundary.coordinates.forEach(polygon => polygon.forEach(ring => this.trace(context, ring, true, false)));
+        context.clip('evenodd');
+      }
       // Trial boundaries live under the skeleton and are also erased by rights.
       context.strokeStyle = palette.boundary;
       context.lineWidth = 0.8;
       context.setLineDash([2, 8]);
       for (const region of regions) {
-        if (region.polygon.length < 3 || unlocked.has(region.id)) continue;
-        this.trace(context, region.polygon, true);
+        if (region.legacy || unlocked.has(region.id)) continue;
+        context.beginPath();
+        regionPolygons(region).forEach(polygon => polygon.forEach(ring => this.trace(context, ring, true, false)));
         context.stroke();
       }
       context.setLineDash([]);
 
       for (const water of skeleton.water) {
+        if (!visible(water.bounds)) continue;
+        const waterNW = this.project([water.bounds[0], water.bounds[3]]);
+        const waterSE = this.project([water.bounds[2], water.bounds[1]]);
+        if ((waterSE.x - waterNW.x) * (waterSE.y - waterNW.y) < 6) continue;
         context.beginPath();
         water.rings.forEach(ring => this.trace(context, ring, true, false));
         context.fillStyle = palette.water;
@@ -219,6 +233,7 @@ export class SkeletonLayer extends L.Layer {
       }
       const metresPerPixel = map.distance(map.getCenter(), map.containerPointToLatLng([size.x / 2 + 1, size.y / 2]));
       for (const river of skeleton.waterLines ?? []) {
+        if (!visible(river.bounds)) continue;
         this.trace(context, river.coordinates, false);
         context.lineCap = 'round';
         context.lineJoin = 'round';
@@ -230,9 +245,12 @@ export class SkeletonLayer extends L.Layer {
       context.lineCap = 'round';
       context.lineJoin = 'round';
       context.font = '500 11px "KaiTi", "STKaiti", "Songti SC", serif';
-      const zoomScale = Math.min(1.7, Math.max(0.8, Math.pow(1.12, map.getZoom() - 13)));
+      const zoomScale = Math.min(1.7, Math.max(0.15, Math.pow(1.35, map.getZoom() - 13)));
       for (const road of this.orderedRoads) {
+        if (!visible(road.bounds)) continue;
         const priority = roadPriority(road);
+        if (map.getZoom() < 11 && priority < 7) continue;
+        if (map.getZoom() < 9 && (priority < 8 || road.highway.endsWith('_link'))) continue;
         const restriction = roadRestriction(road);
         const roadWidth = (priority === 8 ? 5.1 : priority === 7 ? 4.3 : 3.5) * zoomScale;
         this.trace(context, road.coordinates, false);
@@ -247,11 +265,11 @@ export class SkeletonLayer extends L.Layer {
         context.lineWidth = roadWidth;
         context.stroke();
         context.strokeStyle = palette.roadFill;
-        context.lineWidth = Math.max(1.2, roadWidth - 1.4);
+        context.lineWidth = Math.max(0.3, roadWidth - Math.min(1.4, roadWidth * 0.4));
         context.stroke();
         context.setLineDash([]);
         context.globalAlpha = 1;
-        if (road.name && !road.highway.endsWith('_link') && !compact) {
+        if (road.name && !road.highway.endsWith('_link') && !compact && map.getZoom() >= 11) {
           const anchor = lineLabelAnchor(road.coordinates.map(p => this.project(p)), viewport);
           const name = restriction && map.getZoom() >= 14 ? `${road.name} · ${restriction === 'no-foot' ? '非步行' : '通行受限'}` : road.name;
           const labelWidth = context.measureText(name).width + 9;
@@ -261,6 +279,15 @@ export class SkeletonLayer extends L.Layer {
         }
       }
       context.restore();
+    }
+
+    if (boundary) {
+      context.beginPath();
+      boundary.coordinates.forEach(polygon => polygon.forEach(ring => this.trace(context, ring, true, false)));
+      context.strokeStyle = theme === 'paper' ? '#658b80' : '#917655';
+      context.lineWidth = 1.6;
+      context.setLineDash([]);
+      context.stroke();
     }
 
     // Coverage and trial rights are different. Outside coverage stays opaque;
@@ -273,8 +300,8 @@ export class SkeletonLayer extends L.Layer {
           const covered = skeleton && coordinate[0] >= skeleton.bounds[0] && coordinate[0] <= skeleton.bounds[2]
             && coordinate[1] >= skeleton.bounds[1] && coordinate[1] <= skeleton.bounds[3];
           let name = '';
-          if (!covered) name = '主干道数据未覆盖';
-          else if (!regions.some(region => containsPoint(coordinate, region.polygon))) name = '未开放地标开图';
+          if (boundary && !containsRegionPoint(coordinate, { id: 'city', geometry: boundary })) name = '市域之外';
+          else if (!covered) name = '主干道数据未覆盖';
           if (name) labels.push({ id: `status:${x}:${y}`, name, x, y, angle: 0, width: name.length * 10, height: 12, priority: 1 });
         }
       }
@@ -306,9 +333,14 @@ export class SkeletonLayer extends L.Layer {
     context.fillStyle = '#000';
     context.globalAlpha = 1;
     for (const region of regions) {
-      if (!unlocked.has(region.id) || region.polygon.length < 3) continue;
-      this.trace(context, region.polygon, true);
-      context.fill();
+      if (!unlocked.has(region.id)) continue;
+      // Each polygon is erased independently so disjoint pieces form a union;
+      // even-odd preserves enclaves/island holes inside that polygon.
+      for (const polygon of regionPolygons(region)) {
+        context.beginPath();
+        polygon.forEach(ring => this.trace(context, ring, true, false));
+        context.fill('evenodd');
+      }
     }
     context.globalCompositeOperation = 'source-over';
   }
